@@ -1,5 +1,6 @@
 package com.example.board.user.model.entity;
 
+import com.example.board.article.model.entity.Article;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -10,6 +11,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 
 @Table(name = "users")
@@ -19,10 +21,10 @@ import java.time.LocalDateTime;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, length=20, unique = true)
+    @Column(nullable=false, length=20, unique=true)
     @NotBlank
     @Size(max=20)
     private String userId;
@@ -48,6 +50,8 @@ public class User {
     @Column(updatable = false)
     private LocalDateTime deletedAt;
 
+    @OneToMany(mappedBy = "user")
+    private List<Article> articleList;
 
     @Builder
     public User(String userId, String password, String userName, String email) {
