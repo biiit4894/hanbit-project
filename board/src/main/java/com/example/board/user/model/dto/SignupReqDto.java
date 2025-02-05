@@ -1,4 +1,4 @@
-package com.example.board.dto;
+package com.example.board.user.model.dto;
 
 import lombok.*;
 

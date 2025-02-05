@@ -1,4 +1,4 @@
-package com.example.board.entity;
+package com.example.board.user.model.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -47,6 +47,7 @@ public class User {
 
     @Column(updatable = false)
     private LocalDateTime deletedAt;
+
 
     @Builder
     public User(String userId, String password, String userName, String email) {

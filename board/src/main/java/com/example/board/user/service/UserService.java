@@ -1,8 +1,9 @@
-package com.example.board.service;
+package com.example.board.user.service;
 
-import com.example.board.dto.SignupReqDto;
-import com.example.board.entity.User;
-import com.example.board.repository.UserRepository;
+import com.example.board.user.model.dto.SignupReqDto;
+import com.example.board.user.model.dto.SignupResDto;
+import com.example.board.user.model.entity.User;
+import com.example.board.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -13,7 +14,7 @@ import org.springframework.stereotype.Service;
 public class UserService {
     private final UserRepository userRepository;
 
-    public void signup(SignupReqDto reqDto) {
+    public SignupResDto signup(SignupReqDto reqDto) {
         User user = new User(
                 reqDto.getUserId(),
                 reqDto.getPassword(),
@@ -21,5 +22,9 @@ public class UserService {
                 reqDto.getEmail()
         );
         userRepository.save(user);
+        return new SignupResDto(
+                user.getUserId(),
+                user.getUserName(),
+                user.getEmail());
     }
 }
