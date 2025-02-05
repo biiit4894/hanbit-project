@@ -30,10 +30,10 @@ public class Article {
     private String content;
 
     @Column(nullable=false)
-    private int commentCount;
+    private Long commentCount;
 
     @Column(nullable=false)
-    private int likeCount;
+    private Long likeCount;
 
     @CreatedDate
     private LocalDateTime createdAt;
@@ -44,8 +44,8 @@ public class Article {
     public Article(String title, String content) {
         this.title = title;
         this.content = content;
-        this.commentCount = 0;
-        this.likeCount = 0;
+        this.commentCount = 0L;
+        this.likeCount = 0L;
         this.createdAt = LocalDateTime.now();
         this.user = null; // TODO: 로그인 유저(작성자) 반영하기
     }

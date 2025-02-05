@@ -2,6 +2,7 @@ package com.example.board.article.service;
 
 import com.example.board.article.model.dto.CreateArticleReqDto;
 import com.example.board.article.model.dto.CreateArticleResDto;
+import com.example.board.article.model.dto.GetArticleDetailResDto;
 import com.example.board.article.model.entity.Article;
 import com.example.board.article.repository.ArticleRepository;
 import lombok.RequiredArgsConstructor;
@@ -25,4 +26,8 @@ public class ArticleService {
         );
     }
 
+    public GetArticleDetailResDto getArticleDetail(Long id) {
+        Article article = articleRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Article not found"));
+        return new GetArticleDetailResDto(article);
+    }
 }
