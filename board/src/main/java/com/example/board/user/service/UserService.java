@@ -6,6 +6,7 @@ import com.example.board.user.model.entity.User;
 import com.example.board.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -13,11 +14,12 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class UserService {
     private final UserRepository userRepository;
+    private final BCryptPasswordEncoder encoder;
 
     public SignupResDto signup(SignupReqDto reqDto) {
         User user = new User(
                 reqDto.getUserId(),
-                reqDto.getPassword(),
+                encoder.encode(reqDto.getPassword()),
                 reqDto.getUserName(),
                 reqDto.getEmail()
         );
