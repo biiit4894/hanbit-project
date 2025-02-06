@@ -4,7 +4,6 @@ import com.example.board.article.model.entity.Article;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Getter
 public class GetArticleDetailResDto {
