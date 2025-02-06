@@ -1,8 +1,6 @@
 package com.example.board.article.controller;
 
-import com.example.board.article.model.dto.CreateArticleReqDto;
-import com.example.board.article.model.dto.CreateArticleResDto;
-import com.example.board.article.model.dto.GetArticleDetailResDto;
+import com.example.board.article.model.dto.*;
 import com.example.board.article.service.ArticleService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,5 +23,10 @@ public class ArticleController {
     @GetMapping("/{id}")
     public ResponseEntity<GetArticleDetailResDto> getArticleDetail(@PathVariable Long id) {
         return new ResponseEntity<>(articleService.getArticleDetail(id), HttpStatus.OK);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<UpdateArticleResDto> updateArticle(@PathVariable Long id, @RequestBody UpdateArticleReqDto updateArticleReqDto) {
+        return new ResponseEntity<>(articleService.updateArticle(id, updateArticleReqDto), HttpStatus.OK);
     }
 }

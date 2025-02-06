@@ -49,4 +49,9 @@ public class Article {
         this.createdAt = LocalDateTime.now();
         this.user = null; // TODO: 로그인 유저(작성자) 반영하기
     }
+
+    public void update(String title, String content) {
+        this.title = title;
+        this.content = content;
+    }
 }
