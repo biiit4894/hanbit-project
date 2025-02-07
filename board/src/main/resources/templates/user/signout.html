@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Signout</h1>
+    <section>
+        <div>
+            <div th:text="'반갑습니다, ' + ${loginUserInfo.nickName} + '님!'"></div>
+            <button type="button" onclick="location.href='/logout'">로그아웃</button>
+            <button type="button" onclick="location.href='/mypage'">마이페이지</button>
+        </div>
+        <div>
+            비밀번호를 입력해 회원 탈퇴를 진행합니다.
+            <form id="signout-form">
+                <label>
+                    <input type="password" name="password" placeholder="비밀번호" required>
+                </label>
+                <input type="submit" value="확인">
+
+            </form>
+        </div>
+    </section>
+
+</body>
+
+<script>
+    document.getElementById('signout-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        console.log(this.password.value);
+
+        fetch('/api/user/signout', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                password: this.password.value
+            })
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('response error');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Success:', data);
+            window.location.href = '/logout';
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('오류가 발생했습니다. 다시 시도해주세요.');
+        });
+    })
+</script>
+</html>

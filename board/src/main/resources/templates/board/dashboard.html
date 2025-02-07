@@ -8,11 +8,12 @@
     <title>Document</title>
 </head>
 <body>
-    BoardList
+    <h1>Dashboard</h1>
     <section>
         <div>
             <div th:text="'반갑습니다, ' + ${loginUserInfo.nickName} + '님!'"></div>
             <button type="button" onclick="location.href='/logout'">로그아웃</button>
+            <button type="button" onclick="location.href='/mypage'">마이페이지</button>
         </div>
     </section>
 </body>

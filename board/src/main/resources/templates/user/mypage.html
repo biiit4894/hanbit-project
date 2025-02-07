@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+  <h1>Mypage</h1>
+  <section>
+      <div>
+        <div th:text="'반갑습니다, ' + ${loginUserInfo.nickName} + '님!'"></div>
+        <button type="button" onclick="location.href='/logout'">로그아웃</button>
+        <button type="button" onclick="location.href='/mypage'">마이페이지</button>
+      </div>
+  </section>
+  <section>
+      <div th:text="'아이디 : ' + ${loginUserInfo.userId}"></div>
+      <div th:text="'별명 : ' + ${loginUserInfo.nickName}"></div>
+      <div th:text="'이메일 : ' + ${loginUserInfo.email}"></div>
+      <button type="button" onclick="location.href='/signout'">회원탈퇴</button>
+  </section>
+
+</body>
+</html>
