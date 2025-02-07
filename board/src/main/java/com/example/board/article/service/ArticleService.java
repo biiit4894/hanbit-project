@@ -55,8 +55,9 @@ public class ArticleService {
         return new UpdateArticleResDto(article);
     }
 
-//    @Transactional
-//    public void deleteArticle(Long id) {
-//        articleRepository.deleteById(id);
-//    }
+    // TODO: 게시글 삭제 api 완성할 것
+    @Transactional
+    public void deleteArticle(Long id) {
+        articleRepository.deleteById(id);
+    }
 }
