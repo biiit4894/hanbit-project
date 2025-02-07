@@ -7,10 +7,24 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class ArticleService {
     private final ArticleRepository articleRepository;
+
+    @Transactional
+    public List<ArticleSummaryDto> getArticleList() {
+        List<Article> articleList = articleRepository.findAll();
+        List<ArticleSummaryDto> articleSummaryList = new ArrayList<>();
+
+        for (Article article : articleList) {
+            articleSummaryList.add(new ArticleSummaryDto(article));
+        }
+        return articleSummaryList;
+    }
 
     @Transactional
     public CreateArticleResDto createArticle(CreateArticleReqDto reqDto) {
@@ -40,4 +54,9 @@ public class ArticleService {
         articleRepository.save(article);
         return new UpdateArticleResDto(article);
     }
+
+//    @Transactional
+//    public void deleteArticle(Long id) {
+//        articleRepository.deleteById(id);
+//    }
 }

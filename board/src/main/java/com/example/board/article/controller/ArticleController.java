@@ -8,12 +8,20 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/article")
 public class ArticleController {
     private final ArticleService articleService;
+
+    @GetMapping("")
+    public ResponseEntity<List<ArticleSummaryDto>> getArticleList() {
+        List<ArticleSummaryDto> articles = articleService.getArticleList();
+        return new ResponseEntity<>(articles, HttpStatus.OK);
+    }
 
     @PostMapping("")
     public ResponseEntity<CreateArticleResDto> createArticle(@RequestBody CreateArticleReqDto createArticleReqDto) {
@@ -28,5 +36,11 @@ public class ArticleController {
     @PutMapping("/{id}")
     public ResponseEntity<UpdateArticleResDto> updateArticle(@PathVariable Long id, @RequestBody UpdateArticleReqDto updateArticleReqDto) {
         return new ResponseEntity<>(articleService.updateArticle(id, updateArticleReqDto), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteArticle(@PathVariable Long id) {
+        articleService.deleteArticle(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

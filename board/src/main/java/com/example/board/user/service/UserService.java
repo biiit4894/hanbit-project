@@ -49,7 +49,6 @@ public class UserService {
         if (!encoder.matches(reqDto.getPassword(), user.getPassword())) {
             throw new InvalidPasswordException("Incorrect password");
         }
-//        user.markDeletedAt(LocalDateTime.now());
         userRepository.updateDeletedAt(id);
         return new SignoutResDto(user);
     }
