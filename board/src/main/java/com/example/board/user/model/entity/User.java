@@ -66,6 +66,10 @@ public class User implements UserDetails {
         this.createdAt = LocalDateTime.now();
     }
 
+    public void markDeletedAt(LocalDateTime now) {
+        this.deletedAt = now;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority("ROLE_USER"));

@@ -17,6 +17,11 @@ public class UserController {
 
     @PostMapping("/signup")
     public ResponseEntity<SignupResDto> signup(@RequestBody SignupReqDto reqDto) {
-        return new ResponseEntity<>(userService.signup(reqDto), HttpStatus.CREATED);
+        return new ResponseEntity<>(userService.createUser(reqDto), HttpStatus.CREATED);
+    }
+
+    @PostMapping("/signout")
+    public ResponseEntity<SignoutResDto> signout(@RequestBody SignoutReqDto reqDto) {
+        return new ResponseEntity<>(userService.setUserDeletedAt(reqDto),HttpStatus.OK);
     }
 }
