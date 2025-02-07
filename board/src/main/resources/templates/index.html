@@ -8,6 +8,17 @@
     <title>Document</title>
 </head>
 <body>
-    Index
+    <h1>Index</h1>
+    <form action="/login" method="POST">
+        <input type="hidden" th:name="${_csrf?.parameterName}" th:value="${_csrf?.token}"/>
+        <label>
+            <input type="text" name="username" placeholder="아이디" required>
+        </label>
+        <label>
+            <input type="password" name="password" placeholder="비밀번호" required>
+        </label>
+        <input type="submit" value="로그인">
+    </form>
+    <button type="button" onclick="location.href='/signup'">회원가입</button>
 </body>
 </html>
