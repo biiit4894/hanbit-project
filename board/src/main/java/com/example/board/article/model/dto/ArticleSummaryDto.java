@@ -1,11 +1,13 @@
 package com.example.board.article.model.dto;
 
 import com.example.board.article.model.entity.Article;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
 
 @Getter
+@AllArgsConstructor
 public class ArticleSummaryDto {
     private Long id;
     private String title;

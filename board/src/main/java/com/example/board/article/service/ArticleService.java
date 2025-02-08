@@ -4,6 +4,10 @@ import com.example.board.article.model.dto.*;
 import com.example.board.article.model.entity.Article;
 import com.example.board.article.repository.ArticleRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,14 +20,23 @@ public class ArticleService {
     private final ArticleRepository articleRepository;
 
     @Transactional
-    public List<ArticleSummaryDto> getArticleList() {
-        List<Article> articleList = articleRepository.findAll();
+    public Page<ArticleSummaryDto> getArticleList(int page) {
+        Pageable pageable = PageRequest.of(page, 10);
+        Page<Article> articles = articleRepository.findAll(pageable);
         List<ArticleSummaryDto> articleSummaryList = new ArrayList<>();
-
-        for (Article article : articleList) {
-            articleSummaryList.add(new ArticleSummaryDto(article));
+        for (Article article : articles.getContent()) {
+            articleSummaryList.add(
+                    new ArticleSummaryDto(
+                            article.getId(),
+                            article.getTitle(),
+                            article.getCommentCount(),
+                            article.getLikeCount(),
+                            article.getCreatedAt(),
+                            null
+                    )
+            );
         }
-        return articleSummaryList;
+        return new PageImpl<>(articleSummaryList, pageable, articles.getTotalElements());
     }
 
     @Transactional

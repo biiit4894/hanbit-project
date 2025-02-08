@@ -4,11 +4,10 @@ import com.example.board.article.model.dto.*;
 import com.example.board.article.service.ArticleService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @Slf4j
 @RestController
@@ -18,9 +17,8 @@ public class ArticleController {
     private final ArticleService articleService;
 
     @GetMapping("")
-    public ResponseEntity<List<ArticleSummaryDto>> getArticleList() {
-        List<ArticleSummaryDto> articles = articleService.getArticleList();
-        return new ResponseEntity<>(articles, HttpStatus.OK);
+    public ResponseEntity<Page<ArticleSummaryDto>> getArticleList(@RequestParam(value="page", defaultValue="0")int page) {
+        return new ResponseEntity<>(articleService.getArticleList(page), HttpStatus.OK);
     }
 
     @PostMapping("")
