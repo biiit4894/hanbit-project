@@ -24,7 +24,7 @@ public class Like {
     @ManyToOne
     private User user;
 
-    @OneToOne
+    @ManyToOne
     private Article article;
 
     public Like(Article article) {

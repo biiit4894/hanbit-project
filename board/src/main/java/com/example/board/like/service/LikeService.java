@@ -29,4 +29,12 @@ public class LikeService {
                 like.getArticle().getId()
         );
     }
+
+    @Transactional
+    public void deleteLikeById(Long id) {
+        Like like = likeRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Like Not Found"));
+        likeRepository.deleteById(id);
+        Article article = like.getArticle();
+        article.decreaseLikeCount();
+    }
 }
