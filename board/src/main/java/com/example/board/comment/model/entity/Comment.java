@@ -1,6 +1,7 @@
 package com.example.board.comment.model.entity;
 
 import com.example.board.article.model.entity.Article;
+import com.example.board.user.model.entity.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -43,18 +44,16 @@ public class Comment {
     @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> replies = new ArrayList<>();
 
-//    public Comment(Article article, String content) {
-//        this.content = content;
-//        this.createdAt = LocalDateTime.now();
-//        this.article = article;
-//    }
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User user;
 
-    public Comment(String content, Article article, Comment parent) {
+    public Comment(String content, Article article, Comment parent, User user) {
         this.content = content;
         this.createdAt = LocalDateTime.now();
         this.isDeleted = false;
         this.article = article;
         this.parent = parent;
+        this.user = user;
     }
 
     public void updateContent(String content) {
