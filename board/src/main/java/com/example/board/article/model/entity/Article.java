@@ -55,11 +55,23 @@ public class Article {
         this.content = content;
     }
 
+    public void increaseCommentCount() {
+        this.commentCount++;
+    }
+
+    public void decreaseCommentCount() {
+        if (this.commentCount > 0) {
+            this.commentCount--;
+        }
+    }
+
     public void increaseLikeCount() {
         this.likeCount++;
     }
 
     public void decreaseLikeCount() {
-        this.likeCount--;
+        if (this.likeCount > 0) {
+            this.likeCount--;
+        }
     }
 }
