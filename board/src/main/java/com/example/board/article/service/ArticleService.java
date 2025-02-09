@@ -42,7 +42,7 @@ public class ArticleService {
                             article.getCommentCount(),
                             article.getLikeCount(),
                             article.getCreatedAt(),
-                            null
+                            article.getUser().getNickName()
                     )
             );
         }
@@ -106,7 +106,6 @@ public class ArticleService {
         return new UpdateArticleResDto(article);
     }
 
-    // TODO: 게시글 삭제 api 완성할 것
     @Transactional
     public void deleteArticle(Long id) {
         Article article = articleRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Article Not Found"));
