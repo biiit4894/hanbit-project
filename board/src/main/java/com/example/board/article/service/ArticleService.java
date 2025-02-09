@@ -13,18 +13,21 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
 public class ArticleService {
     private final ArticleRepository articleRepository;
     private final CommentRepository commentRepository;
+    private final UserService userService;
 
     @Transactional
     public Page<ArticleSummaryDto> getArticleList(int page) {
@@ -93,7 +96,11 @@ public class ArticleService {
     @Transactional
     public UpdateArticleResDto updateArticle(Long id, UpdateArticleReqDto reqDto) {
         Article article = articleRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Article not found"));
-
+        String loginUserId = userService.getLoginUserInfo().getUserId();
+        String authorUserId = article.getUser().getUserId();
+        if (!Objects.equals(loginUserId, authorUserId)) {
+            throw new AccessDeniedException("Login user does not match author");
+        }
         article.update(reqDto.getTitle(), reqDto.getContent());
         articleRepository.save(article);
         return new UpdateArticleResDto(article);
@@ -102,6 +109,12 @@ public class ArticleService {
     // TODO: 게시글 삭제 api 완성할 것
     @Transactional
     public void deleteArticle(Long id) {
+        Article article = articleRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Article Not Found"));
+        String loginUserId = userService.getLoginUserInfo().getUserId();
+        String authorUserId = article.getUser().getUserId();
+        if (!Objects.equals(loginUserId, authorUserId)) {
+            throw new AccessDeniedException("Login user does not match author");
+        }
         articleRepository.deleteById(id);
     }
 }
