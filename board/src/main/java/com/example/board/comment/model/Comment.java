@@ -21,7 +21,7 @@ public class Comment {
     @Column(nullable = false)
     private String content;
 
-    @Column
+    @Column(nullable = false)
     private LocalDateTime createdAt;
 
     @Column
@@ -29,9 +29,6 @@ public class Comment {
 
     @Column
     private LocalDateTime deletedAt;
-
-    @Column(nullable = false)
-    private Long likeCount = 0L;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Article article;
@@ -42,6 +39,18 @@ public class Comment {
     @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> replies = new ArrayList<>();
 
+//    public Comment(Article article, String content) {
+//        this.content = content;
+//        this.createdAt = LocalDateTime.now();
+//        this.article = article;
+//    }
+
+    public Comment(String content, Article article, Comment parent) {
+        this.content = content;
+        this.createdAt = LocalDateTime.now();
+        this.article = article;
+        this.parent = parent;
+    }
 
     public void updateContent(String content) {
         this.content = content;
@@ -50,16 +59,6 @@ public class Comment {
 
     public void delete() {
         this.deletedAt = LocalDateTime.now();
-    }
-
-    public void incrementLikeCount() {
-        this.likeCount++;
-    }
-
-    public void decrementLikeCount() {
-        if (this.likeCount > 0) {
-            this.likeCount--;
-        }
     }
 
     public void addReply(Comment reply) {
