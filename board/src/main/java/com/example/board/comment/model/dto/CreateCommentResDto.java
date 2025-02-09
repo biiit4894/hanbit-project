@@ -1,5 +1,6 @@
-package com.example.board.comment.model;
+package com.example.board.comment.model.dto;
 
+import com.example.board.comment.model.entity.Comment;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
