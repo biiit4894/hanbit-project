@@ -13,7 +13,7 @@ public class CreateCommentResDto {
     private String content;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-    private LocalDateTime deletedAt;
+    private boolean isDeleted;
     private Long articleId;
     private Long parentId;
 
@@ -22,7 +22,7 @@ public class CreateCommentResDto {
         this.content = comment.getContent();
         this.createdAt = comment.getCreatedAt();
         this.updatedAt = comment.getUpdatedAt();
-        this.deletedAt = comment.getDeletedAt();
+        this.isDeleted = comment.getIsDeleted();
         this.articleId = comment.getArticle().getId();
         if (comment.getParent() != null) {
             this.parentId = comment.getParent().getId();

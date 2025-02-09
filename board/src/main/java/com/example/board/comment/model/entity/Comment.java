@@ -31,8 +31,8 @@ public class Comment {
     @Column
     private LocalDateTime updatedAt;
 
-    @Column
-    private LocalDateTime deletedAt;
+    @Column(nullable = false)
+    private Boolean isDeleted;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Article article;
@@ -52,6 +52,7 @@ public class Comment {
     public Comment(String content, Article article, Comment parent) {
         this.content = content;
         this.createdAt = LocalDateTime.now();
+        this.isDeleted = false;
         this.article = article;
         this.parent = parent;
     }
@@ -61,8 +62,8 @@ public class Comment {
         this.updatedAt = LocalDateTime.now();
     }
 
-    public void delete() {
-        this.deletedAt = LocalDateTime.now();
+    public void markDeleted() {
+        this.isDeleted = true;
     }
 
     public void addReply(Comment reply) {
