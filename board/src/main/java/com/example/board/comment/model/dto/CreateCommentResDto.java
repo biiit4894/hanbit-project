@@ -13,9 +13,10 @@ public class CreateCommentResDto {
     private String content;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-    private boolean isDeleted;
+    private Boolean isDeleted;
     private Long articleId;
     private Long parentId;
+    private String author; // author nickname
 
     public CreateCommentResDto(Comment comment) {
         this.id = comment.getId();
@@ -27,5 +28,6 @@ public class CreateCommentResDto {
         if (comment.getParent() != null) {
             this.parentId = comment.getParent().getId();
         }
+        this.author = comment.getUser().getNickName();
     }
 }

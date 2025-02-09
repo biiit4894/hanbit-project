@@ -8,11 +8,13 @@ import com.example.board.comment.model.entity.Comment;
 import com.example.board.comment.model.dto.CreateCommentReqDto;
 import com.example.board.comment.model.dto.CreateCommentResDto;
 import com.example.board.comment.repository.CommentRepository;
+import com.example.board.user.model.entity.User;
+import com.example.board.user.repository.UserRepository;
+import com.example.board.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
+
 
 @Service
 @RequiredArgsConstructor
@@ -20,6 +22,8 @@ public class CommentService {
     private final ArticleRepository articleRepository;
 
     private final CommentRepository commentRepository;
+    private final UserRepository userRepository;
+    private final UserService userService;
 
     @Transactional
     public CreateCommentResDto createComment(CreateCommentReqDto reqDto) {
@@ -30,7 +34,10 @@ public class CommentService {
             parent = commentRepository.findById(reqDto.getParentId()).orElseThrow(() -> new IllegalArgumentException("No Parent Comment Found"));
         }
 
-        Comment comment = new Comment(reqDto.getContent(), article, parent);
+        Long id = userService.getLoginUserInfo().getId();
+        User loginUser = userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("User Not Found"));
+
+        Comment comment = new Comment(reqDto.getContent(), article, parent, loginUser);
         commentRepository.save(comment);
 
         article.increaseCommentCount();

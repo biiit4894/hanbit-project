@@ -22,6 +22,6 @@ public class ArticleSummaryDto {
         this.commentCount = article.getCommentCount();
         this.likeCount = article.getLikeCount();
         this.createdAt = article.getCreatedAt();
-//        this.author = article.getUser().getUserName();
+        this.author = article.getUser().getNickName();
     }
 }

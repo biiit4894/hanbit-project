@@ -12,5 +12,5 @@ public class CreateArticleResDto {
     private String title;
     private String content;
     private LocalDateTime createdAt;
-    // TODO : 작성자 정보 포함
+    private String author; // author's nickname
 }
