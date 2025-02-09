@@ -44,4 +44,15 @@ public class CommentService {
         commentRepository.save(comment);
         return new UpdateCommentResDto(comment);
     }
+
+    @Transactional
+    public void deleteComment(Long id) {
+        Comment comment = commentRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Comment Not Found"));
+        Article article = articleRepository.findById(comment.getArticle().getId()).orElseThrow(() -> new IllegalArgumentException("Article Not Found"));
+        if(comment.getParent() != null) {
+            commentRepository.deleteById(id);
+        }
+        comment.markDeleted();
+        article.decreaseCommentCount();
+    }
 }
