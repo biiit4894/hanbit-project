@@ -1,4 +1,4 @@
-package com.example.board.comment.model;
+package com.example.board.comment.model.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -1,7 +1,9 @@
-package com.example.board.comment.model;
+package com.example.board.comment.model.entity;
 
 import com.example.board.article.model.entity.Article;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,10 +17,12 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Comment {
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 500)
+    @NotBlank
+    @Size(max = 500)
     private String content;
 
     @Column(nullable = false)
@@ -27,8 +31,8 @@ public class Comment {
     @Column
     private LocalDateTime updatedAt;
 
-    @Column
-    private LocalDateTime deletedAt;
+    @Column(nullable = false)
+    private Boolean isDeleted;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Article article;
@@ -48,6 +52,7 @@ public class Comment {
     public Comment(String content, Article article, Comment parent) {
         this.content = content;
         this.createdAt = LocalDateTime.now();
+        this.isDeleted = false;
         this.article = article;
         this.parent = parent;
     }
@@ -57,8 +62,8 @@ public class Comment {
         this.updatedAt = LocalDateTime.now();
     }
 
-    public void delete() {
-        this.deletedAt = LocalDateTime.now();
+    public void markDeleted() {
+        this.isDeleted = true;
     }
 
     public void addReply(Comment reply) {

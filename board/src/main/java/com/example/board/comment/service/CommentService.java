@@ -2,13 +2,17 @@ package com.example.board.comment.service;
 
 import com.example.board.article.model.entity.Article;
 import com.example.board.article.repository.ArticleRepository;
-import com.example.board.comment.model.Comment;
-import com.example.board.comment.model.CreateCommentReqDto;
-import com.example.board.comment.model.CreateCommentResDto;
+import com.example.board.comment.model.dto.UpateCommentReqDto;
+import com.example.board.comment.model.dto.UpdateCommentResDto;
+import com.example.board.comment.model.entity.Comment;
+import com.example.board.comment.model.dto.CreateCommentReqDto;
+import com.example.board.comment.model.dto.CreateCommentResDto;
 import com.example.board.comment.repository.CommentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @Service
 @RequiredArgsConstructor
@@ -31,5 +35,24 @@ public class CommentService {
 
         article.increaseCommentCount();
         return new CreateCommentResDto(comment);
+    }
+
+    @Transactional
+    public UpdateCommentResDto updateComment(Long id, UpateCommentReqDto reqDto) {
+        Comment comment = commentRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("No Comment Found"));
+        comment.updateContent(reqDto.getContent());
+        commentRepository.save(comment);
+        return new UpdateCommentResDto(comment);
+    }
+
+    @Transactional
+    public void deleteComment(Long id) {
+        Comment comment = commentRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Comment Not Found"));
+        Article article = articleRepository.findById(comment.getArticle().getId()).orElseThrow(() -> new IllegalArgumentException("Article Not Found"));
+        if(comment.getParent() != null) {
+            commentRepository.deleteById(id);
+        }
+        comment.markDeleted();
+        article.decreaseCommentCount();
     }
 }

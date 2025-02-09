@@ -3,6 +3,9 @@ package com.example.board.article.service;
 import com.example.board.article.model.dto.*;
 import com.example.board.article.model.entity.Article;
 import com.example.board.article.repository.ArticleRepository;
+import com.example.board.comment.model.dto.CommentDetailDto;
+import com.example.board.comment.model.entity.Comment;
+import com.example.board.comment.repository.CommentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -18,6 +21,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ArticleService {
     private final ArticleRepository articleRepository;
+    private final CommentRepository commentRepository;
 
     @Transactional
     public Page<ArticleSummaryDto> getArticleList(int page) {
@@ -57,7 +61,27 @@ public class ArticleService {
     @Transactional
     public GetArticleDetailResDto getArticleDetail(Long id) {
         Article article = articleRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Article not found"));
-        return new GetArticleDetailResDto(article);
+
+        List<Comment> parentComments = commentRepository.findParentsByArticleId(id);
+        // 부모 댓글들과 그 자식 댓글들을 모두 포함하는 목록
+        List<CommentDetailDto> comments = new ArrayList<>();
+
+        for (Comment parentComment : parentComments) {
+            // 부모 댓글의 상세 내역 조회
+            CommentDetailDto parentCommentDto = new CommentDetailDto(parentComment);
+
+            // 부모 댓글의 자식 댓글 조회
+            List<Comment> replies = commentRepository.findRepliesByParentId(parentComment.getId());
+            List<CommentDetailDto> replyDtos = new ArrayList<>();
+
+            for (Comment reply : replies) {
+                replyDtos.add(new CommentDetailDto(reply));
+            }
+
+            parentCommentDto.setReplies(replyDtos);
+            comments.add(parentCommentDto);
+        }
+        return new GetArticleDetailResDto(article, comments);
     }
 
     @Transactional
