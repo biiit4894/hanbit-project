@@ -41,13 +41,13 @@ public class Article {
     @ManyToOne
     private User user;
 
-    public Article(String title, String content) {
+    public Article(String title, String content, User user) {
         this.title = title;
         this.content = content;
         this.commentCount = 0L;
         this.likeCount = 0L;
         this.createdAt = LocalDateTime.now();
-        this.user = null; // TODO: 로그인 유저(작성자) 반영하기
+        this.user = user;
     }
 
     public void update(String title, String content) {

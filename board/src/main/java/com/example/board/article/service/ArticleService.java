@@ -6,11 +6,14 @@ import com.example.board.article.repository.ArticleRepository;
 import com.example.board.comment.model.dto.CommentDetailDto;
 import com.example.board.comment.model.entity.Comment;
 import com.example.board.comment.repository.CommentRepository;
+import com.example.board.user.model.entity.User;
+import com.example.board.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -45,16 +48,19 @@ public class ArticleService {
 
     @Transactional
     public CreateArticleResDto createArticle(CreateArticleReqDto reqDto) {
+        User loginUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Article article = new Article(
                 reqDto.getTitle(),
-                reqDto.getContent()
+                reqDto.getContent(),
+                loginUser
         );
         articleRepository.save(article);
         return new CreateArticleResDto(
                 article.getId(),
                 article.getTitle(),
                 article.getContent(),
-                article.getCreatedAt()
+                article.getCreatedAt(),
+                article.getUser().getNickName()
         );
     }
 
@@ -87,6 +93,7 @@ public class ArticleService {
     @Transactional
     public UpdateArticleResDto updateArticle(Long id, UpdateArticleReqDto reqDto) {
         Article article = articleRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Article not found"));
+
         article.update(reqDto.getTitle(), reqDto.getContent());
         articleRepository.save(article);
         return new UpdateArticleResDto(article);
