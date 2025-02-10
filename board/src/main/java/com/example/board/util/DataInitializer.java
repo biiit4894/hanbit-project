@@ -1,5 +1,7 @@
 package com.example.board.util;
 
+import com.example.board.article.model.entity.Article;
+import com.example.board.article.repository.ArticleRepository;
 import com.example.board.user.model.entity.User;
 import com.example.board.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +16,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class DataInitializer implements CommandLineRunner {
     private final UserRepository userRepository;
+    private final ArticleRepository articleRepository;
     private final BCryptPasswordEncoder encoder;
 
     @Override
@@ -39,6 +42,16 @@ public class DataInitializer implements CommandLineRunner {
             testUsers.add(user2);
 
             userRepository.saveAll(testUsers);
+
+            List<Article> articles = new ArrayList<>();
+            for (int i = 1; i <= 5; i++) {
+                articles.add(new Article("제목 " + i, "내용입니다. 내용입니다. 내용입니다. ", user1));
+                articles.add(new Article("제목 " + i, "내용입니다. 내용입니다. 내용입니다. ", user2));
+            }
+
+            articleRepository.saveAll(articles);
         }
+
+
     }
 }
