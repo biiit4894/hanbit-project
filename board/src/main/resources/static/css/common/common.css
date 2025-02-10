@@ -45,6 +45,10 @@ a {
     height: 10vh;
 }
 
+.common-footer-title {
+    font-size: 25px;
+}
+
 /* 섹션별 css 통일
     (header -> section(section 내부 복수 개 div) -> footer 순서로
     영역을 구분하는 것을 전제로 함) */

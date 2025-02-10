@@ -1,0 +1,42 @@
+.section-container {
+    height: 80vh; /* 푸터 위치 조정 */
+}
+
+.section-container-content-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    column-gap: 3vw;
+    row-gap: 3vw;
+    margin-top: 5vh
+}
+
+.section-container-content {
+    background-color: #fff7ee;
+    border-radius: 10px;
+    padding: 1.5vw;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+}
+
+.section-container-description-button-wrapper {
+    display: flex;
+    justify-content: space-between;
+}
+
+.article-title {
+    font-weight: bold;
+    margin-top: 1vh;
+}
+
+.article-content {
+    margin-top: 1vh;
+}
+
+.article-author,
+.article-created-at{
+    font-size: 13px;
+    margin-top: 1vh;
+}
+

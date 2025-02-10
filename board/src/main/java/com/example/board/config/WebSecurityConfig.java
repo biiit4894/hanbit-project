@@ -19,20 +19,20 @@ public class WebSecurityConfig {
 
     @Bean
     public WebSecurityCustomizer configure() {
-        return web -> web.ignoring().requestMatchers(toH2Console()).requestMatchers("/static/**");
+        return web -> web.ignoring().requestMatchers(toH2Console()).requestMatchers("/static/**","/css/**", "/js/**");
     }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
                 .authorizeHttpRequests(auth ->
-                        auth.requestMatchers("/", "/login", "/api/user/signup").permitAll()
+                        auth.requestMatchers("/", "/login", "/dashboard", "/api/user/signup").permitAll()
                                 .requestMatchers(PathRequest.toH2Console()).permitAll()
                                 .anyRequest().authenticated()
                 )
                 .formLogin(auth -> auth
                         .loginPage("/login")
-                        .defaultSuccessUrl("/dashboard")
+                        .defaultSuccessUrl("/")
                         .failureUrl("/")
                         .permitAll()
                         .failureHandler((request, response, exception) -> {

@@ -6,13 +6,15 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" th:href="@{/css/common/common.css}">
+    <link rel="stylesheet" th:href="@{/css/index.css}">
+    <script th:src="@{/js/index.js}"></script>
     <title>Document</title>
 </head>
 <body>
     <!-- 공통 header-->
-    <header id="common-header">
-        <div id="common-header-container">
-            <a id="header-title" onclick="location.href='/'" cursor="pointer">서비스 로고</a>
+    <header class="common-header">
+        <div class="common-header-container">
+            <a class="header-title" onclick="location.href='/'" cursor="pointer">서비스 로고</a>
 
             <div th:if="${authPrincipal != 'anonymousUser'}">
                 <button type="button" onclick="location.href='/mypage'">마이페이지</button>
@@ -31,8 +33,29 @@
             <div class="section-container-title">
                 자유게시판
             </div>
-            <div class="section-container-description">최신 게시글 N개</div>
+            <div class="section-container-description-button-wrapper">
+                <div class="section-container-description" >최신 게시글</div>
+                <button class="button-special" type="button" onclick="location.href='/dashboard'">더보기</button>
+            </div>
+            <div class="section-container-content-wrapper">
+                <div class="section-container-content" th:each="article, index : ${recentArticles}">
+                    <div class="article-title" th:text="${article.title}"></div>
+                    <div class="article-content" th:text="${article.content}"></div>
+                    <div class="article-author" th:text="'작성자 ' + ${article.user.nickName}"></div>
+                    <div class="article-created-at" th:text="'작성일자 '+ ${article.createdAt}"></div>
+                </div>
+            </div>
         </div>
     </section>
+
+    <!-- 공통 footer -->
+    <footer class="common-footer">
+        <div class="common-footer-container">
+            <a class="common-footer-title" onclick="location.href='/'" cursor="pointer">서비스 로고</a>
+            <div class="common-footer-copyright">Copyright 2025. 장한빛. All rights reserved.</div>
+        </div>
+    </footer>
+    <!-- 공통 footer -->
+
 </body>
 </html>
