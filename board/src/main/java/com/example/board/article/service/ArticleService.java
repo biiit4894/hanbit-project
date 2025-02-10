@@ -99,7 +99,7 @@ public class ArticleService {
         String loginUserId = userService.getLoginUserInfo().getUserId();
         String authorUserId = article.getUser().getUserId();
         if (!Objects.equals(loginUserId, authorUserId)) {
-            throw new AccessDeniedException("Login user does not match author");
+            throw new AccessDeniedException("no permission to update article");
         }
         article.update(reqDto.getTitle(), reqDto.getContent());
         articleRepository.save(article);
@@ -112,7 +112,7 @@ public class ArticleService {
         String loginUserId = userService.getLoginUserInfo().getUserId();
         String authorUserId = article.getUser().getUserId();
         if (!Objects.equals(loginUserId, authorUserId)) {
-            throw new AccessDeniedException("Login user does not match author");
+            throw new AccessDeniedException("no permission to delete article");
         }
         articleRepository.deleteById(id);
     }
