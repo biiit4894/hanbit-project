@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 
 @Component
 @Slf4j
@@ -22,20 +23,17 @@ public class CustomFailureHandler extends SimpleUrlAuthenticationFailureHandler 
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
                                         AuthenticationException exception) throws IOException, ServletException {
         String message;
-        log.info("customfailurehandler start");
-        if (exception instanceof BadCredentialsException) {
+        if (exception instanceof BadCredentialsException || exception instanceof UsernameNotFoundException) {
             message = "아이디 또는 비밀번호가 일치하지 않습니다.";
         } else if (exception instanceof InternalAuthenticationServiceException) {
             message = "내부적으로 발생한 시스템 문제로 인해 요청을 처리할 수 없습니다.";
-        } else if (exception instanceof UsernameNotFoundException) {
-            message = "존재하지 않는 계정입니다.";
         } else if (exception instanceof AuthenticationCredentialsNotFoundException) {
             message = "인증 요청이 거부되었습니다";
         } else {
             message = "알 수 없는 이유로 로그인에 실패하였습니다.";
         }
 
-        message = URLEncoder.encode(message, "UTF-8");
+        message = URLEncoder.encode(message, StandardCharsets.UTF_8);
         setDefaultFailureUrl("/login?error=true&exception=" + message);
         super.onAuthenticationFailure(request, response, exception);
     }

@@ -35,7 +35,7 @@
             <form action="/login" method="POST">
                 <input type="hidden" th:name="${_csrf?.parameterName}" th:value="${_csrf?.token}"/>
                 <label>
-                    <input class="input-text" type="text" name="username" placeholder="아이디" required>
+                    <input class="input-text" type="text" name="userId" placeholder="아이디" required>
                 </label>
                 <label>
                     <input class="input-text" type="password" name="password" placeholder="비밀번호" required>
