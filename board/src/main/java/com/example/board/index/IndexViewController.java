@@ -1,22 +1,20 @@
-package com.example.board.article.controller;
+package com.example.board.index;
 
 import com.example.board.user.service.UserService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-@Slf4j
 @Controller
 @RequiredArgsConstructor
-public class ArticleViewController {
+public class IndexViewController {
     private final UserService userService;
 
-    @GetMapping("/dashboard")
-    public String dashboard(Model model) {
+    @GetMapping("/")
+    public String index(Model model) {
+
         model.addAttribute("authPrincipal", userService.getAuthenticationPrincipal());
-        model.addAttribute("loginUserInfo", userService.getLoginUserInfo());
-        return "board/dashboard";
+        return "index";
     }
 }
