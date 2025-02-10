@@ -1,5 +1,6 @@
 package com.example.board.config;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,7 +16,10 @@ import static org.springframework.boot.autoconfigure.security.servlet.PathReques
 
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class WebSecurityConfig {
+
+    private final CustomFailureHandler customFailureHandler;
 
     @Bean
     public WebSecurityCustomizer configure() {
@@ -32,13 +36,11 @@ public class WebSecurityConfig {
                 )
                 .formLogin(auth -> auth
                         .loginPage("/login")
+                        .failureHandler(customFailureHandler)
+                        .usernameParameter("userId")
+                        .passwordParameter("password")
                         .defaultSuccessUrl("/")
-                        .failureUrl("/")
-                        .permitAll()
-                        .failureHandler((request, response, exception) -> {
-                            System.out.println("Login failed: " + exception.getMessage());
-                            response.sendRedirect("/");
-                        })
+//                        .failureUrl("/")
                 )
                 .logout(logout -> logout.logoutSuccessUrl("/").permitAll())
 
