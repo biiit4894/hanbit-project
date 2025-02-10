@@ -12,6 +12,7 @@ import com.example.board.user.model.entity.User;
 import com.example.board.user.repository.UserRepository;
 import com.example.board.user.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -47,6 +48,11 @@ public class CommentService {
     @Transactional
     public UpdateCommentResDto updateComment(Long id, UpateCommentReqDto reqDto) {
         Comment comment = commentRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("No Comment Found"));
+        String authorUserId = comment.getUser().getUserId();
+        String loginUserId = userService.getLoginUserInfo().getUserId();
+        if (!authorUserId.equals(loginUserId)) {
+            throw new AccessDeniedException("no permission to update comment");
+        }
         comment.updateContent(reqDto.getContent());
         commentRepository.save(comment);
         return new UpdateCommentResDto(comment);
@@ -56,6 +62,12 @@ public class CommentService {
     public void deleteComment(Long id) {
         Comment comment = commentRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Comment Not Found"));
         Article article = articleRepository.findById(comment.getArticle().getId()).orElseThrow(() -> new IllegalArgumentException("Article Not Found"));
+        String authorUserId = comment.getUser().getUserId();
+        String loginUserId = userService.getLoginUserInfo().getUserId();
+        if (!authorUserId.equals(loginUserId)) {
+            throw new AccessDeniedException("no permission to delete comment");
+        }
+
         if(comment.getParent() != null) {
             commentRepository.deleteById(id);
         }
