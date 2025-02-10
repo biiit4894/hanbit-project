@@ -42,6 +42,7 @@ public class UserService {
     @Transactional
     public SignoutResDto setUserDeletedAt(SignoutReqDto reqDto) {
         Long id = getLoginUserInfo().getId();
+
         User user = userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("User not found"));
         if (!encoder.matches(reqDto.getPassword(), user.getPassword())) {
             throw new InvalidPasswordException("Incorrect password");
@@ -61,6 +62,18 @@ public class UserService {
                 user.getCreatedAt(),
                 user.getDeletedAt()
         );
+    }
+
+    public Object getAuthenticationPrincipal() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Object principal = authentication.getPrincipal();
+        log.info("principal : {}", principal);
+        if (!principal.equals("anonymousUser")) {
+            User user = (User) authentication.getPrincipal();
+            log.info("loginUserId: {}", user.getUserId());
+        }
+        return principal;
+
     }
 
     public static class InvalidPasswordException extends RuntimeException {
