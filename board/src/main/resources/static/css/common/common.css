@@ -1,0 +1,70 @@
+/* 전 요소 폰트 css 통일*/
+
+* {
+    font-size: 17px;
+    color: #686868;
+}
+
+/* anchor 태그 css 통일 */
+a {
+    cursor: pointer
+}
+
+/* 공통 헤더 css 통일 */
+#common-header {
+    display: flex;
+    justify-content: center;
+    background-color: #f3f8ff;
+;
+
+}
+
+#common-header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    height: 20vh;
+    width: 50vw;
+    margin-bottom: 5vh;
+}
+
+#common-header #header-title {
+    font-size: 30px;
+}
+
+/* 섹션별 css 통일 (header or section -> div 순서 영역 구분 전제) */
+section {
+    display: flex;
+    justify-content: center;
+}
+
+.section-container {
+    display: flex;
+    flex-direction: column;
+
+    /*justify-content: space-between;*/
+    /*align-items: flex-end;*/
+    /*height: 15vh;*/
+    width: 50vw;
+    margin-bottom: 3vh;
+}
+
+.section-container-title {
+    font-size: 25px;
+    margin-top: 5vh;
+}
+
+.section-container-description {
+    font-size: 20px;
+    margin-top: 1vh;
+}
+
+/* 버튼 css 통일 */
+button {
+    cursor: pointer;
+    background-color: #4eb2ff;
+    color: #e3e3e3;
+    padding: 10px 15px;
+    border-radius: 10px;
+    border: none;
+}
