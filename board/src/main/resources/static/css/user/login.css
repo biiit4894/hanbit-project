@@ -1,0 +1,27 @@
+.section-container {
+    align-items: center;
+}
+
+form {
+    background-color: rgba(239, 239, 239, 0.52);
+    border-radius: 10px;
+    margin-top: 5vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 40vh;
+    width: 20vw;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+}
+
+input {
+    height: 3vh;
+    border: 1px solid black;
+    border-radius: 10px;
+    margin-top: 10px;
+}
+
+span p {
+    color: red;
+}
