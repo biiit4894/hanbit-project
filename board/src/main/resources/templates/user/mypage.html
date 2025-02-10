@@ -8,20 +8,35 @@
     <title>Document</title>
 </head>
 <body>
-  <h1>Mypage</h1>
-  <section>
+    <!-- 공통 header-->
+    <header id="common-header">
+        <a id="header-title" onclick="location.href='/'">서비스 로고</a>
+
+        <div th:if="${authPrincipal != 'anonymousUser'}">
+            <button type="button" onclick="location.href='/mypage'">마이페이지</button>
+            <button type="button" onclick="location.href='/logout'">로그아웃</button>
+        </div>
+        <div th:if="${authPrincipal == 'anonymousUser'}">
+            <button type="button" onclick="location.href='/login'">로그인</button>
+            <button type="button" onclick="location.href='/signup'">회원가입</button>
+        </div>
+    </header>
+    <!-- 공통 header-->
+
+    <h1>Mypage</h1>
+    <section>
       <div>
         <div th:text="'반갑습니다, ' + ${loginUserInfo.nickName} + '님!'"></div>
         <button type="button" onclick="location.href='/logout'">로그아웃</button>
         <button type="button" onclick="location.href='/mypage'">마이페이지</button>
       </div>
-  </section>
-  <section>
+    </section>
+    <section>
       <div th:text="'아이디 : ' + ${loginUserInfo.userId}"></div>
       <div th:text="'별명 : ' + ${loginUserInfo.nickName}"></div>
       <div th:text="'이메일 : ' + ${loginUserInfo.email}"></div>
       <button type="button" onclick="location.href='/signout'">회원탈퇴</button>
-  </section>
+    </section>
 
 </body>
 </html>

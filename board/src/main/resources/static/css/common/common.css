@@ -1,0 +1,94 @@
+/* 전 요소 폰트 css 통일*/
+
+* {
+    font-size: 17px;
+    color: #686868;
+}
+
+/* anchor 태그 css 통일 */
+a {
+    cursor: pointer
+}
+
+/* 공통 헤더 css 통일 */
+.common-header {
+    display: flex;
+    justify-content: center;
+    background-color: #f3f8ff;
+}
+
+.common-header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    height: 20vh;
+    width: 50vw;
+    margin-bottom: 5vh;
+}
+
+.common-header .header-title {
+    font-size: 30px;
+}
+
+/* 공통 푸터 css 통일 */
+.common-footer {
+    display: flex;
+    justify-content: center;
+    background-color: #f3f8ff;
+}
+
+.common-footer-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    width: 50vw;
+    height: 10vh;
+}
+
+.common-footer-title {
+    font-size: 25px;
+}
+
+/* 섹션별 css 통일
+    (header -> section(section 내부 복수 개 div) -> footer 순서로
+    영역을 구분하는 것을 전제로 함) */
+section {
+    display: flex;
+    justify-content: center;
+}
+
+.section-container {
+    display: flex;
+    flex-direction: column;
+
+    /*justify-content: space-between;*/
+    /*align-items: flex-end;*/
+    /*height: 15vh;*/
+    width: 50vw;
+    margin-bottom: 3vh;
+}
+
+.section-container-title {
+    font-size: 25px;
+    margin-top: 5vh;
+}
+
+.section-container-description {
+    font-size: 20px;
+    margin-top: 1vh;
+}
+
+/* 버튼 css 통일 */
+button {
+    cursor: pointer;
+    background-color: #4eb2ff;
+    color: #ffffff;
+    padding: 10px 15px;
+    border-radius: 10px;
+    border: none;
+}
+
+.button-special {
+    background-color: #ffd5a4;
+    color: #353535;
+}

@@ -14,7 +14,6 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -50,8 +49,14 @@ public class ArticleService {
     }
 
     @Transactional
+    public List<Article> getRecentArticleList() {
+        return articleRepository.findTop5OrderByCreatedAtDesc();
+    }
+
+    @Transactional
+
     public CreateArticleResDto createArticle(CreateArticleReqDto reqDto) {
-        User loginUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User loginUser = userService.getLoginUser();
         Article article = new Article(
                 reqDto.getTitle(),
                 reqDto.getContent(),
