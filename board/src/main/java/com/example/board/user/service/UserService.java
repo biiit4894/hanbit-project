@@ -64,6 +64,11 @@ public class UserService {
         );
     }
 
+    public User getLoginUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return (User) authentication.getPrincipal();
+    }
+
     public Object getAuthenticationPrincipal() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Object principal = authentication.getPrincipal();

@@ -16,7 +16,8 @@ public class UserViewController {
     private final UserService userService;
 
     @GetMapping("/login")
-    public String login() {
+    public String login(Model model) {
+        model.addAttribute("authPrincipal", userService.getAuthenticationPrincipal());
         return "user/login";
     }
 
@@ -28,12 +29,14 @@ public class UserViewController {
 
     @GetMapping("/mypage")
     public String mypage(Model model) {
+        model.addAttribute("authPrincipal", userService.getAuthenticationPrincipal());
         model.addAttribute("loginUserInfo", userService.getLoginUserInfo());
         return "user/mypage";
     }
 
     @GetMapping("/signout")
     public String signout(Model model) {
+        model.addAttribute("authPrincipal", userService.getAuthenticationPrincipal());
         model.addAttribute("loginUserInfo", userService.getLoginUserInfo());
         return "user/signout";
     }

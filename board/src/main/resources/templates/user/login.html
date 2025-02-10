@@ -9,6 +9,21 @@
 </head>
 <body>
 <section>
+    <!-- 공통 header-->
+    <header id="common-header">
+        <a id="header-title" onclick="location.href='/'">서비스 로고</a>
+
+        <div th:if="${authPrincipal != 'anonymousUser'}">
+            <button type="button" onclick="location.href='/mypage'">마이페이지</button>
+            <button type="button" onclick="location.href='/logout'">로그아웃</button>
+        </div>
+        <div th:if="${authPrincipal == 'anonymousUser'}">
+            <button type="button" onclick="location.href='/login'">로그인</button>
+            <button type="button" onclick="location.href='/signup'">회원가입</button>
+        </div>
+    </header>
+    <!-- 공통 header-->
+
     <div>
         <form action="/login" method="POST">
             <input type="hidden" th:name="${_csrf?.parameterName}" th:value="${_csrf?.token}"/>
