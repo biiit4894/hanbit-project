@@ -1,5 +1,6 @@
 package com.example.board.user.service;
 
+import com.example.board.exception.InvalidPasswordException;
 import com.example.board.user.model.dto.*;
 import com.example.board.user.model.entity.User;
 import com.example.board.user.repository.UserRepository;
@@ -45,7 +46,7 @@ public class UserService {
 
         User user = userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("User not found"));
         if (!encoder.matches(reqDto.getPassword(), user.getPassword())) {
-            throw new InvalidPasswordException("Incorrect password");
+            throw new InvalidPasswordException("비밀번호가 일치하지 않습니다.");
         }
         userRepository.updateDeletedAt(id);
         return new SignoutResDto(user);
@@ -79,12 +80,6 @@ public class UserService {
         }
         return principal;
 
-    }
-
-    public static class InvalidPasswordException extends RuntimeException {
-        public InvalidPasswordException(String message) {
-            super(message);
-        }
     }
 
 }

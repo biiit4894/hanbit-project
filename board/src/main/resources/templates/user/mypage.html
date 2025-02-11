@@ -5,38 +5,58 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" th:href="@{/css/common/common.css}">
+    <link rel="stylesheet" th:href="@{/css/user/mypage.css}">
     <title>Document</title>
 </head>
 <body>
     <!-- 공통 header-->
-    <header id="common-header">
-        <a id="header-title" onclick="location.href='/'">서비스 로고</a>
+    <header class="common-header">
+        <div class="common-header-container">
+            <a class="header-title" onclick="location.href='/'" cursor="pointer">서비스 로고</a>
 
-        <div th:if="${authPrincipal != 'anonymousUser'}">
-            <button type="button" onclick="location.href='/mypage'">마이페이지</button>
-            <button type="button" onclick="location.href='/logout'">로그아웃</button>
-        </div>
-        <div th:if="${authPrincipal == 'anonymousUser'}">
-            <button type="button" onclick="location.href='/login'">로그인</button>
-            <button type="button" onclick="location.href='/signup'">회원가입</button>
+            <div th:if="${authPrincipal != 'anonymousUser'}">
+                <button type="button" onclick="location.href='/mypage'">마이페이지</button>
+                <button type="button" onclick="location.href='/logout'">로그아웃</button>
+            </div>
+            <div th:if="${authPrincipal == 'anonymousUser'}">
+                <button type="button" onclick="location.href='/login'">로그인</button>
+                <button type="button" onclick="location.href='/signup'">회원가입</button>
+            </div>
         </div>
     </header>
     <!-- 공통 header-->
 
-    <h1>Mypage</h1>
     <section>
-      <div>
-        <div th:text="'반갑습니다, ' + ${loginUserInfo.nickName} + '님!'"></div>
-        <button type="button" onclick="location.href='/logout'">로그아웃</button>
-        <button type="button" onclick="location.href='/mypage'">마이페이지</button>
-      </div>
-    </section>
-    <section>
-      <div th:text="'아이디 : ' + ${loginUserInfo.userId}"></div>
-      <div th:text="'별명 : ' + ${loginUserInfo.nickName}"></div>
-      <div th:text="'이메일 : ' + ${loginUserInfo.email}"></div>
-      <button type="button" onclick="location.href='/signout'">회원탈퇴</button>
+        <div class="section-container">
+            <div class="section-container-title">
+                마이페이지
+            </div>
+            <div class="section-container-description-button-wrapper">
+                <div class="section-container-description" th:text="'반갑습니다, ' + ${loginUserInfo.nickName} + '님!'"></div>
+            </div>
+            <div class="section-container-user-info-wrapper">
+                <div class="section-container-user-info-img-wrapper">
+                    <img src="/media/user/user-profile-img-default.png" alt="user profile default image"/>
+                </div>
+                <div class="section-container-user-info-text-wrapper">
+                    <div><strong>아이디 </strong><span th:text="${loginUserInfo.userId}"></span></div>
+                    <div><strong>별명 </strong><span th:text="${loginUserInfo.nickName}"></span></div>
+                    <div><strong>이메일 </strong><span th:text="${loginUserInfo.email}"></span></div>
+                </div>
+            </div>
+            <button class="button-special" id="section-container-signout-button" type="button" onclick="location.href='/signout'">회원탈퇴</button>
+        </div>
+
     </section>
 
+    <!-- 공통 footer -->
+    <footer class="common-footer">
+        <div class="common-footer-container">
+            <a class="common-footer-title" onclick="location.href='/'" cursor="pointer">서비스 로고</a>
+            <div class="common-footer-copyright">Copyright 2025. 장한빛. All rights reserved.</div>
+        </div>
+    </footer>
+    <!-- 공통 footer -->
 </body>
 </html>

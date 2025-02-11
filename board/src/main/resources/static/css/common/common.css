@@ -14,7 +14,7 @@ a {
 .common-header {
     display: flex;
     justify-content: center;
-    background-color: #f3f8ff;
+    background-color: #e8f1ff;
 }
 
 .common-header-container {
@@ -34,7 +34,7 @@ a {
 .common-footer {
     display: flex;
     justify-content: center;
-    background-color: #f3f8ff;
+    background-color: #E8F1FFFF;
 }
 
 .common-footer-container {
@@ -57,6 +57,7 @@ section {
     justify-content: center;
 }
 
+
 .section-container {
     display: flex;
     flex-direction: column;
@@ -65,6 +66,7 @@ section {
     /*align-items: flex-end;*/
     /*height: 15vh;*/
     width: 50vw;
+    height: 75vh; /* 푸터 위치 조정(header-container 20+5 vh 상태) */
     margin-bottom: 3vh;
 }
 
