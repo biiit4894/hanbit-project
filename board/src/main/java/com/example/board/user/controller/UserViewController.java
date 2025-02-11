@@ -36,6 +36,12 @@ public class UserViewController {
         return "redirect:/";
     }
 
+    @GetMapping("/signup")
+    public String signup(Model model) {
+        model.addAttribute("authPrincipal", userService.getAuthenticationPrincipal());
+        return "user/signup";
+    }
+
     @GetMapping("/mypage")
     public String mypage(Model model) {
         model.addAttribute("authPrincipal", userService.getAuthenticationPrincipal());
