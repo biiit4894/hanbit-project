@@ -30,7 +30,7 @@ public class WebSecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
                 .authorizeHttpRequests(auth ->
-                        auth.requestMatchers("/", "/login", "/dashboard", "/api/user/signup").permitAll()
+                        auth.requestMatchers("/", "/login", "/signup", "/dashboard", "/api/user/signup").permitAll()
                                 .requestMatchers(PathRequest.toH2Console()).permitAll()
                                 .anyRequest().authenticated()
                 )
