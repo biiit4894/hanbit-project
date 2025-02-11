@@ -28,23 +28,16 @@ public class User implements UserDetails {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable=false, length=20, unique=true)
-    @NotBlank
-    @Size(max=20)
+    @Column(nullable=false, unique=true)
     private String userId;
 
-    @Column(nullable=false, length=20)
-    @NotBlank
-    @Size(max=60)
+    @Column(nullable=false)
     private String password;
 
-    @Column(nullable=false, length=20, unique=true)
-    @NotBlank
-    @Size(max=20)
+    @Column(nullable=false, unique=true)
     private String nickName;
 
-    @Column(nullable=false, length=20, unique=true)
-    @NotBlank
+    @Column(nullable=false, unique=true)
     private String email;
 
     @CreatedDate
