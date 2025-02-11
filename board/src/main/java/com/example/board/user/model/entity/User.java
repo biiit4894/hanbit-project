@@ -2,8 +2,7 @@ package com.example.board.user.model.entity;
 
 import com.example.board.article.model.entity.Article;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
+
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
