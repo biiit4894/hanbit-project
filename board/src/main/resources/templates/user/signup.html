@@ -42,16 +42,15 @@
                 <input type="hidden" th:name="${_csrf?.parameterName}" th:value="${_csrf?.token}"/>
 
                 <label for="signup-input-userId">아이디</label>
-                <input class="input-text" id="signup-input-userId" type="text" name="userId" required placeholder="아이디는 20자 이내어야 합니다."/>
+                <input class="input-text" id="signup-input-userId" type="text" name="userId" required placeholder="아이디는 4자 이상 10자 이하이어야 합니다."/>
                 <span class="error-message" id="userId-error"></span>
 
                 <label for="signup-input-password">비밀번호</label>
-                <input class="input-text" id="signup-input-password" type="text" name="password" required
-                       placeholder="비밀번호는 20자 이내어야 합니다."/>
+                <input class="input-text" id="signup-input-password" type="text" name="password" required placeholder="비밀번호는 4자 이상 20자 이하이야 합니다."/>
                 <span class="error-message" id="password-error"></span>
 
                 <label for="signup-input-nickName">별명</label>
-                <input class="input-text" id="signup-input-nickName" type="text" name="nickName" required placeholder="별명은 20자 이내어야 합니다."/>
+                <input class="input-text" id="signup-input-nickName" type="text" name="nickName" required placeholder="별명은 4자 이상 20자 이하이어야 합니다."/>
                 <span class="error-message" id="nickName-error"></span>
 
                 <label for="signup-input-email">이메일</label>
