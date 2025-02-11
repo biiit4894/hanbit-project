@@ -17,6 +17,6 @@ public class ArticleViewController {
     public String dashboard(Model model) {
         model.addAttribute("authPrincipal", userService.getAuthenticationPrincipal());
         model.addAttribute("loginUserInfo", userService.getLoginUserInfo());
-        return "board/dashboard";
+        return "article/dashboard";
     }
 }

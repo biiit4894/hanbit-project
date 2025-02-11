@@ -19,7 +19,7 @@ public class ArticleController {
     private final ArticleService articleService;
 
     @GetMapping("")
-    public ResponseEntity<Page<ArticleSummaryDto>> getArticleList(@RequestParam(value="page", defaultValue="0")int page) {
+    public ResponseEntity<Page<ArticleSummaryDto>> getArticleList(@RequestParam(defaultValue="0")int page) {
         return new ResponseEntity<>(articleService.getArticleList(page), HttpStatus.OK);
     }
 

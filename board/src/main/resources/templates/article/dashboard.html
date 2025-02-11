@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" th:href="@{/css/common/common.css}">
+    <link rel="stylesheet" th:href="@{/css/dashboard/dashboard.css}">
+    <script th:src="@{/js/article/dashboard.js}"></script>
+    <title>Document</title>
+</head>
+<body>
+<!-- 공통 header-->
+<header class="common-header">
+    <div class="common-header-container">
+        <a class="header-title" onclick="location.href='/'" cursor="pointer">서비스 로고</a>
+
+        <div th:if="${authPrincipal != 'anonymousUser'}">
+            <button type="button" onclick="location.href='/mypage'">마이페이지</button>
+            <button type="button" onclick="location.href='/logout'">로그아웃</button>
+        </div>
+        <div th:if="${authPrincipal == 'anonymousUser'}">
+            <button type="button" onclick="location.href='/login'">로그인</button>
+            <button type="button" onclick="location.href='/signup'">회원가입</button>
+        </div>
+    </div>
+</header>
+<!-- 공통 header-->
+
+<ul>
+    <li>
+        <div class="post-container">
+            <p class="post-number">1</p>
+            <p class="post-title">title</p>
+            <p class="post-created-at">0000.00.00</p>
+            <p class="post-like-count">0</p>
+            <p class="post-comment-count">0</p>
+        </div>
+    </li>
+</ul>
+<div class="pagination-container">
+    <div class="prev-button">이전</div>
+    <div class="number-button-wrapper"><span class="number-button">1</span></div>
+    <div class="next-button">이후</div>
+</div>
+
+
+
+<!-- 공통 footer -->
+<footer class="common-footer">
+    <div class="common-footer-container">
+        <a class="common-footer-title" onclick="location.href='/'" cursor="pointer">서비스 로고</a>
+        <div class="common-footer-copyright">Copyright 2025. 장한빛. All rights reserved.</div>
+    </div>
+</footer>
+<!-- 공통 footer -->
+
+</body>
+</html>
