@@ -14,7 +14,7 @@ a {
 .common-header {
     display: flex;
     justify-content: center;
-    background-color: #f3f8ff;
+    background-color: #e8f1ff;
 }
 
 .common-header-container {
@@ -34,7 +34,7 @@ a {
 .common-footer {
     display: flex;
     justify-content: center;
-    background-color: #f3f8ff;
+    background-color: #E8F1FFFF;
 }
 
 .common-footer-container {
