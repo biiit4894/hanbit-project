@@ -57,7 +57,6 @@ public class ArticleService {
     }
 
     @Transactional
-
     public CreateArticleResDto createArticle(CreateArticleReqDto reqDto) {
         User loginUser = userService.getLoginUser();
         Article article = new Article(
@@ -70,7 +69,7 @@ public class ArticleService {
                 article.getId(),
                 article.getTitle(),
                 article.getContent(),
-                article.getCreatedAt(),
+                article.getCreatedAt().format(dateTimeFormatter),
                 article.getUser().getNickName()
         );
     }

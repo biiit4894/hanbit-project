@@ -1,0 +1,41 @@
+.article-editor-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 5vh;
+
+}
+.article-editor-title {
+    display: flex;
+    flex-direction: column;
+    width: 70%;
+}
+
+.article-editor-content {
+    display: flex;
+    flex-direction: column;
+    width: 70%;
+    margin-top: 2vh;
+}
+
+#article-textarea-title {
+    border: 1px solid #a2a2a2;
+    border-radius: 10px;
+    margin-top: 10px;
+    height: 30px;
+}
+
+#article-textarea-content {
+    border: 1px solid #a2a2a2;
+    margin-top: 10px;
+    border-radius: 10px;
+}
+
+.error-message {
+    color: red;
+    font-size: 13px;
+}
+
+.article-editor-footer {
+    margin-top: 3vh;
+}

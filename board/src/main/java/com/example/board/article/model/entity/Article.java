@@ -2,8 +2,6 @@ package com.example.board.article.model.entity;
 
 import com.example.board.user.model.entity.User;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,13 +18,9 @@ public class Article {
     private Long id;
 
     @Column(nullable=false, length=30)
-    @NotBlank
-    @Size(max = 30)
     private String title;
 
     @Column(nullable=false, length=1000)
-    @NotBlank
-    @Size(max = 1000)
     private String content;
 
     @Column(nullable=false)

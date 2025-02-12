@@ -6,6 +6,8 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" th:href="@{/css/common/common.css}">
+    <link rel="stylesheet" th:href="@{/css/article/editor.css}">
+    <script th:src="@{/js/article/editor.js}"></script>
     <title>Document</title>
 </head>
 <body>
@@ -34,6 +36,25 @@
         <div class="section-container-description-button-wrapper">
             <div class="section-container-description" >글 작성하기</div>
         </div>
+        <form class="article-editor-wrapper">
+            <div class="article-editor-title">
+                <label for="article-textarea-title">제목</label>
+                <textarea id="article-textarea-title" cols="50" rows="1"></textarea>
+                <span class="error-message" id="title-error"></span>
+            </div>
+            <div class="article-editor-content">
+                <label for="article-textarea-content">내용</label>
+                <textarea id="article-textarea-content" cols="50" rows="20"></textarea>
+                <span class="error-message" id="content-error"></span>
+            </div>
+            <div class="article-editor-footer">
+                <button class="button-special" type="button">취소</button>
+                <input class="button-save" type="submit" value="회원가입"/>
+
+            </div>
+        </form>
+
+
     </div>
 </section>
 
