@@ -17,6 +17,7 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -27,6 +28,8 @@ public class ArticleService {
     private final ArticleRepository articleRepository;
     private final CommentRepository commentRepository;
     private final UserService userService;
+
+    private final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     @Transactional
     public Page<ArticleSummaryDto> getArticleList(int page) {
@@ -40,7 +43,7 @@ public class ArticleService {
                             article.getTitle(),
                             article.getCommentCount(),
                             article.getLikeCount(),
-                            article.getCreatedAt(),
+                            article.getCreatedAt().format(dateTimeFormatter),
                             article.getUser().getNickName()
                     )
             );
