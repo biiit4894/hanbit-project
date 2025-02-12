@@ -50,37 +50,37 @@ window.onload = function () {
                     const li = document.createElement('li');
 
                     // 컨테이너
-                    const postContainer = document.createElement('div');
-                    postContainer.className = 'post-container';
+                    const articleContainer = document.createElement('div');
+                    articleContainer.className = 'article-container';
 
                     // 글 번호
-                    const postNumber = document.createElement('p');
-                    postNumber.className = 'post-number';
+                    const articleNumber = document.createElement('p');
+                    articleNumber.className = 'article-number';
 
                     // 글 제목
-                    const postTitle = document.createElement('p');
-                    postTitle.className = 'post-title';
+                    const articleTitle = document.createElement('p');
+                    articleTitle.className = 'article-title';
 
                     // 글 작성일자
-                    const postCreatedAt = document.createElement('p');
-                    postCreatedAt.className = 'post-created-at';
+                    const articleCreatedAt = document.createElement('p');
+                    articleCreatedAt.className = 'article-created-at';
 
                     // 글 좋아요 개수
-                    const postLikeCount = document.createElement('p');
-                    postLikeCount.className = 'post-like-count';
+                    const articleLikeCount = document.createElement('p');
+                    articleLikeCount.className = 'article-like-count';
 
                     // 글 댓글 개수
-                    const postCommentCount = document.createElement('p');
-                    postCommentCount.className = 'post-comment-count';
+                    const articleCommentCount = document.createElement('p');
+                    articleCommentCount.className = 'article-comment-count';
 
-                    postNumber.textContent = data[i - 1].id;
-                    postTitle.textContent = data[i - 1].title;
-                    postCreatedAt.textContent = data[i - 1].createdAt;
-                    postLikeCount.textContent = data[i - 1].likeCount;
-                    postCommentCount.textContent = data[i - 1].commentCount;
+                    articleNumber.textContent = data[i - 1].id;
+                    articleTitle.textContent = data[i - 1].title;
+                    articleCreatedAt.textContent = data[i - 1].createdAt;
+                    articleLikeCount.textContent = data[i - 1].likeCount;
+                    articleCommentCount.textContent = data[i - 1].commentCount;
 
-                    postContainer.append(postNumber, postTitle, postCreatedAt, postLikeCount, postCommentCount);
-                    li.append(postContainer);
+                    articleContainer.append(articleNumber, articleTitle, articleCreatedAt, articleLikeCount, articleCommentCount);
+                    li.append(articleContainer);
                     ul.append(li);
                 }
             };
