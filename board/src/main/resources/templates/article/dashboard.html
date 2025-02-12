@@ -35,7 +35,7 @@
             </div>
             <div class="section-container-description-button-wrapper">
                 <div class="section-container-description" >전체 게시글</div>
-                <button th:if="${authPrincipal != 'anonymousUser'}" class="button-special" type="button" onclick="location.href='#'">글 작성하기</button>
+                <button th:if="${authPrincipal != 'anonymousUser'}" class="button-special" type="button" onclick="location.href='/editor'">글 작성하기</button>
             </div>
         </div>
     </section>
