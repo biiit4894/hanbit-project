@@ -38,7 +38,9 @@
             </div>
             <div class="section-container-content-wrapper">
                 <div class="section-container-content" th:each="article, index : ${recentArticles}">
-                    <div class="article-title" th:text="${article.title}"></div>
+                    <div class="article-title">
+                        <a th:href="@{/dashboard/{id}(id=${article.id})}" th:text="${article.title}"></a>
+                    </div>
                     <div class="article-content" th:text="${article.content}"></div>
                     <div class="article-author" th:text="'작성자 ' + ${article.user.nickName}"></div>
                     <div class="article-created-at" th:text="'작성일자 '+ ${article.createdAt}"></div>
