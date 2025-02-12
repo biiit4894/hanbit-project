@@ -18,14 +18,14 @@
     margin-top: 2vh;
 }
 
-#article-textarea-title {
+#article-input-title {
     border: 1px solid #a2a2a2;
     border-radius: 10px;
     margin-top: 10px;
     height: 30px;
 }
 
-#article-textarea-content {
+#article-input-content {
     border: 1px solid #a2a2a2;
     margin-top: 10px;
     border-radius: 10px;
@@ -38,4 +38,13 @@
 
 .article-editor-footer {
     margin-top: 3vh;
+}
+
+.input-save {
+    cursor: pointer;
+    background-color: #4eb2ff;
+    color: #ffffff;
+    padding: 10px 15px;
+    border-radius: 10px;
+    border: none;
 }

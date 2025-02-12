@@ -37,21 +37,20 @@
             <div class="section-container-description" >글 작성하기</div>
         </div>
         <form class="article-editor-wrapper">
-            <div class="article-editor-title">
-                <label for="article-textarea-title">제목</label>
-                <textarea id="article-textarea-title" cols="50" rows="1"></textarea>
-                <span class="error-message" id="title-error"></span>
-            </div>
-            <div class="article-editor-content">
-                <label for="article-textarea-content">내용</label>
-                <textarea id="article-textarea-content" cols="50" rows="20"></textarea>
+<!--            <div class="article-editor-title">-->
+                <label for="article-input-title">제목</label>
+                <input id="article-input-title" type="text" name="title" required placeholder="제목을 입력해 주세요"/>
+                <span class="error-message" id="title-error" ></span>
+<!--            </div>-->
+<!--            <div class="article-editor-content">-->
+                <label for="article-input-content">내용</label>
+                <input id="article-input-content" type="text" name="content" required placeholder="내용을 입력해 주세요."/>
                 <span class="error-message" id="content-error"></span>
-            </div>
-            <div class="article-editor-footer">
+<!--            </div>-->
+<!--            <div class="article-editor-footer">-->
                 <button class="button-special" type="button">취소</button>
-                <input class="button-save" type="submit" value="회원가입"/>
-
-            </div>
+                <input class="input-save" type="submit" value="저장"/>
+<!--            </div>-->
         </form>
 
 
