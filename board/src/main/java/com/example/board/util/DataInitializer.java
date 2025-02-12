@@ -44,9 +44,9 @@ public class DataInitializer implements CommandLineRunner {
             userRepository.saveAll(testUsers);
 
             List<Article> articles = new ArrayList<>();
-            for (int i = 1; i <= 5; i++) {
-                articles.add(new Article("제목 " + i, "내용입니다. 내용입니다. 내용입니다. ", user1));
-                articles.add(new Article("제목 " + i, "내용입니다. 내용입니다. 내용입니다. ", user2));
+            for (int i = 1; i <= 100; i++) {
+                articles.add(new Article("첫 유저의 게시글 " + i, "내용입니다. 내용입니다. 내용입니다. ", user1));
+                articles.add(new Article("두번째 유저의 게시글 " + i, "내용입니다. 내용입니다. 내용입니다. ", user2));
             }
 
             articleRepository.saveAll(articles);
