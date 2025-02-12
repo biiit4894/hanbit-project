@@ -98,7 +98,16 @@ public class ArticleService {
             parentCommentDto.setReplies(replyDtos);
             comments.add(parentCommentDto);
         }
-        return new GetArticleDetailResDto(article, comments);
+        return new GetArticleDetailResDto(
+                article.getId(),
+                article.getTitle(),
+                article.getContent(),
+                article.getCommentCount(),
+                article.getLikeCount(),
+                article.getCreatedAt().format(dateTimeFormatter),
+                comments,
+                article.getUser().getNickName()
+        );
     }
 
     @Transactional
