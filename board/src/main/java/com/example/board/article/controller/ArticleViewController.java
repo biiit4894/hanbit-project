@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Slf4j
@@ -21,5 +22,15 @@ public class ArticleViewController {
         model.addAttribute("authPrincipal", userService.getAuthenticationPrincipal());
         model.addAttribute("pagedArticles", articleService.getArticleList(page));
         return "article/dashboard";
+    }
+
+    @GetMapping("/dashboard/{id}")
+    public String articleDetail(Model model, @PathVariable Long id) {
+        model.addAttribute("authPrincipal", userService.getAuthenticationPrincipal());
+        if (!userService.getAuthenticationPrincipal().equals("anonymousUser")) {
+            model.addAttribute("loginUserInfo", userService.getLoginUserInfo());
+        }
+        model.addAttribute("articleDetail", articleService.getArticleDetail(id));
+        return "article/article";
     }
 }
