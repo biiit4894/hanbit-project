@@ -7,7 +7,6 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" th:href="@{/css/common/common.css}">
     <link rel="stylesheet" th:href="@{/css/dashboard/dashboard.css}">
-    <script th:src="@{/js/article/dashboard.js}"></script>
     <title>Document</title>
 </head>
 <body>
@@ -28,23 +27,65 @@
 </header>
 <!-- 공통 header-->
 
-<ul>
-    <li>
-        <div class="article-container">
-            <p class="article-number">1</p>
-            <p class="article-title">title</p>
-            <p class="article-created-at">0000.00.00</p>
-            <p class="article-like-count">0</p>
-            <p class="article-comment-count">0</p>
+<div class="container">
+    <section>
+        <div class="section-container">
+            <div class="section-container-title">
+                자유게시판
+            </div>
+            <div class="section-container-description-button-wrapper">
+                <div class="section-container-description" >전체 게시글</div>
+                <button th:if="${authPrincipal != 'anonymousUser'}" class="button-special" type="button" onclick="location.href='#'">글 작성하기</button>
+            </div>
         </div>
-    </li>
-</ul>
-<div class="pagination-container">
-    <div class="prev-button">이전</div>
-    <div class="number-button-wrapper"><span class="number-button">1</span></div>
-    <div class="next-button">이후</div>
+    </section>
+    <table class="table-header">
+        <thead>
+        <tr>
+            <th>번호</th>
+            <th>제목</th>
+            <th>작성일자</th>
+            <th>작성자</th>
+            <th>좋아요 수</th>
+            <th>댓글 수</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="article : ${pagedArticles.content}">
+            <td th:text="${article.id}"></td>
+            <td th:text="${article.title}"></td>
+            <td th:text="${article.createdAt}"></td>
+            <td th:text="${article.author}"></td>
+            <td th:text="${article.likeCount}"></td>
+            <td th:text="${article.commentCount}"></td>
+        </tr>
+        </tbody>
+    </table>
+    <div class="pagination-wrapper" th:if="${!pagedArticles.isEmpty()}">
+        <div class="pagination"
+             th:with="
+                    pageNumber=${pagedArticles.pageable.pageNumber},
+                    pageSize=${pagedArticles.pageable.pageSize},
+                    totalPages=${pagedArticles.totalPages},
+                    startPage = ${T(java.lang.Math).floor(pageNumber / pageSize) * pageSize + 1},
+                    tempEndPage = ${startPage + pageSize - 1},
+                    endPage = (${tempEndPage < totalPages ? tempEndPage : totalPages})">
+            <div th:classappend="${pagedArticles.first} ? 'disabled'" class="page-item" th:href="${pagedArticles.first} ? '#' : @{/dashboard(page=${pageNumber - 1})}">
+                <a class="page-link" th:href="${pagedArticles.first} ? '#' : @{/dashboard(page=${pageNumber - 1})}">
+                    <span aria-hidden="true">&lt;</span>
+                </a>
+            </div>
+            <div th:each="page: ${#numbers.sequence(startPage, endPage)}" th:classappend="${page == pageNumber + 1} ? 'active'" class="page-item">
+                <a th:text="${page}" class="page-link" th:href="@{/dashboard(page=${page - 1})}"></a>
+            </div>
+            <div th:classappend="${pagedArticles.last} ? 'disabled'" class="page-item">
+                <a class="page-link" th:href="${pagedArticles.last} ? '#' : @{/dashboard(page=${pageNumber + 1})}" aria-label="Next">
+                    <span aria-hidden="true">&gt;</span>
+                </a>
+            </div>
+        </div>
+    </div>
 </div>
-
 
 
 <!-- 공통 footer -->
