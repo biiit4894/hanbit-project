@@ -37,7 +37,7 @@
             <div class="section-container-description" >게시글 상세조회</div>
             <div th:if="${loginUserInfo != null && loginUserInfo.nickName == articleDetail.author}" class="section-container-buttons">
                 <button class="button-special" type="button" onclick="location.href='#'">수정</button>
-                <button class="button-special" id="article-delete-button" type="button" onclick="location.href='#'">삭제</button>
+                <button class="button-special" id="article-delete-button" type="button">삭제</button>
             </div>
         </div>
         <div class="section-container-article">
