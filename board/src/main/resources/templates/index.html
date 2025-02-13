@@ -45,7 +45,7 @@
                         <a th:href="@{/dashboard/{id}(id=${article.id})}" th:text="${article.title}"></a>
                     </div>
                     <div class="article-content" th:text="${article.content}"></div>
-                    <div class="article-author" th:text="'작성자 ' + ${article.user.nickName}"></div>
+                    <div class="article-author" th:text="'작성자 ' + ${article.author}"></div>
                     <div class="article-created-at" th:text="'작성일자 '+ ${article.createdAt}"></div>
                 </div>
             </div>

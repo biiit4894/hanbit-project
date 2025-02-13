@@ -52,8 +52,21 @@ public class ArticleService {
     }
 
     @Transactional
-    public List<Article> getRecentArticleList() {
-        return articleRepository.findTop5OrderByCreatedAtDesc();
+    public List<ArticlePreviewDto> getRecentArticleList() {
+        List<ArticlePreviewDto> articlePreviews = new ArrayList<>();
+        List<Article> articles = articleRepository.findTop6OrderByCreatedAtDesc();
+        for (Article article : articles) {
+            articlePreviews.add(
+                    new ArticlePreviewDto(
+                            article.getId(),
+                            article.getTitle(),
+                            article.getContent(),
+                            article.getCreatedAt().format(dateTimeFormatter),
+                            article.getUser().getNickName()
+                    )
+            );
+        }
+        return articlePreviews;
     }
 
     @Transactional

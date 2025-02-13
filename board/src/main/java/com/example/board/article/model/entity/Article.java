@@ -35,6 +35,15 @@ public class Article {
     @ManyToOne
     private User user;
 
+    public Article(String title, String content, LocalDateTime createdAt, User user) {
+        this.title = title;
+        this.content = content;
+        this.commentCount = 0L;
+        this.likeCount = 0L;
+        this.createdAt = createdAt;
+        this.user = user;
+    }
+
     public Article(String title, String content, User user) {
         this.title = title;
         this.content = content;
