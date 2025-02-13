@@ -11,7 +11,6 @@ import java.util.List;
 public interface ArticleRepository extends JpaRepository<Article, Long> {
     Page<Article> findAll(Pageable pageable);
 
-    @Query("select a from Article a order by a.createdAt desc limit 5")
-    List<Article> findTop5OrderByCreatedAtDesc();
-
+    @Query("select a from Article a order by a.createdAt desc limit 6")
+    List<Article> findTop6OrderByCreatedAtDesc();
 }

@@ -17,6 +17,7 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -27,6 +28,8 @@ public class ArticleService {
     private final ArticleRepository articleRepository;
     private final CommentRepository commentRepository;
     private final UserService userService;
+
+    private final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     @Transactional
     public Page<ArticleSummaryDto> getArticleList(int page) {
@@ -40,7 +43,7 @@ public class ArticleService {
                             article.getTitle(),
                             article.getCommentCount(),
                             article.getLikeCount(),
-                            article.getCreatedAt(),
+                            article.getCreatedAt().format(dateTimeFormatter),
                             article.getUser().getNickName()
                     )
             );
@@ -49,12 +52,24 @@ public class ArticleService {
     }
 
     @Transactional
-    public List<Article> getRecentArticleList() {
-        return articleRepository.findTop5OrderByCreatedAtDesc();
+    public List<ArticlePreviewDto> getRecentArticleList() {
+        List<ArticlePreviewDto> articlePreviews = new ArrayList<>();
+        List<Article> articles = articleRepository.findTop6OrderByCreatedAtDesc();
+        for (Article article : articles) {
+            articlePreviews.add(
+                    new ArticlePreviewDto(
+                            article.getId(),
+                            article.getTitle(),
+                            article.getContent(),
+                            article.getCreatedAt().format(dateTimeFormatter),
+                            article.getUser().getNickName()
+                    )
+            );
+        }
+        return articlePreviews;
     }
 
     @Transactional
-
     public CreateArticleResDto createArticle(CreateArticleReqDto reqDto) {
         User loginUser = userService.getLoginUser();
         Article article = new Article(
@@ -67,7 +82,7 @@ public class ArticleService {
                 article.getId(),
                 article.getTitle(),
                 article.getContent(),
-                article.getCreatedAt(),
+                article.getCreatedAt().format(dateTimeFormatter),
                 article.getUser().getNickName()
         );
     }
@@ -95,7 +110,16 @@ public class ArticleService {
             parentCommentDto.setReplies(replyDtos);
             comments.add(parentCommentDto);
         }
-        return new GetArticleDetailResDto(article, comments);
+        return new GetArticleDetailResDto(
+                article.getId(),
+                article.getTitle(),
+                article.getContent(),
+                article.getCommentCount(),
+                article.getLikeCount(),
+                article.getCreatedAt().format(dateTimeFormatter),
+                comments,
+                article.getUser().getNickName()
+        );
     }
 
     @Transactional

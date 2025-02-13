@@ -34,13 +34,18 @@
             </div>
             <div class="section-container-description-button-wrapper">
                 <div class="section-container-description" >최신 게시글</div>
-                <button class="button-special" type="button" onclick="location.href='/dashboard'">더보기</button>
+                <div class="section-container-button-wrapper">
+                    <button class="button-special" type="button" onclick="location.href='/dashboard'">더보기</button>
+                    <button th:if="${authPrincipal != 'anonymousUser'}" class="button-special" type="button" onclick="location.href='/editor'">글 작성하기</button>
+                </div>
             </div>
             <div class="section-container-content-wrapper">
                 <div class="section-container-content" th:each="article, index : ${recentArticles}">
-                    <div class="article-title" th:text="${article.title}"></div>
+                    <div class="article-title">
+                        <a th:href="@{/dashboard/{id}(id=${article.id})}" th:text="${article.title}"></a>
+                    </div>
                     <div class="article-content" th:text="${article.content}"></div>
-                    <div class="article-author" th:text="'작성자 ' + ${article.user.nickName}"></div>
+                    <div class="article-author" th:text="'작성자 ' + ${article.author}"></div>
                     <div class="article-created-at" th:text="'작성일자 '+ ${article.createdAt}"></div>
                 </div>
             </div>

@@ -1,0 +1,74 @@
+.section-container-description-button-wrapper {
+    display: flex;
+    justify-content: space-between;
+}
+
+.section-container-buttons {
+    display: flex;
+}
+
+.button-special {
+    margin-left: 10px;
+}
+
+.section-container-article {
+    margin-top: 5vh;
+}
+
+.article-info-wrapper {
+    display: flex;
+    margin-top: 1vh;
+    padding: 10px;
+    border-bottom: 1px solid #acacac;
+}
+
+.article-left-info-wrapper {
+    display: flex;
+}
+
+.article-right-info-wrapper {
+    margin-left: 30px;
+    display: flex;
+}
+
+.article-title {
+    font-size: 20px;
+}
+
+.article-created-at {
+    margin-left: 10px;
+    color: #acacac;
+}
+
+.article-comment-count {
+    display: flex;
+    margin-left: 10px;
+}
+
+.article-like-count {
+    display: flex;
+    margin-left: 10px;
+}
+
+.article-info-wrapper img {
+    width: 25px;
+}
+
+.article-content {
+    margin-top: 1vh;
+    padding: 10px;
+}
+
+/* 게시글 수정을 위한 input */
+#title-edit,
+#content-edit {
+    width: 100%;
+    font-size: 17px;
+    border: 1px solid #919191;
+    border-radius: 10px;
+}
+.error-message {
+    color: red;
+    font-size: 13px;
+}
+

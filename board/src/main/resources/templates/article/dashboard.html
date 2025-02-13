@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" th:href="@{/css/common/common.css}">
+    <link rel="stylesheet" th:href="@{/css/article/dashboard.css}">
+    <title>Document</title>
+</head>
+<body>
+<!-- 공통 header-->
+<header class="common-header">
+    <div class="common-header-container">
+        <a class="header-title" onclick="location.href='/'" cursor="pointer">서비스 로고</a>
+
+        <div th:if="${authPrincipal != 'anonymousUser'}">
+            <button type="button" onclick="location.href='/mypage'">마이페이지</button>
+            <button type="button" onclick="location.href='/logout'">로그아웃</button>
+        </div>
+        <div th:if="${authPrincipal == 'anonymousUser'}">
+            <button type="button" onclick="location.href='/login'">로그인</button>
+            <button type="button" onclick="location.href='/signup'">회원가입</button>
+        </div>
+    </div>
+</header>
+<!-- 공통 header-->
+
+<div class="container">
+    <section>
+        <div class="section-container">
+            <div class="section-container-title">
+                자유게시판
+            </div>
+            <div class="section-container-description-button-wrapper">
+                <div class="section-container-description" >전체 게시글</div>
+                <button th:if="${authPrincipal != 'anonymousUser'}" class="button-special" type="button" onclick="location.href='/editor'">글 작성하기</button>
+            </div>
+        </div>
+    </section>
+    <table class="table-header">
+        <thead>
+        <tr>
+            <th>번호</th>
+            <th>제목</th>
+            <th>작성일자</th>
+            <th>작성자</th>
+            <th>좋아요 수</th>
+            <th>댓글 수</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="article : ${pagedArticles.content}">
+            <td th:text="${article.id}"></td>
+            <td><a th:href="@{/dashboard/{id}(id=${article.id})}" th:text="${article.title}"></a></td>
+            <td th:text="${article.createdAt}"></td>
+            <td th:text="${article.author}"></td>
+            <td th:text="${article.likeCount}"></td>
+            <td th:text="${article.commentCount}"></td>
+        </tr>
+        </tbody>
+    </table>
+    <div class="pagination-wrapper" th:if="${!pagedArticles.isEmpty()}">
+        <div class="pagination"
+             th:with="
+                    pageNumber=${pagedArticles.pageable.pageNumber},
+                    pageSize=${pagedArticles.pageable.pageSize},
+                    totalPages=${pagedArticles.totalPages},
+                    startPage = ${T(java.lang.Math).floor(pageNumber / pageSize) * pageSize + 1},
+                    tempEndPage = ${startPage + pageSize - 1},
+                    endPage = (${tempEndPage < totalPages ? tempEndPage : totalPages})">
+            <div th:classappend="${pagedArticles.first} ? 'disabled'" class="page-item" th:href="${pagedArticles.first} ? '#' : @{/dashboard(page=${pageNumber - 1})}">
+                <a class="page-link" th:href="${pagedArticles.first} ? '#' : @{/dashboard(page=${pageNumber - 1})}">
+                    <span aria-hidden="true">&lt;</span>
+                </a>
+            </div>
+            <div th:each="page: ${#numbers.sequence(startPage, endPage)}" th:classappend="${page == pageNumber + 1} ? 'active'" class="page-item">
+                <a th:text="${page}" class="page-link" th:href="@{/dashboard(page=${page - 1})}"></a>
+            </div>
+            <div th:classappend="${pagedArticles.last} ? 'disabled'" class="page-item">
+                <a class="page-link" th:href="${pagedArticles.last} ? '#' : @{/dashboard(page=${pageNumber + 1})}" aria-label="Next">
+                    <span aria-hidden="true">&gt;</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- 공통 footer -->
+<footer class="common-footer">
+    <div class="common-footer-container">
+        <a class="common-footer-title" onclick="location.href='/'" cursor="pointer">서비스 로고</a>
+        <div class="common-footer-copyright">Copyright 2025. 장한빛. All rights reserved.</div>
+    </div>
+</footer>
+<!-- 공통 footer -->
+
+</body>
+</html>
