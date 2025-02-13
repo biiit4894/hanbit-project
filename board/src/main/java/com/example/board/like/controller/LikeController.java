@@ -20,8 +20,8 @@ public class LikeController {
         return new ResponseEntity<>(likeService.createLikeByArticleId(articleId), HttpStatus.CREATED);
     }
 
-    @DeleteMapping("")
-    public ResponseEntity<String> deleteLikeById(@RequestParam Long id) {
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteLikeById(@PathVariable Long id) {
         likeService.deleteLikeById(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

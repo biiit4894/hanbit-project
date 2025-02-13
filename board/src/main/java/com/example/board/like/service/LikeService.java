@@ -29,19 +29,28 @@ public class LikeService {
     public CreateArticleLikeResDto createLikeByArticleId(Long articleId) {
         Article article = articleRepository.findById(articleId).orElseThrow(() -> new IllegalArgumentException("Article Not Found"));
         User loginUser = userService.getLoginUser();
-        Like like = new Like(article, loginUser);
-        likeRepository.save(like);
 
-        article.increaseLikeCount();
+        Like like = likeRepository.findByUserIdAndArticleId(loginUser.getId(), articleId);
 
-        return new CreateArticleLikeResDto(
-                like.getId(),
-                like.getCreatedAt(),
-                like.getArticle().getId(),
-                like.getUser().getNickName()
-        );
+        if (like != null) {  // 이미 게시글에 좋아요를 누른 경우
+            // TODO: 예외 유형 적절한지 고민하기(잘못된 경로변수 전달로 인한 예외라 생각해 IllegalArgumentException을 던짐)
+            throw new IllegalArgumentException("like already created with id: " + like.getId());
+        } else {
+            Like newLike = new Like(article, loginUser);
+            likeRepository.save(newLike);
+
+            article.increaseLikeCount();
+
+            return new CreateArticleLikeResDto(
+                    newLike.getId(),
+                    newLike.getCreatedAt(),
+                    newLike.getArticle().getId(),
+                    newLike.getUser().getNickName()
+            );
+        }
     }
 
+    // TODO: 좋아요 정보 반환 기능 불필요시 삭제
     @Transactional
     public List<GetLikeDetailResDto> getAllLikesByArticleId(Long articleId) {
         List<GetLikeDetailResDto> likeDtos = new ArrayList<>();
