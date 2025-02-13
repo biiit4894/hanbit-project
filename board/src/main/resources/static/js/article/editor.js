@@ -21,15 +21,14 @@ window.onload = function () {
 
         resetErrorMessages()
 
-
         fetch(`/api/article`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                title: document.querySelector('#article-input-title').textContent,
-                content: document.querySelector('#article-input-content').textContent,
+                title: document.querySelector('#article-title').value,
+                content: document.querySelector('#article-content').value,
             })
         }).then(response => {
             console.log(response);

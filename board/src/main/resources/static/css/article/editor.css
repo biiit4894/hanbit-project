@@ -18,14 +18,14 @@
     margin-top: 2vh;
 }
 
-#article-input-title {
+#article-title {
     border: 1px solid #a2a2a2;
     border-radius: 10px;
     margin-top: 10px;
     height: 30px;
 }
 
-#article-input-content {
+#article-content {
     border: 1px solid #a2a2a2;
     margin-top: 10px;
     border-radius: 10px;
@@ -40,7 +40,7 @@
     margin-top: 3vh;
 }
 
-.input-save {
+.button-save {
     cursor: pointer;
     background-color: #4eb2ff;
     color: #ffffff;
