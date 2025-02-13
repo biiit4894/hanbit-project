@@ -90,29 +90,56 @@
 <!-- 공통 footer -->
 
 <script th:inline="javascript">
+
+    // TODO: 함수 분리
+
     // 좋아요 누르기 기능
     function createLike() {
         // 로그인 유저 정보
         let loginUser = [[${loginUserInfo}]]
+
+        // 로그인 확인
         if (!loginUser) {
-            alert("로그인이 필요합니다. ")
+            alert("로그인이 필요합니다.")
         } else {
-            // 로그인 확인 후 좋아요 생성
+
+            // 좋아요 생성
             fetch(`/api/like?articleId=${id}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 }
             }).then(response => {
-                console.log(response);
-                // 정상 생성 시 새로고침
+
                 if (response.ok) {
-                    console.log("like response: ", response);
+                    // 아직 좋아요를 누르지 않은 경우(좋아요가 정상 생성된 경우)
                     window.location.reload();
+                } else if (response.status === 400) {
+                    // 이미 좋아요를 누른 경우
+                    response.text().then(r => {
+                        // 좋아요 id
+                        const likeId = r.split(":").pop();
+
+                        // 좋아요 취소
+                        fetch(`/api/like/${likeId}`, {
+                            method: 'DELETE',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            }
+                        }).then(response => {
+                            // 정상 취소 시 새로고침
+                            if (response.ok) {
+                                window.location.reload();
+                            }
+                        }).catch(error => {
+                            console.log("Error: ", error);
+                        });
+                    });
                 }
             }).catch(error => {
                 console.log("Error: ", error);
             });
+
         }
     }
 
