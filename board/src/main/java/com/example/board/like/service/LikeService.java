@@ -3,6 +3,7 @@ package com.example.board.like.service;
 import com.example.board.article.model.entity.Article;
 import com.example.board.article.repository.ArticleRepository;
 import com.example.board.like.model.dto.CreateArticleLikeResDto;
+import com.example.board.like.model.dto.GetLikeDetailResDto;
 import com.example.board.like.model.entity.Like;
 import com.example.board.like.repository.LikeRepository;
 import com.example.board.user.model.entity.User;
@@ -11,12 +12,18 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class LikeService {
     private final UserService userService;
     private final LikeRepository likeRepository;
     private final ArticleRepository articleRepository;
+
+    private final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     @Transactional
     public CreateArticleLikeResDto createLikeByArticleId(Long articleId) {
@@ -33,6 +40,23 @@ public class LikeService {
                 like.getArticle().getId(),
                 like.getUser().getNickName()
         );
+    }
+
+    @Transactional
+    public List<GetLikeDetailResDto> getAllLikesByArticleId(Long articleId) {
+        List<GetLikeDetailResDto> likeDtos = new ArrayList<>();
+        List<Like> likes = likeRepository.findAllByArticleId(articleId);
+        for (Like like : likes) {
+            likeDtos.add(
+                    new GetLikeDetailResDto(
+                            like.getId(),
+                            like.getCreatedAt().format(dateTimeFormatter),
+                            like.getArticle().getId(),
+                            like.getUser().getNickName()
+                    )
+            );
+        }
+        return likeDtos;
     }
 
     @Transactional
