@@ -1,7 +1,6 @@
 const urlStr = window.location.href;
 const pathVariable = urlStr.split('/').pop();
-const id = parseInt(pathVariable);
-
+const id = parseInt(pathVariable); // articleId
 
 /*
     게시글 수정
@@ -69,6 +68,22 @@ function submit() {
     }).catch(error => {
         console.log("Error: ", error);
     });
+}
+
+/*
+좋아요 아이콘 박스 셰도우 표현
+ */
+function bigImg(isLarge, field) {
+    const likeIcon = document.getElementById('like-img');
+    if (isLarge) {
+        if (field === 'like') {
+            likeIcon.style.boxShadow = "0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23)";
+        }
+    } else {
+        if (field === 'like') {
+            likeIcon.style.boxShadow = "none";
+        }
+    }
 }
 
 window.onload = function () {
