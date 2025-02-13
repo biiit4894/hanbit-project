@@ -11,4 +11,5 @@ public class CreateArticleLikeResDto {
     private Long id;
     private LocalDateTime createdAt;
     private Long articleId;
+    private String author;
 }
