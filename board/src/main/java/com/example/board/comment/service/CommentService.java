@@ -76,7 +76,7 @@ public class CommentService {
             throw new AccessDeniedException("no permission to delete comment");
         }
 
-        if(comment.getParent() != null) {
+        if(comment.getParent() == null) {
             commentRepository.deleteById(id);
         }
         comment.markDeleted();

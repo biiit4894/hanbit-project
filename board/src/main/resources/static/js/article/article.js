@@ -156,6 +156,27 @@ function submitComment(commentId) {
     });
 }
 
+/*
+댓글 삭제
+ */
+function deleteComment(commentId) {
+    fetch(`/api/comment/${commentId}`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    }).then(response => {
+        console.log(response);
+        if (response.ok) {
+            alert("댓글이 삭제되었습니다.");
+            window.location.href = `/dashboard/${id}`;
+        } else {
+            alert(response);
+        }
+    }).catch(error => {
+        console.log("Error: ", error);
+    });
+}
 
 window.onload = function () {
     /*
@@ -246,9 +267,10 @@ window.onload = function () {
             if (response.ok) {
                 alert('댓글이 작성되었습니다.');
                 window.location.href = `/dashboard/${id}`;
-            } else if (response.ok === 400) {
+            } else if (response.status === 400) {
                 response.json().then(r => {
                     Object.keys(r).forEach(key => {
+                        console.log("key: ", key);
                         document.getElementById(`comment-${key}-error`).innerText = r[key];
                     })
                 })

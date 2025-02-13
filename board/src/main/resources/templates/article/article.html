@@ -96,10 +96,28 @@
 
                     <!-- 댓글 수정 / 수정 취소 / 저장 / 삭제 버튼 -->
                     <div th:if="${loginUserInfo != null && loginUserInfo.nickName == comment.author}" class="section-container-buttons">
-                        <button class="button-special comment" id="comment-update-button" type="button" onclick="toggleCommentEditMode(true)">수정</button>
-                        <button class="button-special comment" id="comment-return-button" type="button" onclick="toggleCommentEditMode(false)" style="display: none">취소</button>
-                        <button class="button-special comment" id="comment-update-save-button" type="button" th:attr="onclick=|submitComment(${comment.id})|" style="display: none">저장</button>
-                        <button class="button-special comment" id="comment-delete-button" type="button">삭제</button>
+                        <button class="button-special comment"
+                                id="comment-update-button"
+                                type="button"
+                                onclick="toggleCommentEditMode(true)">수정
+                        </button>
+                        <button class="button-special comment"
+                                id="comment-return-button"
+                                type="button"
+                                onclick="toggleCommentEditMode(false)"
+                                style="display: none">취소
+                        </button>
+                        <button class="button-special comment"
+                                id="comment-update-save-button"
+                                type="button"
+                                th:attr="onclick=|submitComment(${comment.id})|"
+                                style="display: none">저장
+                        </button>
+                        <button class="button-special comment"
+                                id="comment-delete-button"
+                                th:attr="onclick=|deleteComment(${comment.id})|"
+                                type="button">삭제
+                        </button>
                     </div>
                 </div>
 
