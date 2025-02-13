@@ -27,9 +27,9 @@ public class Like {
     @ManyToOne
     private Article article;
 
-    public Like(Article article) {
+    public Like(Article article, User loginUser) {
         this.createdAt = LocalDateTime.now();
-        this.user = null;
+        this.user = loginUser;
         this.article = article;
     }
 }

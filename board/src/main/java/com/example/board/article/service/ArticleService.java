@@ -91,6 +91,8 @@ public class ArticleService {
     public GetArticleDetailResDto getArticleDetail(Long id) {
         Article article = articleRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Article not found"));
 
+
+        // TODO: 다른 도메인 리포지토리 직접 접근하지 말기
         List<Comment> parentComments = commentRepository.findParentsByArticleId(id);
         // 부모 댓글들과 그 자식 댓글들을 모두 포함하는 목록
         List<CommentDetailDto> comments = new ArrayList<>();

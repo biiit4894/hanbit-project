@@ -1,7 +1,9 @@
 const urlStr = window.location.href;
 const pathVariable = urlStr.split('/').pop();
-const id = parseInt(pathVariable);
+const id = parseInt(pathVariable); // articleId
 
+
+let articleData;
 
 /*
     게시글 수정
@@ -71,6 +73,24 @@ function submit() {
     });
 }
 
+/*
+좋아요 아이콘 박스 셰도우 표현
+ */
+
+// TODO: 함수이름 변경
+function bigImg(isLarge, field) {
+    const likeIcon = document.getElementById('like-img');
+    if (isLarge) {
+        if (field === 'like') {
+            likeIcon.style.boxShadow = "0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23)";
+        }
+    } else {
+        if (field === 'like') {
+            likeIcon.style.boxShadow = "none";
+        }
+    }
+}
+
 window.onload = function () {
     /*
     에러 메시지 초기화
@@ -94,7 +114,9 @@ window.onload = function () {
         console.log("response");
         console.log(response);
         response.json().then(data => {
-            console.log("response.json()");
+            // 인라인 스크립트에서의 참조를 위한 위해 할당
+            articleData = data;
+
             console.log(data);
             const title = document.querySelector('.article-title');
             const author = document.querySelector('.article-author');
