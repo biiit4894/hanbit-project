@@ -6,7 +6,7 @@ const id = parseInt(pathVariable); // articleId
 let articleData;
 
 /*
-    게시글 수정
+    게시글 수정 모드 판별
      */
 
 function toggleEditMode(isEdit) {
@@ -41,7 +41,7 @@ function toggleEditMode(isEdit) {
 }
 
 /*
-게시글 작성
+게시글 수정 후 저장
  */
 function submit() {
     fetch(`/api/article/${id}`, {
@@ -156,6 +156,95 @@ window.onload = function () {
                     console.log('Error: ', error);
                 });
             }
+        });
+    }
+
+    /*
+    댓글 작성
+     */
+    const submitCommentButton = document.getElementById('comment-save-button');
+    const commentTextArea = document.getElementById('comment-content-write');
+    submitCommentButton.addEventListener('click', function (e) {
+        fetch(`/api/comment`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                articleId: articleData.id,
+                // parentId: ,
+                content: commentTextArea.value
+            })
+        }).then(response => {
+            console.log(response);
+            if (response.ok) {
+                alert('댓글이 작성되었습니다.');
+                window.location.href = `/dashboard/${id}`;
+            }
+        }).catch(error => {
+            console.log("Error: ", error);
+        });
+    });
+
+    /*
+    댓글 수정 모드 판별
+     */
+    function toggleCommentEditMode(isEdit) {
+        const contentView = document.getElementById('comment-content-view');
+        const contentEdit = document.getElementById('comment-content-edit');
+
+        const updateButton = document.getElementById('comment-update-button');
+        const returnButton = document.getElementById('comment-return-button');
+        const saveButton = document.getElementById('comment-update-save-button"');
+
+        if (isEdit) {
+            contentView.style.display = "none";
+            contentEdit.style.display = "block";
+
+            updateButton.style.display = "none";
+            returnButton.style.display = "block";
+            saveButton.style.display = "block";
+        } else {
+            if (confirm("수정을 취소합니다.")) {
+                contentView.style.display = "block";
+                contentEdit.style.display = "none";
+
+                updateButton.style.display = "block";
+                returnButton.style.display = "none";
+                saveButton.style.display = "none";
+            }
+        }
+    }
+
+    /*
+    댓글 수정 후 저장
+    */
+    function submitComment() {
+        fetch(`/api/comment/${id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                content: document.getElementById('comment-content-edit').value
+            })
+        }).then(response => {
+            console.log("response");
+            console.log(response);
+            if (response.ok) {
+                alert("댓글이 수정되었습니다.");
+                window.location.href = `/dashboard/${id}`;
+            } else if (response.status === 400) {
+                response.json().then(r => {
+                    Object.keys(r).forEach(key => {
+                        console.log("r[key]: ", r[key]);
+                        document.getElementById(`${key}-error`).innerText = r[key]; // 오류메시지 표기
+                    })
+                    console.log(r);
+                })
+            }
+        }).catch(error => {
+            console.log("Error: ", error);
         });
     }
 

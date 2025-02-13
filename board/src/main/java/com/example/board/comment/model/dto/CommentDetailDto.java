@@ -11,6 +11,7 @@ import java.util.List;
 public class CommentDetailDto {
     private Long id;
     private String content;
+    private String author;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private Boolean isDeleted;
@@ -21,6 +22,7 @@ public class CommentDetailDto {
     public CommentDetailDto(Comment parentComment) {
         this.id = parentComment.getId();
         this.content = parentComment.getContent();
+        this.author = parentComment.getUser().getNickName();
         this.createdAt = parentComment.getCreatedAt();
         this.updatedAt = parentComment.getUpdatedAt();
         this.isDeleted = parentComment.getIsDeleted();

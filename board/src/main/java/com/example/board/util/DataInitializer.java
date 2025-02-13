@@ -2,6 +2,8 @@ package com.example.board.util;
 
 import com.example.board.article.model.entity.Article;
 import com.example.board.article.repository.ArticleRepository;
+import com.example.board.comment.model.entity.Comment;
+import com.example.board.comment.repository.CommentRepository;
 import com.example.board.user.model.entity.User;
 import com.example.board.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +20,7 @@ import java.util.List;
 public class DataInitializer implements CommandLineRunner {
     private final UserRepository userRepository;
     private final ArticleRepository articleRepository;
+    private final CommentRepository commentRepository;
     private final BCryptPasswordEncoder encoder;
 
     @Override
@@ -62,6 +65,37 @@ public class DataInitializer implements CommandLineRunner {
             }
 
             articleRepository.saveAll(articles);
+
+            List<Comment> comments = new ArrayList<>();
+            for (int i = 1; i <= 100; i++) {
+                comments.add(
+                        new Comment(
+                                "첫 유저가 게시글 id" + i + " 에 작성한 댓글입니다. ",
+                                LocalDateTime.now().plusSeconds(i),
+                                false,
+                                articles.get(i - 1),
+                                null,
+                                null,
+                                user1
+                        )
+
+                );
+
+                comments.add(
+                        new Comment(
+                                "두번째 유저가 게시글 id" + i + " 에 작성한 댓글입니다. ",
+                                LocalDateTime.now().plusSeconds(i),
+                                false,
+                                articles.get(i - 1),
+                                null,
+                                null,
+                                user2
+                        )
+
+                );
+            }
+
+            commentRepository.saveAll(comments);
         }
 
 
