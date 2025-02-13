@@ -12,11 +12,14 @@ import com.example.board.user.model.entity.User;
 import com.example.board.user.repository.UserRepository;
 import com.example.board.user.service.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Objects;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class CommentService {
@@ -38,7 +41,12 @@ public class CommentService {
         Long id = userService.getLoginUserInfo().getId();
         User loginUser = userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("User Not Found"));
 
-        Comment comment = new Comment(reqDto.getContent(), article, parent, loginUser);
+        Comment comment = new Comment(
+                reqDto.getContent(),
+                article,
+                parent,
+                loginUser
+        );
         commentRepository.save(comment);
 
         article.increaseCommentCount();
@@ -50,7 +58,7 @@ public class CommentService {
         Comment comment = commentRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("No Comment Found"));
         String authorUserId = comment.getUser().getUserId();
         String loginUserId = userService.getLoginUserInfo().getUserId();
-        if (!authorUserId.equals(loginUserId)) {
+        if (!Objects.equals(authorUserId, loginUserId)) {
             throw new AccessDeniedException("no permission to update comment");
         }
         comment.updateContent(reqDto.getContent());

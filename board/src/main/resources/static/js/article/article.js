@@ -91,6 +91,72 @@ function bigImg(isLarge, field) {
     }
 }
 
+/*
+    댓글 수정 모드 판별
+     */
+function toggleCommentEditMode(isEdit) {
+    const contentView = document.getElementById('comment-content-view');
+    const contentEdit = document.getElementById('comment-content-edit');
+
+    const updateButton = document.getElementById('comment-update-button');      // 댓글 수정모드 전환 버튼
+    const returnButton = document.getElementById('comment-return-button');      // 댓글 수정 취소 버튼
+    const saveButton = document.getElementById('comment-update-save-button');  // 댓글 수정 내역 저장 버튼
+    const deleteButton = document.getElementById('comment-delete-button');      // 댓글 삭제 버튼
+    if (isEdit) {
+        contentView.style.display = "none";
+        contentEdit.style.display = "block";
+
+        updateButton.style.display = "none";
+        returnButton.style.display = "block";
+        saveButton.style.display = "block";
+        deleteButton.style.display = "none"
+    } else {
+        if (confirm("수정을 취소합니다.")) {
+            contentView.style.display = "block";
+            contentEdit.style.display = "none";
+
+            updateButton.style.display = "block";
+            returnButton.style.display = "none";
+            saveButton.style.display = "none";
+            deleteButton.style.display = "block"
+        }
+    }
+}
+
+/*
+댓글 수정 후 저장
+*/
+function submitComment(commentId) {
+    fetch(`/api/comment/${commentId}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            content: document.getElementById('comment-content-edit').value
+        })
+    }).then(response => {
+        console.log("댓글 저장 후 value: ", document.getElementById('comment-content-edit').value)
+        console.log("response");
+        console.log(response);
+        if (response.ok) {
+            alert("댓글이 수정되었습니다.");
+            window.location.href = `/dashboard/${id}`;
+        } else if (response.status === 400) {
+            response.json().then(r => {
+                Object.keys(r).forEach(key => {
+                    console.log("r[key]: ", r[key]);
+                    document.getElementById(`comment-${key}-edit-error`).innerText = r[key]; // 오류메시지 표기
+                })
+                console.log(r);
+            })
+        }
+    }).catch(error => {
+        console.log("Error: ", error);
+    });
+}
+
+
 window.onload = function () {
     /*
     에러 메시지 초기화
@@ -180,72 +246,18 @@ window.onload = function () {
             if (response.ok) {
                 alert('댓글이 작성되었습니다.');
                 window.location.href = `/dashboard/${id}`;
+            } else if (response.ok === 400) {
+                response.json().then(r => {
+                    Object.keys(r).forEach(key => {
+                        document.getElementById(`comment-${key}-error`).innerText = r[key];
+                    })
+                })
             }
         }).catch(error => {
             console.log("Error: ", error);
         });
     });
 
-    /*
-    댓글 수정 모드 판별
-     */
-    function toggleCommentEditMode(isEdit) {
-        const contentView = document.getElementById('comment-content-view');
-        const contentEdit = document.getElementById('comment-content-edit');
 
-        const updateButton = document.getElementById('comment-update-button');
-        const returnButton = document.getElementById('comment-return-button');
-        const saveButton = document.getElementById('comment-update-save-button"');
-
-        if (isEdit) {
-            contentView.style.display = "none";
-            contentEdit.style.display = "block";
-
-            updateButton.style.display = "none";
-            returnButton.style.display = "block";
-            saveButton.style.display = "block";
-        } else {
-            if (confirm("수정을 취소합니다.")) {
-                contentView.style.display = "block";
-                contentEdit.style.display = "none";
-
-                updateButton.style.display = "block";
-                returnButton.style.display = "none";
-                saveButton.style.display = "none";
-            }
-        }
-    }
-
-    /*
-    댓글 수정 후 저장
-    */
-    function submitComment() {
-        fetch(`/api/comment/${id}`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                content: document.getElementById('comment-content-edit').value
-            })
-        }).then(response => {
-            console.log("response");
-            console.log(response);
-            if (response.ok) {
-                alert("댓글이 수정되었습니다.");
-                window.location.href = `/dashboard/${id}`;
-            } else if (response.status === 400) {
-                response.json().then(r => {
-                    Object.keys(r).forEach(key => {
-                        console.log("r[key]: ", r[key]);
-                        document.getElementById(`${key}-error`).innerText = r[key]; // 오류메시지 표기
-                    })
-                    console.log(r);
-                })
-            }
-        }).catch(error => {
-            console.log("Error: ", error);
-        });
-    }
 
 };
