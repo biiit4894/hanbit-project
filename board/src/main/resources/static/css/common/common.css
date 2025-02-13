@@ -30,6 +30,18 @@ a {
     font-size: 30px;
 }
 
+.login-header-text-wrapper {
+    text-align: right;
+    margin-bottom: 5px;
+    font-size: 15px;
+    color: #a5a5a5;
+}
+
+.login-header-text-wrapper span {
+    font-size: 15px;
+    color: #a5a5a5;
+}
+
 /* 공통 푸터 css 통일 */
 .common-footer {
     display: flex;

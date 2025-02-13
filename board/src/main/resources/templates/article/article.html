@@ -16,9 +16,15 @@
     <div class="common-header-container">
         <a class="header-title" onclick="location.href='/'" cursor="pointer">서비스 로고</a>
 
-        <div th:if="${authPrincipal != 'anonymousUser'}">
-            <button type="button" onclick="location.href='/mypage'">마이페이지</button>
-            <button type="button" onclick="location.href='/logout'">로그아웃</button>
+        <div th:if="${authPrincipal != 'anonymousUser' && loginUserInfo != null}">
+            <div class="login-header-text-wrapper">
+                <span th:text="${loginUserInfo.nickName}"></span>님, 환영합니다.
+            </div>
+            <div class="login-header-button-wrapper">
+                <button type="button" onclick="location.href='/mypage'">마이페이지</button>
+                <button type="button" onclick="location.href='/logout'">로그아웃</button>
+            </div>
+
         </div>
         <div th:if="${authPrincipal == 'anonymousUser'}">
             <button type="button" onclick="location.href='/login'">로그인</button>
