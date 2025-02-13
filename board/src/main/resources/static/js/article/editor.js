@@ -36,7 +36,6 @@ window.onload = function () {
                 alert('게시글이 저장되었습니다.');
                 window.location.href = '/dashboard';
             } else if (response.status === 400) {
-                // alert('게시글이 저장에 실패했습니다.');
                 response.json().then(r => {
                     Object.keys(r).forEach(key => {
                         console.log("r[key]: ", r[key]);

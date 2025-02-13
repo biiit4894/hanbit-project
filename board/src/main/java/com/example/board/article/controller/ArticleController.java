@@ -49,7 +49,16 @@ public class ArticleController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UpdateArticleResDto> updateArticle(@PathVariable Long id, @RequestBody UpdateArticleReqDto updateArticleReqDto) {
+    public ResponseEntity<UpdateArticleResDto> updateArticle(@PathVariable Long id, @Valid @RequestBody UpdateArticleReqDto updateArticleReqDto, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            Map<String, String> errorMap = new HashMap<>();
+            for (FieldError error : bindingResult.getFieldErrors()) {
+                errorMap.put(error.getField(), error.getDefaultMessage());
+                log.info("update article error defaultMessage: {}", error.getDefaultMessage());
+            }
+            throw new CustomValidationException("유효성 검사 실패", errorMap);
+
+        }
         return new ResponseEntity<>(articleService.updateArticle(id, updateArticleReqDto), HttpStatus.OK);
     }
 

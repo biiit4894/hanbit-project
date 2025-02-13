@@ -3,6 +3,14 @@
     justify-content: space-between;
 }
 
+.section-container-buttons {
+    display: flex;
+}
+
+.button-special {
+    margin-left: 10px;
+}
+
 .section-container-article {
     margin-top: 5vh;
 }
@@ -50,3 +58,17 @@
     margin-top: 1vh;
     padding: 10px;
 }
+
+/* 게시글 수정을 위한 input */
+#title-edit,
+#content-edit {
+    width: 100%;
+    font-size: 17px;
+    border: 1px solid #919191;
+    border-radius: 10px;
+}
+.error-message {
+    color: red;
+    font-size: 13px;
+}
+

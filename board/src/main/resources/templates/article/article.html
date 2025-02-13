@@ -36,12 +36,19 @@
         <div class="section-container-description-button-wrapper">
             <div class="section-container-description" >게시글 상세조회</div>
             <div th:if="${loginUserInfo != null && loginUserInfo.nickName == articleDetail.author}" class="section-container-buttons">
-                <button class="button-special" type="button" onclick="location.href='#'">수정</button>
+                <button class="button-special" id="article-update-button" type="button" onclick="toggleEditMode(true)">수정</button>
+                <button class="button-special" id="article-return-button" type="button" onclick="toggleEditMode(false)" style="display: none">취소</button>
+                <button class="button-special" id="article-save-button" type="button" onclick="submit()" style="display: none">저장</button>
                 <button class="button-special" id="article-delete-button" type="button">삭제</button>
             </div>
         </div>
         <div class="section-container-article">
-            <div class="article-title"></div>
+            <div class="article-title-wrapper" >
+                <div class="article-title" id="title-view" th:text="${articleDetail.title}"></div>
+                <label for="title-edit"></label>
+                <input class="edit-element" id="title-edit"  type="text" name="title" th:value="${articleDetail.title}" style="display: none" required/>
+                <span class="error-message" id="title-error"></span>
+            </div>
             <div class="article-info-wrapper">
                 <div class="article-left-info-wrapper">
                     <div class="article-author"></div>
@@ -58,7 +65,13 @@
                     </div>
                 </div>
             </div>
-            <div class="article-content"></div>
+            <div class="article-content-wrapper">
+                <div id="content-view" class="article-content"  th:text="${articleDetail.content}"></div>
+                <label for="content-edit"></label>
+                <textarea id="content-edit" class="edit-element" name="content" th:text="${articleDetail.content}" style="display: none" rows="20" cols="50" required></textarea>
+                <span class="error-message" id="content-error"></span>
+            </div>
+
         </div>
     </div>
 
