@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" th:href="@{/css/common/common.css}">
+    <link rel="stylesheet" th:href="@{/css/user/signout.css}">
+    <script th:src="@{/js/user/signout.js}"></script>
+    <title>Document</title>
+</head>
+<body>
+    <!-- 공통 header-->
+    <header class="common-header">
+        <div class="common-header-container">
+            <a class="header-title" onclick="location.href='/'" cursor="pointer">서비스 로고</a>
+
+            <div th:if="${authPrincipal != 'anonymousUser' && loginUserInfo != null}">
+                <div class="login-header-text-wrapper">
+                    <span th:text="${loginUserInfo.nickName}"></span>님, 환영합니다.
+                </div>
+                <div class="login-header-button-wrapper">
+                    <button type="button" onclick="location.href='/mypage'">마이페이지</button>
+                    <button type="button" onclick="location.href='/logout'">로그아웃</button>
+                </div>
+
+            </div>
+            <div th:if="${authPrincipal == 'anonymousUser'}">
+                <button type="button" onclick="location.href='/login'">로그인</button>
+                <button type="button" onclick="location.href='/signup'">회원가입</button>
+            </div>
+        </div>
+    </header>
+    <!-- 공통 header-->
+
+    <section>
+        <div class="section-container">
+            <div class="section-container-title">
+                회원 탈퇴
+            </div>
+            <div class="section-container-description" >비밀번호를 입력해 회원 탈퇴를 진행합니다.</div>
+
+            <form id="signout-form">
+                <label>
+                    <input id="signout-form-password-input" type="password" name="password" placeholder="비밀번호" required>
+                </label>
+                <input type="submit" value="확인">
+            </form>
+        </div>
+    </section>
+
+    <!-- 공통 footer -->
+    <footer class="common-footer">
+        <div class="common-footer-container">
+            <a class="common-footer-title" onclick="location.href='/'" cursor="pointer">서비스 로고</a>
+            <div class="common-footer-copyright">Copyright 2025. 장한빛. All rights reserved.</div>
+        </div>
+    </footer>
+    <!-- 공통 footer -->
+</body>
+</html>
