@@ -26,6 +26,8 @@ public class DataInitializer implements CommandLineRunner {
     @Override
     public void run(String[] args) {
         if (userRepository.count() == 0) {
+
+            // 테스트용 유저 2인 생성
             List<User> testUsers = new ArrayList<>();
 
             User user1 = new User(
@@ -47,6 +49,7 @@ public class DataInitializer implements CommandLineRunner {
 
             userRepository.saveAll(testUsers);
 
+            // 유저 1인당 100개 게시글 생성
             List<Article> articles = new ArrayList<>();
             for (int i = 1; i <= 100; i++) {
                 articles.add(
@@ -66,8 +69,10 @@ public class DataInitializer implements CommandLineRunner {
 
             articleRepository.saveAll(articles);
 
+            // 유저 1인당 100개 댓글 작성
             List<Comment> comments = new ArrayList<>();
             for (int i = 1; i <= 100; i++) {
+                // 첫 유저 댓글 작성
                 comments.add(
                         new Comment(
                                 "첫 유저가 게시글 id" + i + " 에 작성한 댓글입니다. ",
@@ -80,7 +85,11 @@ public class DataInitializer implements CommandLineRunner {
                         )
 
                 );
+                // 게시글 댓글 수 반영
+                Article article = articles.get(i - 1);
+                article.increaseCommentCount();
 
+                // 두 번째 유저 댓글 작성
                 comments.add(
                         new Comment(
                                 "두번째 유저가 게시글 id" + i + " 에 작성한 댓글입니다. ",
@@ -93,6 +102,9 @@ public class DataInitializer implements CommandLineRunner {
                         )
 
                 );
+                // 게시글 댓글 수 반영
+                article.increaseCommentCount();
+                articleRepository.save(article);
             }
 
             commentRepository.saveAll(comments);
