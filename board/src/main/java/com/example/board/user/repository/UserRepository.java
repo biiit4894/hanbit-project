@@ -11,6 +11,10 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByUserId(String userId);
 
+    Optional<User> findByNickName(String nickName);
+
+    Optional<User> findByEmail(String email);
+
     @Modifying
     @Query("UPDATE User u SET u.deletedAt = CURRENT_TIMESTAMP WHERE u.id = :id")
     void updateDeletedAt(@Param("id") Long id);

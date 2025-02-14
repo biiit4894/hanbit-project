@@ -26,6 +26,16 @@ public class UserService {
     @Transactional
     public SignupResDto createUser(SignupReqDto reqDto) {
 
+        if (userRepository.findByUserId(reqDto.getUserId()).isPresent()) {
+            throw new IllegalArgumentException("이미 사용중인 아이디입니다.");
+        }
+        if (userRepository.findByNickName(reqDto.getNickName()).isPresent()) {
+            throw new IllegalArgumentException("이미 사용중인 별명입니다.");
+        }
+        if (userRepository.findByEmail(reqDto.getEmail()).isPresent()) {
+            throw new IllegalArgumentException("이미 사용중인 이메일입니다.");
+        }
+
         User user = new User(
                 reqDto.getUserId(),
                 encoder.encode(reqDto.getPassword()),
