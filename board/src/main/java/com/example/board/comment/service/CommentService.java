@@ -2,11 +2,8 @@ package com.example.board.comment.service;
 
 import com.example.board.article.model.entity.Article;
 import com.example.board.article.repository.ArticleRepository;
-import com.example.board.comment.model.dto.UpateCommentReqDto;
-import com.example.board.comment.model.dto.UpdateCommentResDto;
+import com.example.board.comment.model.dto.*;
 import com.example.board.comment.model.entity.Comment;
-import com.example.board.comment.model.dto.CreateCommentReqDto;
-import com.example.board.comment.model.dto.CreateCommentResDto;
 import com.example.board.comment.repository.CommentRepository;
 import com.example.board.user.model.entity.User;
 import com.example.board.user.repository.UserRepository;
@@ -17,6 +14,8 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Slf4j
@@ -82,7 +81,30 @@ public class CommentService {
         } else {
             commentRepository.deleteById(id);
         }
-//        comment.markDeleted();
         article.decreaseCommentCount();
+    }
+
+    @Transactional
+    public List<CommentDetailDto> getParentCommentsByArticleId(Long id) {
+        // 부모 댓글들과 그 자식 댓글들을 모두 포함하는 목록
+
+        List<Comment> parentComments = commentRepository.findParentsByArticleId(id);
+        List<CommentDetailDto> comments = new ArrayList<>();
+
+        for (Comment parentComment : parentComments) {
+            // 부모 댓글의 상세 내역 조회
+            CommentDetailDto parentCommentDto = new CommentDetailDto(parentComment);
+
+            List<Comment> replies = commentRepository.findRepliesByParentId(parentComment.getId());
+            List<CommentDetailDto> replyDtos = new ArrayList<>();
+            for (Comment reply : replies) {
+                replyDtos.add(new CommentDetailDto(reply));
+            }
+
+            parentCommentDto.setReplies(replyDtos);
+            comments.add(parentCommentDto);
+        }
+
+        return comments;
     }
 }

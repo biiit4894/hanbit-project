@@ -1,6 +1,7 @@
 package com.example.board.user.controller;
 
 import com.example.board.user.service.UserService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class UserViewController {
     private final UserService userService;
 
+    @Tag(name = "user-view", description = "유저 뷰 API")
     @GetMapping("/login")
     public String login(
             Model model,
@@ -30,18 +32,21 @@ public class UserViewController {
         return "user/login";
     }
 
+    @Tag(name = "user", description = "유저 API")
     @GetMapping("/logout")
     public String logout(HttpServletRequest request, HttpServletResponse response) {
         new SecurityContextLogoutHandler().logout(request, response, SecurityContextHolder.getContext().getAuthentication());
         return "redirect:/";
     }
 
+    @Tag(name = "user-view", description = "유저 뷰 API")
     @GetMapping("/signup")
     public String signup(Model model) {
         model.addAttribute("authPrincipal", userService.getAuthenticationPrincipal());
         return "user/signup";
     }
 
+    @Tag(name = "user-view", description = "유저 뷰 API")
     @GetMapping("/mypage")
     public String mypage(Model model) {
         model.addAttribute("authPrincipal", userService.getAuthenticationPrincipal());
@@ -49,6 +54,7 @@ public class UserViewController {
         return "user/mypage";
     }
 
+    @Tag(name = "user-view", description = "유저 뷰 API")
     @GetMapping("/signout")
     public String signout(Model model) {
         model.addAttribute("authPrincipal", userService.getAuthenticationPrincipal());

@@ -33,7 +33,6 @@ public class LikeService {
         Like like = likeRepository.findByUserIdAndArticleId(loginUser.getId(), articleId);
 
         if (like != null) {  // 이미 게시글에 좋아요를 누른 경우
-            // TODO: 예외 유형 적절한지 고민하기(잘못된 경로변수 전달로 인한 예외라 생각해 IllegalArgumentException을 던짐)
             throw new IllegalArgumentException("like already created with id: " + like.getId());
         } else {
             Like newLike = new Like(article, loginUser);
@@ -48,24 +47,6 @@ public class LikeService {
                     newLike.getUser().getNickName()
             );
         }
-    }
-
-    // TODO: 좋아요 정보 반환 기능 불필요시 삭제
-    @Transactional
-    public List<GetLikeDetailResDto> getAllLikesByArticleId(Long articleId) {
-        List<GetLikeDetailResDto> likeDtos = new ArrayList<>();
-        List<Like> likes = likeRepository.findAllByArticleId(articleId);
-        for (Like like : likes) {
-            likeDtos.add(
-                    new GetLikeDetailResDto(
-                            like.getId(),
-                            like.getCreatedAt().format(dateTimeFormatter),
-                            like.getArticle().getId(),
-                            like.getUser().getNickName()
-                    )
-            );
-        }
-        return likeDtos;
     }
 
     @Transactional

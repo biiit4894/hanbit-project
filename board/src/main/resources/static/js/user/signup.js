@@ -28,6 +28,16 @@ window.onload = function () {
                 if (response.ok) {
                     alert('회원가입이 완료되었습니다.');
                     window.location.href = '/login'; // 회원가입 완료 후 로그인 페이지로 이동
+                } else if (response.status === 400) {
+                    response.json().then(r => {
+                        if (r.message.includes("이미 사용중인 아이디입니다.")) {
+                            document.getElementById("userId-error").innerText = r.message;
+                        } else if (r.message.includes("이미 사용중인 별명입니다.")) {
+                            document.getElementById("nickName-error").innerText = r.message;
+                        } else if (r.message.includes("이미 사용중인 이메일입니다.")) {
+                            document.getElementById("email-error").innerText = r.message;
+                        }
+                    })
                 } else {
                     response.json().then(r => {
                         Object.keys(r).forEach(key => {

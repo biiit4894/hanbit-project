@@ -14,8 +14,6 @@ public class UpdateArticleResDto {
     private String content;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-    // TODO : updatedAt 정보도 정말 필요할지 고민
-    // TODO : 작성자 정보 포함
 
     public UpdateArticleResDto(Article article) {
         this.id = article.getId();
