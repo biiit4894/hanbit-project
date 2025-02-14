@@ -100,8 +100,13 @@
 </details>
 
 ## 🛠 사용 기술 스택
-- Java 17, Gradle
-- Spring Boot 3.4.2
-- JPA (Hibernate), H2 Database
-- Spring Security 3.4.2
-- Thymeleaf, HTML/CSS, Javascript
+- 언어 및 빌드 도구
+  - Java 17, Gradle
+- 프레임워크
+  - Spring Boot 3.4.2
+- 데이터베이스, ORM
+  - H2 Database, JPA (Hibernate) 
+- 보안
+  - Spring Security 3.4.2
+- UI 구현
+  - Thymeleaf, HTML/CSS, Javascript
