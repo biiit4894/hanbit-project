@@ -50,6 +50,7 @@ public class CommentService {
         commentRepository.save(comment);
 
         article.increaseCommentCount();
+        articleRepository.save(article);
         return new CreateCommentResDto(comment);
     }
 
@@ -76,10 +77,12 @@ public class CommentService {
             throw new AccessDeniedException("no permission to delete comment");
         }
 
-        if(comment.getParent() == null) {
+        if(!comment.getReplies().isEmpty()) {
+            comment.markDeleted(); // 부모 댓글은 삭제하지 않는다.
+        } else {
             commentRepository.deleteById(id);
         }
-        comment.markDeleted();
+//        comment.markDeleted();
         article.decreaseCommentCount();
     }
 }

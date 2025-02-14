@@ -5,6 +5,15 @@ const id = parseInt(pathVariable); // articleId
 
 let articleData;
 
+// 에러 메시지 초기화 함수
+function resetErrorMessages() {
+    document.querySelectorAll('.error-message').forEach(message => {
+        if (message.innerText.length !== 0) {
+            message.innerText = ' ';
+        }
+    });
+}
+
 // 게시글 수정 모드 판별
 function toggleEditMode(isEdit)
 {
@@ -40,6 +49,7 @@ function toggleEditMode(isEdit)
 
 // 게시글 수정 후 저장
 function submit() {
+    resetErrorMessages();
     fetch(`/api/article/${id}`, {
         method: 'PUT',
         headers: {
@@ -114,8 +124,9 @@ function toggleCommentEditMode(isEdit) {
     }
 }
 
-// 댓글 수정 후 저장
-function submitComment(commentId) {
+// 댓글 수정
+function updateComment(commentId) {
+    resetErrorMessages()
     fetch(`/api/comment/${commentId}`, {
         method: 'PUT',
         headers: {
@@ -147,22 +158,25 @@ function submitComment(commentId) {
 
 // 댓글 삭제
 function deleteComment(commentId) {
-    fetch(`/api/comment/${commentId}`, {
-        method: 'DELETE',
-        headers: {
-            'Content-Type': 'application/json',
-        }
-    }).then(response => {
-        console.log(response);
-        if (response.ok) {
-            alert("댓글이 삭제되었습니다.");
-            window.location.href = `/dashboard/${id}`;
-        } else {
-            alert(response);
-        }
-    }).catch(error => {
-        console.log("Error: ", error);
-    });
+    if (confirm('댓글을 삭제하시겠습니까?')) {
+        fetch(`/api/comment/${commentId}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        }).then(response => {
+            console.log(response);
+            if (response.ok) {
+                alert("댓글이 삭제되었습니다.");
+                window.location.href = `/dashboard/${id}`;
+            } else {
+                alert(response);
+            }
+        }).catch(error => {
+            console.log("Error: ", error);
+        });
+    }
+
 }
 
 // 답글 작성 모드 판별
@@ -174,6 +188,8 @@ function toggleCommentReply(id) {
 
 // 답글 작성
 function submitCommentReply(parentId) {
+    resetErrorMessages();
+
     const replyCommentTextArea = document.getElementById(`comment-${parentId}-reply-content-write`);
     console.log(replyCommentTextArea);
     fetch(`/api/comment`, {
@@ -195,10 +211,10 @@ function submitCommentReply(parentId) {
         } else if (response.status === 400) {
             response.json().then(r => {
                 Object.keys(r).forEach(key => {
-                    console.log("key: ", key);
-                    document.getElementById(`comment-${id}-reply-${key}-error`).innerText = r[key];
+                    document.getElementById(`comment-${parentId}-reply-${key}-error`).innerText = r[key];
                 })
             })
+            alert('다시 시도해주세요.');
         }
     }).catch(error => {
         console.log("Error: ", error);
@@ -215,9 +231,6 @@ function toggleReplyEditMode(isEdit, id) {
     const replyUpdateCancleButton = document.getElementById(`reply-${id}-cancel-button`);      // 댓글 수정 취소 버튼
     const replyUpdateSaveButton = document.getElementById(`reply-${id}-update-save-button`);  // 댓글 수정 내역 저장 버튼
     const replyDeleteButton = document.getElementById(`reply-${id}-delete-button`);
-
-    console.log(replyEditElement);
-    console.log(replyViewElement);
 
     if (isEdit) {
         replyEditElement.style.display = "block";
@@ -239,13 +252,40 @@ function toggleReplyEditMode(isEdit, id) {
     }
 }
 
+// 답글 수정
+function updateReplyComment(replyCommentId) {
+    resetErrorMessages();
+
+    fetch(`/api/comment/${replyCommentId}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            content: document.getElementById(`reply-${replyCommentId}-content-edit`).value
+        })
+    }).then(response => {
+        console.log(response);
+        if (response.ok) {
+            alert("답글이 수정되었습니다.");
+            window.location.href = `/dashboard/${id}`;
+        } else if (response.status === 400) {
+            response.json().then(r => {
+                Object.keys(r).forEach(key => {
+                    console.log("r[key]: ", r[key]);
+                    document.getElementById(`reply-${replyCommentId}-${key}-error`).innerText = r[key]; // 오류메시지 표기
+                })
+                console.log(r);
+            })
+        }
+    }).catch(error => {
+        console.log("Error: ", error);
+    });
+}
+
 window.onload = function () {
     // 에러 메시지 초기화
-    document.querySelectorAll('.error-message').forEach(message => {
-        if (message.innerText.length !== 0) {
-            message.innerText = ' ';
-        }
-    });
+    resetErrorMessages();
 
     // 게시글 상세조회
     fetch(`/api/article/${id}`, {
@@ -326,6 +366,8 @@ window.onload = function () {
                         document.getElementById(`comment-${key}-error`).innerText = r[key];
                     })
                 })
+                alert('다시 시도해주세요.');
+
             }
         }).catch(error => {
             console.log("Error: ", error);

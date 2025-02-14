@@ -1,5 +1,6 @@
 package com.example.board.article.model.entity;
 
+import com.example.board.comment.model.entity.Comment;
 import com.example.board.user.model.entity.User;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -8,6 +9,8 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Entity
@@ -34,6 +37,9 @@ public class Article {
 
     @ManyToOne
     private User user;
+
+    @OneToMany(mappedBy = "article", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Comment> comments = new ArrayList<>();
 
     public Article(String title, String content, LocalDateTime createdAt, User user) {
         this.title = title;

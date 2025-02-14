@@ -9,10 +9,7 @@ import com.example.board.comment.repository.CommentRepository;
 import com.example.board.user.model.entity.User;
 import com.example.board.user.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.*;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,7 +30,7 @@ public class ArticleService {
 
     @Transactional
     public Page<ArticleSummaryDto> getArticleList(int page) {
-        Pageable pageable = PageRequest.of(page, 10);
+        Pageable pageable = PageRequest.of(page, 10, Sort.by(Sort.Direction.DESC, "createdAt"));
         Page<Article> articles = articleRepository.findAll(pageable);
         List<ArticleSummaryDto> articleSummaryList = new ArrayList<>();
         for (Article article : articles.getContent()) {
@@ -78,6 +75,7 @@ public class ArticleService {
                 loginUser
         );
         articleRepository.save(article);
+        articleRepository.flush();
         return new CreateArticleResDto(
                 article.getId(),
                 article.getTitle(),
