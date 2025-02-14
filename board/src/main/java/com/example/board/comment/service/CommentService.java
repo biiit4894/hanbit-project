@@ -50,6 +50,7 @@ public class CommentService {
         commentRepository.save(comment);
 
         article.increaseCommentCount();
+        articleRepository.save(article);
         return new CreateCommentResDto(comment);
     }
 

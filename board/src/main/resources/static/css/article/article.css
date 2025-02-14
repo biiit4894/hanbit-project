@@ -108,6 +108,11 @@
     padding: 10px 15px;
 }
 
+/* 댓글 작성자에게만 보이는 버튼(댓글 수정, 수정 취소, 삭제, 저장)*/
+.section-container-author-buttons {
+    display: flex;
+}
+
 /* 답글 정보(아이콘 + 답글 + 버튼)*/
 .comment-reply-wrapper {
     display: flex;

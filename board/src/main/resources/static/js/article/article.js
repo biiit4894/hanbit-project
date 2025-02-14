@@ -229,9 +229,6 @@ function toggleReplyEditMode(isEdit, id) {
     const replyUpdateSaveButton = document.getElementById(`reply-${id}-update-save-button`);  // 댓글 수정 내역 저장 버튼
     const replyDeleteButton = document.getElementById(`reply-${id}-delete-button`);
 
-    console.log(replyEditElement);
-    console.log(replyViewElement);
-
     if (isEdit) {
         replyEditElement.style.display = "block";
         replyViewElement.style.display = "none";
@@ -262,11 +259,9 @@ function updateReplyComment(replyCommentId) {
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-            content: document.getElementById('comment-content-edit').value
+            content: document.getElementById(`reply-${replyCommentId}-content-edit`).value
         })
     }).then(response => {
-        console.log("답글 저장 후 value: ", document.getElementById(`reply-${replyCommentId}-content-edit`).value)
-        console.log("response");
         console.log(response);
         if (response.ok) {
             alert("답글이 수정되었습니다.");
