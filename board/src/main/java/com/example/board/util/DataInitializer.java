@@ -76,7 +76,7 @@ public class DataInitializer implements CommandLineRunner {
                 comments.add(
                         new Comment(
                                 "첫 유저가 게시글 id" + i + " 에 작성한 댓글입니다. ",
-                                LocalDateTime.now().plusSeconds(i),
+                                LocalDateTime.now().plusSeconds(1),
                                 false,
                                 articles.get(i - 1),
                                 null,
@@ -93,7 +93,7 @@ public class DataInitializer implements CommandLineRunner {
                 comments.add(
                         new Comment(
                                 "두번째 유저가 게시글 id" + i + " 에 작성한 댓글입니다. ",
-                                LocalDateTime.now().plusSeconds(i),
+                                LocalDateTime.now().plusSeconds(1),
                                 false,
                                 articles.get(i - 1),
                                 null,

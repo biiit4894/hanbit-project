@@ -158,22 +158,25 @@ function updateComment(commentId) {
 
 // 댓글 삭제
 function deleteComment(commentId) {
-    fetch(`/api/comment/${commentId}`, {
-        method: 'DELETE',
-        headers: {
-            'Content-Type': 'application/json',
-        }
-    }).then(response => {
-        console.log(response);
-        if (response.ok) {
-            alert("댓글이 삭제되었습니다.");
-            window.location.href = `/dashboard/${id}`;
-        } else {
-            alert(response);
-        }
-    }).catch(error => {
-        console.log("Error: ", error);
-    });
+    if (confirm('댓글을 삭제하시겠습니까?')) {
+        fetch(`/api/comment/${commentId}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        }).then(response => {
+            console.log(response);
+            if (response.ok) {
+                alert("댓글이 삭제되었습니다.");
+                window.location.href = `/dashboard/${id}`;
+            } else {
+                alert(response);
+            }
+        }).catch(error => {
+            console.log("Error: ", error);
+        });
+    }
+
 }
 
 // 답글 작성 모드 판별
