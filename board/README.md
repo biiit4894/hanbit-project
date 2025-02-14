@@ -30,6 +30,7 @@
 
 
 ## 📑 API 명세서
+http://localhost:8080/swagger-ui/index.html
 
 ## ⛏ ERD
 <img src="ERD.png">
