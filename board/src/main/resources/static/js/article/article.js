@@ -5,11 +5,9 @@ const id = parseInt(pathVariable); // articleId
 
 let articleData;
 
-/*
-    게시글 수정 모드 판별
-     */
-
-function toggleEditMode(isEdit) {
+// 게시글 수정 모드 판별
+function toggleEditMode(isEdit)
+{
     const titleView = document.getElementById('title-view');
     const titleEdit = document.getElementById('title-edit');
     const contentView = document.getElementById('content-view');
@@ -40,9 +38,7 @@ function toggleEditMode(isEdit) {
     }
 }
 
-/*
-게시글 수정 후 저장
- */
+// 게시글 수정 후 저장
 function submit() {
     fetch(`/api/article/${id}`, {
         method: 'PUT',
@@ -73,12 +69,9 @@ function submit() {
     });
 }
 
-/*
-좋아요 아이콘 박스 셰도우 표현
- */
 
-// TODO: 함수이름 변경
-function bigImg(isLarge, field) {
+// 좋아요 아이콘 박스 셰도우 표현
+function imgHighLight(isLarge, field) {
     const likeIcon = document.getElementById('like-img');
     if (isLarge) {
         if (field === 'like') {
@@ -91,9 +84,7 @@ function bigImg(isLarge, field) {
     }
 }
 
-/*
-    댓글 수정 모드 판별
-     */
+// 댓글 수정 모드 판별
 function toggleCommentEditMode(isEdit) {
     const contentView = document.getElementById('comment-content-view');
     const contentEdit = document.getElementById('comment-content-edit');
@@ -123,9 +114,7 @@ function toggleCommentEditMode(isEdit) {
     }
 }
 
-/*
-댓글 수정 후 저장
-*/
+// 댓글 수정 후 저장
 function submitComment(commentId) {
     fetch(`/api/comment/${commentId}`, {
         method: 'PUT',
@@ -156,9 +145,7 @@ function submitComment(commentId) {
     });
 }
 
-/*
-댓글 삭제
- */
+// 댓글 삭제
 function deleteComment(commentId) {
     fetch(`/api/comment/${commentId}`, {
         method: 'DELETE',
@@ -178,20 +165,89 @@ function deleteComment(commentId) {
     });
 }
 
+// 답글 작성 모드 판별
+function toggleCommentReply(id) {
+    const replyWriteWrapper = document.querySelector(`#comment-${id}-reply-write-wrapper`);
+
+    replyWriteWrapper.style.display = (replyWriteWrapper.style.display === "none" ? "flex" : "none");
+}
+
+// 답글 작성
+function submitCommentReply(parentId) {
+    const replyCommentTextArea = document.getElementById(`comment-${parentId}-reply-content-write`);
+    console.log(replyCommentTextArea);
+    fetch(`/api/comment`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            articleId: articleData.id,
+            parentId: parentId,
+            content: replyCommentTextArea.value
+        })
+    }).then(response => {
+        console.log(replyCommentTextArea.value);
+        console.log(response);
+        if (response.ok) {
+            alert('답글이 작성되었습니다.');
+            window.location.href = `/dashboard/${id}`;
+        } else if (response.status === 400) {
+            response.json().then(r => {
+                Object.keys(r).forEach(key => {
+                    console.log("key: ", key);
+                    document.getElementById(`comment-${id}-reply-${key}-error`).innerText = r[key];
+                })
+            })
+        }
+    }).catch(error => {
+        console.log("Error: ", error);
+    });
+}
+
+
+// 답글 수정 모드 판별
+function toggleReplyEditMode(isEdit, id) {
+    const replyEditElement = document.getElementById(`reply-${id}-content-edit`);
+    const replyViewElement = document.getElementById(`reply-${id}-content-view`);
+
+    const replyUpdateButton = document.getElementById(`reply-${id}-update-button`);      // 댓글 수정모드 전환 버튼
+    const replyUpdateCancleButton = document.getElementById(`reply-${id}-cancel-button`);      // 댓글 수정 취소 버튼
+    const replyUpdateSaveButton = document.getElementById(`reply-${id}-update-save-button`);  // 댓글 수정 내역 저장 버튼
+    const replyDeleteButton = document.getElementById(`reply-${id}-delete-button`);
+
+    console.log(replyEditElement);
+    console.log(replyViewElement);
+
+    if (isEdit) {
+        replyEditElement.style.display = "block";
+        replyViewElement.style.display = "none";
+
+        replyUpdateButton.style.display = "none";
+        replyUpdateCancleButton.style.display = "block";
+        replyUpdateSaveButton.style.display = "block";
+        replyDeleteButton.style.display = "none"
+    } else {
+        if(confirm("수정을 취소합니다."))
+        replyEditElement.style.display = "none";
+        replyViewElement.style.display = "block";
+
+        replyUpdateButton.style.display = "block";
+        replyUpdateCancleButton.style.display = "none";
+        replyUpdateSaveButton.style.display = "none";
+        replyDeleteButton.style.display = "block"
+    }
+}
+
 window.onload = function () {
-    /*
-    에러 메시지 초기화
-     */
+    // 에러 메시지 초기화
     document.querySelectorAll('.error-message').forEach(message => {
         if (message.innerText.length !== 0) {
             message.innerText = ' ';
         }
     });
 
-
-    /*
-    게시글 상세조회
-     */
+    // 게시글 상세조회
     fetch(`/api/article/${id}`, {
         method: 'GET',
         headers: {
@@ -221,9 +277,7 @@ window.onload = function () {
         });
     })
 
-    /*
-    게시글 삭제
-     */
+    // 게시글 삭제
     const deleteButton = document.getElementById('article-delete-button');
     if (deleteButton !== null) {
         deleteButton.addEventListener('click', function(e) {
@@ -246,9 +300,7 @@ window.onload = function () {
         });
     }
 
-    /*
-    댓글 작성
-     */
+    // 댓글 작성
     const submitCommentButton = document.getElementById('comment-save-button');
     const commentTextArea = document.getElementById('comment-content-write');
     submitCommentButton.addEventListener('click', function (e) {
@@ -279,7 +331,4 @@ window.onload = function () {
             console.log("Error: ", error);
         });
     });
-
-
-
 };
