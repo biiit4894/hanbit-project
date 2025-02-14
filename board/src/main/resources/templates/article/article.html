@@ -16,9 +16,15 @@
     <div class="common-header-container">
         <a class="header-title" onclick="location.href='/'" cursor="pointer">서비스 로고</a>
 
-        <div th:if="${authPrincipal != 'anonymousUser'}">
-            <button type="button" onclick="location.href='/mypage'">마이페이지</button>
-            <button type="button" onclick="location.href='/logout'">로그아웃</button>
+        <div th:if="${authPrincipal != 'anonymousUser' && loginUserInfo != null}">
+            <div class="login-header-text-wrapper">
+                <span th:text="${loginUserInfo.nickName}"></span>님, 환영합니다.
+            </div>
+            <div class="login-header-button-wrapper">
+                <button type="button" onclick="location.href='/mypage'">마이페이지</button>
+                <button type="button" onclick="location.href='/logout'">로그아웃</button>
+            </div>
+
         </div>
         <div th:if="${authPrincipal == 'anonymousUser'}">
             <button type="button" onclick="location.href='/login'">로그인</button>
@@ -50,10 +56,12 @@
                 <span class="error-message" id="title-error"></span>
             </div>
             <div class="article-info-wrapper">
+                <!-- 게시글 작성자, 작성일자 -->
                 <div class="article-left-info-wrapper">
                     <div class="article-author"></div>
                     <div class="article-created-at"></div>
                 </div>
+                <!-- 게시글 댓글 수, 좋아요 수 -->
                 <div class="article-right-info-wrapper">
                     <div class="article-comment-count">
                         <img id="comment-img" src="/media/article/speech-bubble.png" alt="article comment icon"/>
@@ -61,18 +69,166 @@
                     </div>
                     <div class="article-like-count">
                         <img id="like-img" src="/media/article/thumbs-up.png" alt="article like icon"
-                             onmouseover="bigImg(true, 'like')"
-                             onmouseleave="bigImg(false, 'like');"
+                             onmouseover="imgHighLight(true, 'like')"
+                             onmouseleave="imgHighLight(false, 'like');"
                              onclick="createLike()"/>
                         <span class="article-like-count-span"></span>
                     </div>
                 </div>
             </div>
+            <!-- 게시글 상세 조회 및 수정 구간 -->
             <div class="article-content-wrapper">
                 <div id="content-view" class="article-content"  th:text="${articleDetail.content}"></div>
                 <label for="content-edit"></label>
                 <textarea id="content-edit" class="edit-element" name="content" th:text="${articleDetail.content}" style="display: none" rows="20" cols="50" required></textarea>
                 <span class="error-message" id="content-error"></span>
+            </div>
+            <!-- 기본 댓글 구조 (부모 댓글 1 + 자식댓글 N)-->
+            <div class="article-comment-wrapper">
+                <div class="article-comment-wrapper-title">댓글</div>
+                <!-- 부모 댓글 구조(1)  -->
+                <div class="parent-comment"
+                     th:id="'article-comment-'+${comment.id}"
+                     th:each="comment, index : ${articleDetail.comments}">
+                    <!-- 부모 댓글 정보 -->
+                    <div class="parent-comment-wrapper">
+                        <!-- 댓글 작성자 -->
+                        <div class="comment-author" id="comment-author-view" th:text="${comment.author}"></div>
+
+                        <!-- 댓글 내용 -->
+                        <div class="comment-content" id="comment-content-view" th:text="${comment.content}"></div>
+                        <label for="comment-content-edit"></label>
+                        <input class="comment-edit-element" id="comment-content-edit"  type="text" name="content" th:value="${comment.content}" style="display: none" required/>
+                        <span class="error-message" id="comment-content-edit-error"></span>
+
+                        <!-- 댓글 작성일자 -->
+                        <div class="comment-created-at" th:text="${comment.createdAt}"></div>
+
+                        <!-- 댓글 관련 버튼 모음 -->
+                        <div th:if="${loginUserInfo != null}" class="section-container-buttons">
+                            <!-- 댓글 수정 / 수정 취소 / 저장 / 삭제 버튼 -->
+                            <div th:if="${loginUserInfo.nickName == comment.author}" class="section-container-author-buttons">
+                                <button class="button-special-comment"
+                                        id="comment-update-button"
+                                        type="button"
+                                        onclick="toggleCommentEditMode(true)">수정
+                                </button>
+                                <button class="button-special-comment"
+                                        id="comment-return-button"
+                                        type="button"
+                                        onclick="toggleCommentEditMode(false)"
+                                        style="display: none">취소
+                                </button>
+                                <button class="button-special-comment"
+                                        id="comment-update-save-button"
+                                        type="button"
+                                        th:attr="onclick=|submitComment(${comment.id})|"
+                                        style="display: none">저장
+                                </button>
+                                <button class="button-special-comment"
+                                        id="comment-delete-button"
+                                        th:attr="onclick=|deleteComment(${comment.id})|"
+                                        type="button">삭제
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 답글 작성 구간-->
+                    <div class="reply-comment-wrapper">
+                        <!-- 답글 작성 버튼 -->
+                        <button class="button-special-reply" id="comment-reply-button" th:attr="onclick=|toggleCommentReply(${comment.id})|">답글</button>
+                        <!-- 신규 답글 작성 -->
+                        <div th:if="${loginUserInfo != null}"
+                             class="comment-reply-write-wrapper"
+                             th:id="'comment-'+${comment.id}+'-reply-write-wrapper'"
+                             style="display: none">
+                            <div class="reply-img-wrapper">
+                                <img class="reply-img" src="/media/comment/reply.png" alt="comment reply icon"/>
+                            </div>
+
+                            <label>
+                                <textarea th:id="'comment-'+${comment.id}+'-reply-content-write'" cols="30" rows="5" placeholder="대댓글을 입력하세요."></textarea>
+                            </label>
+                            <span class="error-message" th:id="'comment-'+${comment.id}+'-reply-content-error'"></span>
+                            <input class="button-save"
+                                   th:attr="onclick=|submitCommentReply(${comment.id})|"
+                                   id="comment-reply-save-button"
+                                   type="submit"
+                                   value="저장"/>
+
+                        </div>
+                    </div>
+
+                    <!-- 답글 리스트 -->
+                    <div class="reply-comment-list">
+                        <!-- 자식 댓글 구조(N) -->
+                        <div class="reply-comment-list-wrapper" th:each="reply : ${comment.replies}">
+                            <!-- 답글 정보 -->
+                            <div class="comment-reply-wrapper">
+                                <!-- 하위 댓글 아이콘 -->
+                                <div class="reply-img-wrapper">
+                                    <img class="reply-img" src="/media/comment/reply.png" alt="comment reply icon"/>
+                                </div>
+                                <!-- 답글 작성자 / 내용 / 작성일자 / 관련 버튼 -->
+                                <div class="reply-info-wrapper">
+                                    <!-- 답글 작성자 -->
+                                    <div class="comment-author" th:text="${reply.author}"></div>
+
+                                    <!-- 답글 내용 조회 및 수정 -->
+                                    <label>
+                                        <input class="comment-edit-element" th:id="'reply-'+${reply.id}+'-content-edit'"  type="text" name="content" th:value="${reply.content}" style="display: none" required/>
+                                    </label>
+                                    <div class="comment-content" th:id="'reply-'+${reply.id}+'-content-view'" th:text="${reply.content}"></div>
+
+                                    <!-- 답글 작성일자 -->
+                                    <div class="comment-created-at" th:text="${#temporals.format(reply.createdAt, 'yyyy-MM-dd HH:mm:ss')}"></div>
+
+                                    <!-- 답글 관련 버튼 모음 -->
+                                    <div th:if="${loginUserInfo != null}" class="section-container-buttons">
+                                        <!-- 댓글 수정 / 수정 취소 / 저장 / 삭제 버튼 -->
+                                        <div th:if="${loginUserInfo.nickName == reply.author}">
+                                            <!-- 댓글 수정 모드 전환 버튼 -->
+                                            <button class="button-special-comment"
+                                                    th:id="'reply-'+${reply.id}+'-update-button'"
+                                                    type="button"
+                                                    th:attr="onclick=|toggleReplyEditMode(true, ${reply.id})|">수정
+                                            </button>
+                                            <!-- 댓글 수정 취소 버튼 -->
+                                            <button class="button-special-comment"
+                                                    th:id="'reply-'+${reply.id}+'-cancel-button'"
+                                                    type="button"
+                                                    th:attr="onclick=|toggleReplyEditMode(false, ${reply.id})|"
+                                                    style="display: none">취소
+                                            </button>
+                                            <!-- 댓글 수정 저장 버튼 -->
+                                            <button class="button-special-comment"
+                                                    th:id="'reply-'+${reply.id}+'-update-save-button'"
+                                                    type="button"
+                                                    th:attr="onclick=|submitComment(${reply.id})|"
+                                                    style="display: none">저장
+                                            </button>
+                                            <!-- 댓글 삭제 버튼 -->
+                                            <button class="button-special-comment"
+                                                    th:id="'reply-'+${reply.id}+'-delete-button'"
+                                                    th:attr="onclick=|deleteComment(${reply.id})|"
+                                                    type="button">삭제
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!-- 신규 댓글 작성 -->
+            <div th:if="${loginUserInfo != null}" class="article-comment-write-wrapper">
+                <label for="comment-content-write"></label>
+                <textarea id="comment-content-write" cols="30" rows="5" placeholder="댓글을 입력하세요."></textarea>
+                <span class="error-message" id="comment-content-error"></span>
+                <input class="button-save" id="comment-save-button" type="submit" value="저장"/>
             </div>
 
         </div>

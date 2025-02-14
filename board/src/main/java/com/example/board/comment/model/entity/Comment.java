@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -53,6 +54,16 @@ public class Comment {
         this.isDeleted = false;
         this.article = article;
         this.parent = parent;
+        this.user = user;
+    }
+
+    public Comment(String content, LocalDateTime createdAt, Boolean isDeleted, Article article, Comment parent, List<Comment> replies, User user) {
+        this.content = content;
+        this.createdAt = createdAt;
+        this.isDeleted = isDeleted;
+        this.article = article;
+        this.parent = parent;
+        this.replies = replies;
         this.user = user;
     }
 

@@ -73,3 +73,66 @@
     font-size: 13px;
 }
 
+/* 기본 댓글 구조 (부모댓글 1 + 자식댓글 N) */
+.article-comment-wrapper {
+    margin-top: 3vh;
+}
+
+/* 부모 댓글 구조 */
+.parent-comment {
+    margin-top: 10px;
+}
+
+/* 하위 댓글 아이콘 */
+.reply-img {
+    width: 30px;
+}
+
+/* 댓글 수정/수정취소/저장/삭제 버튼 */
+.button-special-comment {
+    padding: 5px 7px;
+    font-size: 13px;
+}
+
+.button-special-reply {
+    padding: 5px 7px;
+    font-size: 13px;
+    background-color: rgba(14, 97, 5, 0.74);
+    color: #f1f1f1;
+}
+
+/* 부모 댓글 정보(내용 + 버튼*/
+.parent-comment-wrapper {
+    border: 2px solid #b3b3b3;
+    border-radius: 10px;
+    padding: 10px 15px;
+}
+
+/* 답글 정보(아이콘 + 답글 + 버튼)*/
+.comment-reply-wrapper {
+    display: flex;
+    align-items: baseline;
+}
+
+/* 답글 작성 버튼 */
+#comment-reply-button {
+    margin-top: 5px;
+    margin-left: 15px;
+}
+
+/* 답글 정보 (아이콘 + 정보) */
+.reply-comment-list-wrapper {
+    display: flex;
+    margin-left: 10px;
+}
+
+/* 아이콘 옆 답글 정보*/
+.reply-info-wrapper {
+    margin-left: 10px;
+
+}
+
+
+
+
+
