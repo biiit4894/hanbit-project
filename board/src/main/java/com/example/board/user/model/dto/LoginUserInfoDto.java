@@ -14,5 +14,4 @@ public class LoginUserInfoDto {
     private String email;
     private LocalDateTime createdAt;
     private LocalDateTime deletedAt;
-    // TODO : articleList 추가
 }
