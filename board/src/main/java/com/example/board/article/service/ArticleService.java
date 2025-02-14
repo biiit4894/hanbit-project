@@ -4,8 +4,7 @@ import com.example.board.article.model.dto.*;
 import com.example.board.article.model.entity.Article;
 import com.example.board.article.repository.ArticleRepository;
 import com.example.board.comment.model.dto.CommentDetailDto;
-import com.example.board.comment.model.entity.Comment;
-import com.example.board.comment.repository.CommentRepository;
+import com.example.board.comment.service.CommentService;
 import com.example.board.user.model.entity.User;
 import com.example.board.user.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -23,8 +22,8 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class ArticleService {
     private final ArticleRepository articleRepository;
-    private final CommentRepository commentRepository;
     private final UserService userService;
+    private final CommentService commentService;
 
     private final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
@@ -89,27 +88,7 @@ public class ArticleService {
     public GetArticleDetailResDto getArticleDetail(Long id) {
         Article article = articleRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Article not found"));
 
-
-        // TODO: 다른 도메인 리포지토리 직접 접근하지 말기
-        List<Comment> parentComments = commentRepository.findParentsByArticleId(id);
-        // 부모 댓글들과 그 자식 댓글들을 모두 포함하는 목록
-        List<CommentDetailDto> comments = new ArrayList<>();
-
-        for (Comment parentComment : parentComments) {
-            // 부모 댓글의 상세 내역 조회
-            CommentDetailDto parentCommentDto = new CommentDetailDto(parentComment);
-
-            // 부모 댓글의 자식 댓글 조회
-            List<Comment> replies = commentRepository.findRepliesByParentId(parentComment.getId());
-            List<CommentDetailDto> replyDtos = new ArrayList<>();
-
-            for (Comment reply : replies) {
-                replyDtos.add(new CommentDetailDto(reply));
-            }
-
-            parentCommentDto.setReplies(replyDtos);
-            comments.add(parentCommentDto);
-        }
+        List<CommentDetailDto> comments = commentService.getParentCommentsByArticleId(id);
         return new GetArticleDetailResDto(
                 article.getId(),
                 article.getTitle(),
