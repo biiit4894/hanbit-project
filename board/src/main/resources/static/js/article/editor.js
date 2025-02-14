@@ -34,7 +34,22 @@ window.onload = function () {
             console.log(response);
             if (response.ok) {
                 alert('게시글이 저장되었습니다.');
-                window.location.href = '/dashboard';
+                // 대시보드 이동, 전체 게시글 fetch
+                fetch('/dashboard', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Cache-Control': 'no-cache', // 캐싱 방지
+                        'Pragma': 'no-cache'
+                    },
+                }).then(response => {
+                    window.location.href = '/dashboard';
+                    if (!response.ok) {
+                        console.log(response);
+                    }
+                }).catch(error => {
+                    console.log('Error: ', error);
+                });
             } else if (response.status === 400) {
                 response.json().then(r => {
                     Object.keys(r).forEach(key => {

@@ -22,6 +22,9 @@ public class ArticleViewController {
     @GetMapping("/dashboard")
     public String dashboard(Model model, @RequestParam(required = false, defaultValue = "0") int page) {
         model.addAttribute("authPrincipal", userService.getAuthenticationPrincipal());
+        if (!Objects.equals(model.getAttribute("authPrincipal"), "anonymousUser")) {
+            model.addAttribute("loginUserInfo", userService.getLoginUserInfo());
+        }
         model.addAttribute("pagedArticles", articleService.getArticleList(page));
         return "article/dashboard";
     }
