@@ -122,7 +122,7 @@
                                 <button class="button-special-comment"
                                         id="comment-update-save-button"
                                         type="button"
-                                        th:attr="onclick=|submitComment(${comment.id})|"
+                                        th:attr="onclick=|updateComment(${comment.id})|"
                                         style="display: none">저장
                                 </button>
                                 <button class="button-special-comment"
@@ -146,16 +146,21 @@
                             <div class="reply-img-wrapper">
                                 <img class="reply-img" src="/media/comment/reply.png" alt="comment reply icon"/>
                             </div>
+                            <div style="display:flex;">
+                                <div>
+                                    <label>
+                                        <textarea th:id="'comment-'+${comment.id}+'-reply-content-write'" cols="30" rows="5" placeholder="답글을 입력하세요."></textarea>
+                                    </label>
+                                    <input class="button-save"
+                                           th:attr="onclick=|submitCommentReply(${comment.id})|"
+                                           id="comment-reply-save-button"
+                                           type="submit"
+                                           value="저장"/>
+                                </div>
+                                <span class="error-message" th:id="'comment-'+${comment.id}+'-reply-content-error'"></span>
 
-                            <label>
-                                <textarea th:id="'comment-'+${comment.id}+'-reply-content-write'" cols="30" rows="5" placeholder="대댓글을 입력하세요."></textarea>
-                            </label>
-                            <span class="error-message" th:id="'comment-'+${comment.id}+'-reply-content-error'"></span>
-                            <input class="button-save"
-                                   th:attr="onclick=|submitCommentReply(${comment.id})|"
-                                   id="comment-reply-save-button"
-                                   type="submit"
-                                   value="저장"/>
+                            </div>
+
 
                         </div>
                     </div>
@@ -179,6 +184,8 @@
                                     <label>
                                         <input class="comment-edit-element" th:id="'reply-'+${reply.id}+'-content-edit'"  type="text" name="content" th:value="${reply.content}" style="display: none" required/>
                                     </label>
+                                    <span class="error-message" th:id="'reply-'+${reply.id}+'-content-error'"></span>
+
                                     <div class="comment-content" th:id="'reply-'+${reply.id}+'-content-view'" th:text="${reply.content}"></div>
 
                                     <!-- 답글 작성일자 -->
@@ -187,7 +194,7 @@
                                     <!-- 답글 관련 버튼 모음 -->
                                     <div th:if="${loginUserInfo != null}" class="section-container-buttons">
                                         <!-- 댓글 수정 / 수정 취소 / 저장 / 삭제 버튼 -->
-                                        <div th:if="${loginUserInfo.nickName == reply.author}">
+                                        <div th:if="${loginUserInfo.nickName == reply.author}" style="display: flex">
                                             <!-- 댓글 수정 모드 전환 버튼 -->
                                             <button class="button-special-comment"
                                                     th:id="'reply-'+${reply.id}+'-update-button'"
@@ -205,7 +212,7 @@
                                             <button class="button-special-comment"
                                                     th:id="'reply-'+${reply.id}+'-update-save-button'"
                                                     type="button"
-                                                    th:attr="onclick=|submitComment(${reply.id})|"
+                                                    th:attr="onclick=|updateReplyComment(${reply.id})|"
                                                     style="display: none">저장
                                             </button>
                                             <!-- 댓글 삭제 버튼 -->
@@ -226,9 +233,11 @@
             <!-- 신규 댓글 작성 -->
             <div th:if="${loginUserInfo != null}" class="article-comment-write-wrapper">
                 <label for="comment-content-write"></label>
-                <textarea id="comment-content-write" cols="30" rows="5" placeholder="댓글을 입력하세요."></textarea>
+                <div style="display: flex">
+                    <textarea id="comment-content-write" cols="30" rows="5" placeholder="댓글을 입력하세요."></textarea>
+                    <input class="button-save" id="comment-save-button" type="submit" value="저장"/>
+                </div>
                 <span class="error-message" id="comment-content-error"></span>
-                <input class="button-save" id="comment-save-button" type="submit" value="저장"/>
             </div>
 
         </div>

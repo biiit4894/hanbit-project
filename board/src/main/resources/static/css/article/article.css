@@ -112,6 +112,12 @@
 .comment-reply-wrapper {
     display: flex;
     align-items: baseline;
+    margin-left: 10px;
+}
+
+.comment-write-reply-wrapper {
+    display: flex;
+    flex-direction: column;
 }
 
 /* 답글 작성 버튼 */
@@ -130,6 +136,13 @@
 .reply-info-wrapper {
     margin-left: 10px;
 
+}
+
+/* 신규 댓글 작성 구간 */
+.article-comment-write-wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
 }
 
 
