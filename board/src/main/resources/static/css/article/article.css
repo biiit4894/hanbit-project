@@ -1,0 +1,169 @@
+.section-container-description-button-wrapper {
+    display: flex;
+    justify-content: space-between;
+}
+
+.section-container-buttons {
+    display: flex;
+}
+
+.button-special {
+    margin-left: 10px;
+}
+
+.section-container-article {
+    margin-top: 5vh;
+}
+
+.article-info-wrapper {
+    display: flex;
+    margin-top: 1vh;
+    padding: 10px;
+    border-bottom: 1px solid #acacac;
+}
+
+.article-left-info-wrapper {
+    display: flex;
+}
+
+.article-right-info-wrapper {
+    margin-left: 30px;
+    display: flex;
+}
+
+.article-title {
+    font-size: 20px;
+}
+
+.article-created-at {
+    margin-left: 10px;
+    color: #acacac;
+}
+
+.article-comment-count {
+    display: flex;
+    margin-left: 10px;
+}
+
+.article-like-count {
+    display: flex;
+    margin-left: 10px;
+}
+
+/* 댓글 수, 좋아요 아이콘 */
+.article-info-wrapper img {
+    width: 25px;
+}
+
+.article-content {
+    margin-top: 1vh;
+    padding: 10px;
+}
+
+/* 게시글 수정을 위한 input */
+#title-edit,
+#content-edit {
+    width: 100%;
+    font-size: 17px;
+    border: 1px solid #919191;
+    border-radius: 10px;
+}
+.error-message {
+    color: red;
+    font-size: 13px;
+}
+
+/* 기본 댓글 구조 (부모댓글 1 + 자식댓글 N) */
+.article-comment-wrapper {
+    margin-top: 3vh;
+}
+
+/* 부모 댓글 구조 */
+.parent-comment {
+    margin-top: 10px;
+}
+
+/* 하위 댓글 아이콘 */
+.reply-img {
+    width: 30px;
+}
+
+/* 댓글 수정/수정취소/저장/삭제 버튼 */
+.button-special-comment {
+    padding: 5px 7px;
+    font-size: 13px;
+}
+
+.button-special-reply {
+    padding: 5px 7px;
+    font-size: 13px;
+    background-color: rgba(14, 97, 5, 0.74);
+    color: #f1f1f1;
+}
+
+/* 부모 댓글 정보(내용 + 버튼*/
+.parent-comment-wrapper {
+    border: 2px solid #b3b3b3;
+    border-radius: 10px;
+    padding: 10px 15px;
+    margin-top: 25px;
+}
+
+/* 댓글 작성자에게만 보이는 버튼(댓글 수정, 수정 취소, 삭제, 저장)*/
+.section-container-author-buttons {
+    display: flex;
+}
+
+/* 답글 정보(아이콘 + 답글 + 버튼)*/
+.comment-reply-wrapper {
+    display: flex;
+    align-items: baseline;
+    margin-left: 10px;
+}
+
+.comment-write-reply-wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+/* 답글 작성 버튼 */
+#comment-reply-button {
+    margin-top: 5px;
+    margin-left: 15px;
+}
+
+/* 답글 정보 (아이콘 + 정보) */
+.reply-comment-list-wrapper {
+    display: flex;
+    margin-left: 10px;
+}
+
+/* 아이콘 옆 답글 정보*/
+.reply-info-wrapper {
+    margin-left: 10px;
+
+}
+
+/* 신규 댓글 작성 구간 (textarea + input + span) */
+.article-comment-write-wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+}
+
+/*신규 댓글 작성 textarea + input */
+.comment-textarea-wrapper {
+    display: flex;
+    margin-top: 20px;
+}
+
+/* 신규 답글 작성 구간(img + textarea + input(저장)) */
+.comment-reply-write-wrapper {
+    margin-top: 20px;
+    margin-left: 20px;
+}
+
+
+
+
+
