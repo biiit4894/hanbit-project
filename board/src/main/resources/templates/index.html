@@ -7,6 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" th:href="@{/css/common/common.css}">
     <link rel="stylesheet" th:href="@{/css/index.css}">
+    <script th:src="@{/js/common/common.js}"></script>
     <title>Document</title>
 </head>
 <body>
@@ -21,7 +22,7 @@
                 </div>
                 <div class="login-header-button-wrapper">
                     <button type="button" onclick="location.href='/mypage'">마이페이지</button>
-                    <button type="button" onclick="location.href='/logout'">로그아웃</button>
+                    <button id="common-logout-button" type="button" onclick="location.href='/logout'">로그아웃</button>
                 </div>
 
             </div>

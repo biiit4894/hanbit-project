@@ -47,7 +47,7 @@ public class ArticleController {
             for (FieldError error : bindingResult.getFieldErrors()) {
                 errorMap.put(error.getField(), error.getDefaultMessage());
             }
-            throw new CustomValidationException("유효성 검사 실패", errorMap);
+//            throw new CustomValidationException("유효성 검사 실패", errorMap);
 
         }
         return new ResponseEntity<>(articleService.createArticle(createArticleReqDto), HttpStatus.CREATED);
@@ -76,7 +76,7 @@ public class ArticleController {
                 errorMap.put(error.getField(), error.getDefaultMessage());
                 log.info("update article error defaultMessage: {}", error.getDefaultMessage());
             }
-            throw new CustomValidationException("유효성 검사 실패", errorMap);
+//            throw new CustomValidationException("유효성 검사 실패", errorMap);
 
         }
         return new ResponseEntity<>(articleService.updateArticle(id, updateArticleReqDto), HttpStatus.OK);
