@@ -24,17 +24,18 @@ public class UserService {
     private final BCryptPasswordEncoder encoder;
 
     @Transactional
-    public SignupResDto createUser(SignupReqDto reqDto) {
+    public SignupResDto createUser(SignupReqDto reqDto) { // readOnly = false 기본값(메소드 수행 내요과 관련 없는 default 값)
+        log.info("service reqDto userId: {}, password: {}, nickName: {}, email: {}", reqDto.getUserId(), reqDto.getPassword(), reqDto.getNickName(), reqDto.getEmail());
 
-        if (userRepository.findByUserId(reqDto.getUserId()).isPresent()) {
-            throw new IllegalArgumentException("이미 사용중인 아이디입니다.");
-        }
-        if (userRepository.findByNickName(reqDto.getNickName()).isPresent()) {
-            throw new IllegalArgumentException("이미 사용중인 별명입니다.");
-        }
-        if (userRepository.findByEmail(reqDto.getEmail()).isPresent()) {
-            throw new IllegalArgumentException("이미 사용중인 이메일입니다.");
-        }
+//        if (userRepository.findByUserId(reqDto.getUserId()).isPresent()) {
+//            throw new IllegalArgumentException("이미 사용중인 아이디입니다.");
+//        }
+//        if (userRepository.findByNickName(reqDto.getNickName()).isPresent()) {
+//            throw new IllegalArgumentException("이미 사용중인 별명입니다.");
+//        }
+//        if (userRepository.findByEmail(reqDto.getEmail()).isPresent()) {
+//            throw new IllegalArgumentException("이미 사용중인 이메일입니다.");
+//        }
 
         User user = new User(
                 reqDto.getUserId(),
