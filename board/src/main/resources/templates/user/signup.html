@@ -23,7 +23,7 @@
 
             <div th:if="${authPrincipal != 'anonymousUser'}">
                 <button type="button" onclick="location.href='/mypage'">마이페이지</button>
-                <button type="button" onclick="location.href='/logout'">로그아웃</button>
+                <button id="common-logout-button" type="button" onclick="logout()">로그아웃</button>
             </div>
             <div th:if="${authPrincipal == 'anonymousUser'}">
                 <button type="button" onclick="location.href='/login'">로그인</button>
