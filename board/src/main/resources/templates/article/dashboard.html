@@ -58,7 +58,7 @@
         </thead>
         <tbody>
         <tr th:each="article : ${pagedArticles.content}">
-            <td th:text="${article.id}"></td>
+            <td th:text="${article.displayNumber}"></td>
             <td><a th:href="@{/dashboard/{id}(id=${article.id})}" th:text="${article.title}"></a></td>
             <td th:text="${article.createdAt}"></td>
             <td th:text="${article.author}"></td>

@@ -31,8 +31,15 @@ public class ArticleService {
     public Page<ArticleSummaryDto> getArticleList(int page) {
         Pageable pageable = PageRequest.of(page, 10, Sort.by(Sort.Direction.DESC, "createdAt"));
         Page<Article> articles = articleRepository.findAll(pageable);
+
+        long totalElements = articles.getTotalElements();
+        int startNumber = (int) (totalElements - (page * pageable.getPageSize()));
+
         List<ArticleSummaryDto> articleSummaryList = new ArrayList<>();
-        for (Article article : articles.getContent()) {
+
+
+        for (int i = 0; i < articles.getContent().size(); i++) {
+            Article article = articles.getContent().get(i);
             articleSummaryList.add(
                     new ArticleSummaryDto(
                             article.getId(),
@@ -40,10 +47,12 @@ public class ArticleService {
                             article.getCommentCount(),
                             article.getLikeCount(),
                             article.getCreatedAt().format(dateTimeFormatter),
-                            article.getUser().getNickName()
+                            article.getUser().getNickName(),
+                            startNumber - i
                     )
             );
         }
+
         return new PageImpl<>(articleSummaryList, pageable, articles.getTotalElements());
     }
 
