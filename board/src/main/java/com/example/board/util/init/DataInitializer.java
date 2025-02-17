@@ -1,4 +1,4 @@
-package com.example.board.util;
+package com.example.board.util.init;
 
 import com.example.board.article.model.entity.Article;
 import com.example.board.article.repository.ArticleRepository;
