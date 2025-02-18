@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestControllerAdvice
@@ -29,8 +30,13 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(CustomValidationException.class)
-    public ResponseEntity<Map<String, String>> handleValidationException(CustomValidationException e) {
+    public ResponseEntity<Map<String, List<String>>> handleValidationException(CustomValidationException e) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getErrorMap());
+    }
+
+    @ExceptionHandler(DuplicateUserInputException.class)
+    public ResponseEntity<String> handleDuplicateUserInputException(DuplicateUserInputException e) {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
     }
 
     @ExceptionHandler(Exception.class)

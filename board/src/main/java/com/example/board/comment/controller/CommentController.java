@@ -40,7 +40,7 @@ public class CommentController {
                 errorMap.put(error.getField(), error.getDefaultMessage());
                 log.info("create comment error defaultMessage: {}", error.getDefaultMessage());
             }
-            throw new CustomValidationException("유효성 검사 실패", errorMap);
+//            throw new CustomValidationException("유효성 검사 실패", errorMap);
         }
         return new ResponseEntity<>(commentService.createComment(reqDto), HttpStatus.CREATED);
     }
@@ -58,7 +58,7 @@ public class CommentController {
                 errorMap.put(error.getField(), error.getDefaultMessage());
                 log.info("update comment error defaultMessage: {}", error.getDefaultMessage());
             }
-            throw new CustomValidationException("유효성 검사 실패", errorMap);
+//            throw new CustomValidationException("유효성 검사 실패", errorMap);
         }
         return new ResponseEntity<>(commentService.updateComment(id, reqDto), HttpStatus.OK);
     }

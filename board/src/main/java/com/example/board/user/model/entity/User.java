@@ -58,6 +58,15 @@ public class User implements UserDetails {
         this.createdAt = LocalDateTime.now();
     }
 
+    @Builder
+    public User(String userId, String password, String nickName, String email, LocalDateTime dateTime) {
+        this.userId = userId;
+        this.password = password;
+        this.nickName = nickName;
+        this.email = email;
+        this.createdAt = dateTime;
+    }
+
     public void markDeletedAt(LocalDateTime now) {
         this.deletedAt = now;
     }

@@ -34,9 +34,9 @@ public class UserViewController {
 
     @Tag(name = "user", description = "유저 API")
     @GetMapping("/logout")
-    public String logout(HttpServletRequest request, HttpServletResponse response) {
+    public void logout(HttpServletRequest request, HttpServletResponse response) {
         new SecurityContextLogoutHandler().logout(request, response, SecurityContextHolder.getContext().getAuthentication());
-        return "redirect:/";
+//        return "redirect:/";
     }
 
     @Tag(name = "user-view", description = "유저 뷰 API")

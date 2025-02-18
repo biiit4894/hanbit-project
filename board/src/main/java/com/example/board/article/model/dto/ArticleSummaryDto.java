@@ -12,4 +12,5 @@ public class ArticleSummaryDto {
     private Long likeCount;
     private String createdAt;
     private String author;
+    private int displayNumber;
 }

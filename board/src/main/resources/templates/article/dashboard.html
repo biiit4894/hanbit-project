@@ -21,7 +21,7 @@
             </div>
             <div class="login-header-button-wrapper">
                 <button type="button" onclick="location.href='/mypage'">마이페이지</button>
-                <button type="button" onclick="location.href='/logout'">로그아웃</button>
+                <button id="common-logout-button" type="button" onclick="logout()">로그아웃</button>
             </div>
 
         </div>
@@ -58,7 +58,7 @@
         </thead>
         <tbody>
         <tr th:each="article : ${pagedArticles.content}">
-            <td th:text="${article.id}"></td>
+            <td th:text="${article.displayNumber}"></td>
             <td><a th:href="@{/dashboard/{id}(id=${article.id})}" th:text="${article.title}"></a></td>
             <td th:text="${article.createdAt}"></td>
             <td th:text="${article.author}"></td>

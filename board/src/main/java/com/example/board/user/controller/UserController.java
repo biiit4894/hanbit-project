@@ -14,7 +14,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Slf4j
@@ -31,11 +33,18 @@ public class UserController {
     )
     @PostMapping("/signup")
     public ResponseEntity<SignupResDto> signup(@Valid @RequestBody SignupReqDto reqDto, BindingResult bindingResult) {
+        log.info("controller reqDto userId: {}, password: {}, nickName: {}, email: {}", reqDto.getUserId(), reqDto.getPassword(), reqDto.getNickName(), reqDto.getEmail());
         if (bindingResult.hasErrors()) {
-            Map<String, String> errorMap = new HashMap<>();
+            Map<String, List<String>> errorMap = new HashMap<>();
 
             for (FieldError error : bindingResult.getFieldErrors()) {
-                errorMap.put(error.getField(), error.getDefaultMessage());
+                String field = error.getField();
+                String message = error.getDefaultMessage();
+
+                List<String> defaultMessages = errorMap.computeIfAbsent(field, k -> new ArrayList<>());
+                defaultMessages.add(message);
+
+                log.error("controller signup - error field : {}, error default message : {}", field, message);
             }
             throw new CustomValidationException("유효성 검사 실패", errorMap);
         } else {

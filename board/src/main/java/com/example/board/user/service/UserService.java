@@ -1,10 +1,13 @@
 package com.example.board.user.service;
 
+import com.example.board.exception.DuplicateUserInputException;
 import com.example.board.exception.InvalidPasswordException;
 import com.example.board.user.model.dto.*;
 import com.example.board.user.model.entity.User;
 import com.example.board.user.repository.UserRepository;
 
+//import com.example.board.util.base.BaseException;
+//import com.example.board.util.base.BaseResponseStatus;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,6 +17,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+//import org.springframework.web.bind.annotation.ResponseStatus;
 
 
 @Service
@@ -24,16 +28,17 @@ public class UserService {
     private final BCryptPasswordEncoder encoder;
 
     @Transactional
-    public SignupResDto createUser(SignupReqDto reqDto) {
+    public SignupResDto createUser(SignupReqDto reqDto)  { // readOnly = false 기본값(메소드 수행 내요과 관련 없는 default 값)
+        log.info("service reqDto userId: {}, password: {}, nickName: {}, email: {}", reqDto.getUserId(), reqDto.getPassword(), reqDto.getNickName(), reqDto.getEmail());
 
         if (userRepository.findByUserId(reqDto.getUserId()).isPresent()) {
-            throw new IllegalArgumentException("이미 사용중인 아이디입니다.");
+            throw new DuplicateUserInputException("이미 사용중인 아이디입니다.");
         }
         if (userRepository.findByNickName(reqDto.getNickName()).isPresent()) {
-            throw new IllegalArgumentException("이미 사용중인 별명입니다.");
+            throw new DuplicateUserInputException("이미 사용중인 별명입니다.");
         }
         if (userRepository.findByEmail(reqDto.getEmail()).isPresent()) {
-            throw new IllegalArgumentException("이미 사용중인 이메일입니다.");
+            throw new DuplicateUserInputException("이미 사용중인 이메일입니다.");
         }
 
         User user = new User(

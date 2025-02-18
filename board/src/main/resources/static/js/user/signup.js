@@ -29,22 +29,27 @@ window.onload = function () {
                     alert('회원가입이 완료되었습니다.');
                     window.location.href = '/login'; // 회원가입 완료 후 로그인 페이지로 이동
                 } else if (response.status === 400) {
+                    // 요청 dto (Map<String, List<String>>
                     response.json().then(r => {
-                        if (r.message.includes("이미 사용중인 아이디입니다.")) {
-                            document.getElementById("userId-error").innerText = r.message;
-                        } else if (r.message.includes("이미 사용중인 별명입니다.")) {
-                            document.getElementById("nickName-error").innerText = r.message;
-                        } else if (r.message.includes("이미 사용중인 이메일입니다.")) {
-                            document.getElementById("email-error").innerText = r.message;
-                        }
+                        console.log(r);
+                        Object.keys(r).forEach(key => {
+                            console.log("r[" + key + "]: ", r[key]);
+                            let errorMessages = r[key];
+                            for (let i = 0; i < errorMessages.length; i++) {
+                                console.log(`r[${key}] error message ${i + 1}: `, errorMessages[i]);
+                                document.getElementById(`${key}-error`).innerText += errorMessages[i] + "\n"; // error field에 대한 오류 메시지 누적하여 표기
+
+                            }
+                        });
+                    }).catch(error => {
+                        console.log("Error: ", error);
+                    })
+                } else if(response.status === 409) {
+                    response.text().then(txt => {
+                        alert(txt);
                     })
                 } else {
-                    response.json().then(r => {
-                        Object.keys(r).forEach(key => {
-                            console.log("r[key]: ", r[key]);
-                            document.getElementById(`${key}-error`).innerText = r[key]; // 오류메시지 표기
-                        });
-                    });
+                    alert("회원가입에 실패하였습니다. 다시 시도해 주세요.");
                 }
             })
             .catch(error => {

@@ -23,7 +23,7 @@
 
             <div th:if="${authPrincipal != 'anonymousUser'}">
                 <button type="button" onclick="location.href='/mypage'">마이페이지</button>
-                <button type="button" onclick="location.href='/logout'">로그아웃</button>
+                <button id="common-logout-button" type="button" onclick="logout()">로그아웃</button>
             </div>
             <div th:if="${authPrincipal == 'anonymousUser'}">
                 <button type="button" onclick="location.href='/login'">로그인</button>
@@ -46,7 +46,7 @@
                 <span class="error-message" id="userId-error"></span>
 
                 <label for="signup-input-password">비밀번호</label>
-                <input class="input-text" id="signup-input-password" type="text" name="password" required placeholder="비밀번호는 4자 이상 20자 이하이야 합니다."/>
+                <input class="input-text" id="signup-input-password" type="password" name="password" required placeholder="비밀번호는 4자 이상 20자 이하이야 합니다."/>
                 <span class="error-message" id="password-error"></span>
 
                 <label for="signup-input-nickName">별명</label>
@@ -59,9 +59,9 @@
 
                 <input type="submit" value="회원가입"/>
 
-                <span th:if="${error}">
-                    <p th:text="${exception}"></p>
-                </span>
+<!--                <span th:if="${error}">-->
+<!--                    <p th:text="${exception}"></p>-->
+<!--                </span>-->
             </form>
         </div>
 
