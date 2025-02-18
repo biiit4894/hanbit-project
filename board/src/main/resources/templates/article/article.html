@@ -99,10 +99,11 @@
                         <div class="comment-author" id="comment-author-view" th:text="${comment.author}"></div>
 
                         <!-- 댓글 내용 -->
-                        <div class="comment-content" id="comment-content-view" th:text="${comment.content}"></div>
-                        <label for="comment-content-edit"></label>
-                        <input class="comment-edit-element" id="comment-content-edit"  type="text" name="content" th:value="${comment.content}" style="display: none" required/>
-                        <span class="error-message" id="comment-content-edit-error"></span>
+                        <div class="comment-content" th:id="'comment-'+${comment.id}+'-content-view'" th:text="${comment.content}"></div>
+                        <label>
+                        <input class="comment-edit-element" th:id="'comment-'+${comment.id}+'-content-edit'"  type="text" name="content" th:value="${comment.content}" style="display: none" required/>
+                        </label>
+                        <span class="error-message" th:id="'comment-'+${comment.id}+'-content-edit-error'"></span>
 
                         <!-- 댓글 작성일자 -->
                         <div class="comment-created-at" th:text="${comment.createdAt}"></div>
@@ -112,24 +113,24 @@
                             <!-- 댓글 수정 / 수정 취소 / 저장 / 삭제 버튼 -->
                             <div th:if="${loginUserInfo.nickName == comment.author}" class="section-container-author-buttons">
                                 <button class="button-special-comment"
-                                        id="comment-update-button"
+                                        th:id="'comment-'+${comment.id}+'-update-button'"
                                         type="button"
-                                        onclick="toggleCommentEditMode(true)">수정
+                                        th:attr="onclick=|toggleCommentEditMode(true, ${comment.id})|">수정
                                 </button>
                                 <button class="button-special-comment"
-                                        id="comment-return-button"
+                                        th:id="'comment-'+${comment.id}+'-return-button'"
                                         type="button"
-                                        onclick="toggleCommentEditMode(false)"
+                                        th:attr="onclick=|toggleCommentEditMode(false, ${comment.id})|"
                                         style="display: none">취소
                                 </button>
                                 <button class="button-special-comment"
-                                        id="comment-update-save-button"
+                                        th:id="'comment-'+${comment.id}+'-update-save-button'"
                                         type="button"
                                         th:attr="onclick=|updateComment(${comment.id})|"
                                         style="display: none">저장
                                 </button>
                                 <button class="button-special-comment"
-                                        id="comment-delete-button"
+                                        th:id="'comment-'+${comment.id}+'-delete-button'"
                                         th:attr="onclick=|deleteComment(${comment.id})|"
                                         type="button">삭제
                                 </button>

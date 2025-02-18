@@ -95,14 +95,14 @@ function imgHighLight(isLarge, field) {
 }
 
 // 댓글 수정 모드 판별
-function toggleCommentEditMode(isEdit) {
-    const contentView = document.getElementById('comment-content-view');
-    const contentEdit = document.getElementById('comment-content-edit');
+function toggleCommentEditMode(isEdit, commentId) {
+    const contentView = document.getElementById(`comment-${commentId}-content-view`);
+    const contentEdit = document.getElementById(`comment-${commentId}-content-edit`);
 
-    const updateButton = document.getElementById('comment-update-button');      // 댓글 수정모드 전환 버튼
-    const returnButton = document.getElementById('comment-return-button');      // 댓글 수정 취소 버튼
-    const saveButton = document.getElementById('comment-update-save-button');  // 댓글 수정 내역 저장 버튼
-    const deleteButton = document.getElementById('comment-delete-button');      // 댓글 삭제 버튼
+    const updateButton = document.getElementById(`comment-${commentId}-update-button`);      // 댓글 수정모드 전환 버튼
+    const returnButton = document.getElementById(`comment-${commentId}-return-button`);      // 댓글 수정 취소 버튼
+    const saveButton = document.getElementById(`comment-${commentId}-update-save-button`);  // 댓글 수정 내역 저장 버튼
+    const deleteButton = document.getElementById(`comment-${commentId}-delete-button`);      // 댓글 삭제 버튼
     if (isEdit) {
         contentView.style.display = "none";
         contentEdit.style.display = "block";
@@ -133,10 +133,10 @@ function updateComment(commentId) {
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-            content: document.getElementById('comment-content-edit').value
+            content: document.getElementById(`comment-${commentId}-content-edit`).value
         })
     }).then(response => {
-        console.log("댓글 저장 후 value: ", document.getElementById('comment-content-edit').value)
+        console.log("댓글 저장 후 value: ", document.getElementById(`comment-${commentId}-content-edit`).value)
         console.log("response");
         console.log(response);
         if (response.ok) {
@@ -146,7 +146,7 @@ function updateComment(commentId) {
             response.json().then(r => {
                 Object.keys(r).forEach(key => {
                     console.log("r[key]: ", r[key]);
-                    document.getElementById(`comment-${key}-edit-error`).innerText = r[key]; // 오류메시지 표기
+                    document.getElementById(`comment-${commentId}-${key}-edit-error`).innerText = r[key]; // 오류메시지 표기
                 })
                 console.log(r);
             })
