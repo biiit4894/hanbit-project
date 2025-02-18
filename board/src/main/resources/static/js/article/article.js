@@ -150,6 +150,11 @@ function updateComment(commentId) {
                 })
                 console.log(r);
             })
+        } else {
+            console.log(response);
+            response.json().then(r => {
+                console.log(r);
+            });
         }
     }).catch(error => {
         console.log("Error: ", error);
