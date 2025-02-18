@@ -29,8 +29,13 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMap);
     }
 
+    @ExceptionHandler(DetailedCustomValidationException.class)
+    public ResponseEntity<Map<String, List<String>>> handleDetailedCustomValidationException(DetailedCustomValidationException e) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getErrorMap());
+    }
+
     @ExceptionHandler(CustomValidationException.class)
-    public ResponseEntity<Map<String, List<String>>> handleValidationException(CustomValidationException e) {
+    public ResponseEntity<Map<String, String>> handleCustomValidationException(CustomValidationException e) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getErrorMap());
     }
 
