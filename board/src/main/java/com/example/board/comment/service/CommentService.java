@@ -54,7 +54,9 @@ public class CommentService {
     }
 
     @Transactional
-    public UpdateCommentResDto updateComment(Long id, UpateCommentReqDto reqDto) {
+    public UpdateCommentResDto updateComment(Long id, UpdateCommentReqDto reqDto) {
+        log.info("service updateComment - pathvar id: {}, reqDto content: {}", id, reqDto.getContent());
+
         Comment comment = commentRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("No Comment Found"));
         String authorUserId = comment.getUser().getUserId();
         String loginUserId = userService.getLoginUserInfo().getUserId();

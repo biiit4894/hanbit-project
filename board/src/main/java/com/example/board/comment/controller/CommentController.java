@@ -2,10 +2,9 @@ package com.example.board.comment.controller;
 
 import com.example.board.comment.model.dto.CreateCommentReqDto;
 import com.example.board.comment.model.dto.CreateCommentResDto;
-import com.example.board.comment.model.dto.UpateCommentReqDto;
+import com.example.board.comment.model.dto.UpdateCommentReqDto;
 import com.example.board.comment.model.dto.UpdateCommentResDto;
 import com.example.board.comment.service.CommentService;
-import com.example.board.exception.CustomValidationException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -51,7 +50,8 @@ public class CommentController {
             description = "개별 댓글을 수정하기 위한 API로, 수정하고자 하는 댓글의 id를 query string으로 전달하고, 수정하고자 하는 내용을 request body로 전달해야 한다."
     )
     @PutMapping("/{id}")
-    public ResponseEntity<UpdateCommentResDto> updateComment(@PathVariable Long id, @Valid @RequestBody UpateCommentReqDto reqDto, BindingResult bindingResult) {
+    public ResponseEntity<UpdateCommentResDto> updateComment(@PathVariable Long id, @Valid @RequestBody UpdateCommentReqDto reqDto, BindingResult bindingResult) {
+        log.info("controller updateComment - pathvar id: {}, reqDto content: {}", id, reqDto.getContent());
         if (bindingResult.hasErrors()) {
             Map<String, String> errorMap = new HashMap<>();
             for (FieldError error : bindingResult.getFieldErrors()) {
