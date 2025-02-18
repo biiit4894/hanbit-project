@@ -27,7 +27,7 @@ public class ArticleViewController {
             description = "페이지네이션을 이용해 전체 게시글을 조회하는 대시보드 뷰를 위한 API이다."
     )
     @GetMapping("/dashboard")
-    public String dashboard(Model model, @RequestParam(required = false, defaultValue = "0") int page) {
+    public String dashboard(Model model, @RequestParam(name = "page", required = false, defaultValue = "0") int page) {
         model.addAttribute("authPrincipal", userService.getAuthenticationPrincipal());
         if (!Objects.equals(model.getAttribute("authPrincipal"), "anonymousUser")) {
             model.addAttribute("loginUserInfo", userService.getLoginUserInfo());
@@ -42,7 +42,7 @@ public class ArticleViewController {
             description = "개별 게시글을 상세 조회하고 수정할 수 있는 article 뷰를 위한 API이다."
     )
     @GetMapping("/dashboard/{id}")
-    public String articleDetail(Model model, @PathVariable Long id) {
+    public String articleDetail(Model model, @PathVariable("id") Long id) {
         model.addAttribute("authPrincipal", userService.getAuthenticationPrincipal());
         if (!Objects.equals(model.getAttribute("authPrincipal"), "anonymousUser")) {
             model.addAttribute("loginUserInfo", userService.getLoginUserInfo());
