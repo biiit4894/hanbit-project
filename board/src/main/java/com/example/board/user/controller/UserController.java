@@ -1,6 +1,6 @@
 package com.example.board.user.controller;
 
-import com.example.board.exception.CustomValidationException;
+import com.example.board.exception.DetailedCustomValidationException;
 import com.example.board.user.model.dto.*;
 import com.example.board.user.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -35,18 +35,18 @@ public class UserController {
     public ResponseEntity<SignupResDto> signup(@Valid @RequestBody SignupReqDto reqDto, BindingResult bindingResult) {
         log.info("controller reqDto userId: {}, password: {}, nickName: {}, email: {}", reqDto.getUserId(), reqDto.getPassword(), reqDto.getNickName(), reqDto.getEmail());
         if (bindingResult.hasErrors()) {
-            Map<String, List<String>> errorMap = new HashMap<>();
+            Map<String, List<String>> detailedErrorMap = new HashMap<>();
 
             for (FieldError error : bindingResult.getFieldErrors()) {
                 String field = error.getField();
                 String message = error.getDefaultMessage();
 
-                List<String> defaultMessages = errorMap.computeIfAbsent(field, k -> new ArrayList<>());
+                List<String> defaultMessages = detailedErrorMap.computeIfAbsent(field, k -> new ArrayList<>());
                 defaultMessages.add(message);
 
                 log.error("controller signup - error field : {}, error default message : {}", field, message);
             }
-            throw new CustomValidationException("유효성 검사 실패", errorMap);
+            throw new DetailedCustomValidationException("유효성 검사 실패", detailedErrorMap);
         } else {
             return new ResponseEntity<>(userService.createUser(reqDto), HttpStatus.CREATED);
         }

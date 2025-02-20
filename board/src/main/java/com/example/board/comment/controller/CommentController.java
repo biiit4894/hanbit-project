@@ -2,7 +2,7 @@ package com.example.board.comment.controller;
 
 import com.example.board.comment.model.dto.CreateCommentReqDto;
 import com.example.board.comment.model.dto.CreateCommentResDto;
-import com.example.board.comment.model.dto.UpateCommentReqDto;
+import com.example.board.comment.model.dto.UpdateCommentReqDto;
 import com.example.board.comment.model.dto.UpdateCommentResDto;
 import com.example.board.comment.service.CommentService;
 import com.example.board.exception.CustomValidationException;
@@ -40,7 +40,7 @@ public class CommentController {
                 errorMap.put(error.getField(), error.getDefaultMessage());
                 log.info("create comment error defaultMessage: {}", error.getDefaultMessage());
             }
-//            throw new CustomValidationException("유효성 검사 실패", errorMap);
+            throw new CustomValidationException("유효성 검사 실패", errorMap);
         }
         return new ResponseEntity<>(commentService.createComment(reqDto), HttpStatus.CREATED);
     }
@@ -51,14 +51,15 @@ public class CommentController {
             description = "개별 댓글을 수정하기 위한 API로, 수정하고자 하는 댓글의 id를 query string으로 전달하고, 수정하고자 하는 내용을 request body로 전달해야 한다."
     )
     @PutMapping("/{id}")
-    public ResponseEntity<UpdateCommentResDto> updateComment(@PathVariable Long id, @Valid @RequestBody UpateCommentReqDto reqDto, BindingResult bindingResult) {
+    public ResponseEntity<UpdateCommentResDto> updateComment(@PathVariable("id") Long id, @Valid @RequestBody UpdateCommentReqDto reqDto, BindingResult bindingResult) {
+        log.info("controller updateComment - pathvar id: {}, reqDto content: {}", id, reqDto.getContent());
         if (bindingResult.hasErrors()) {
             Map<String, String> errorMap = new HashMap<>();
             for (FieldError error : bindingResult.getFieldErrors()) {
                 errorMap.put(error.getField(), error.getDefaultMessage());
                 log.info("update comment error defaultMessage: {}", error.getDefaultMessage());
             }
-//            throw new CustomValidationException("유효성 검사 실패", errorMap);
+            throw new CustomValidationException("유효성 검사 실패", errorMap);
         }
         return new ResponseEntity<>(commentService.updateComment(id, reqDto), HttpStatus.OK);
     }
@@ -70,7 +71,7 @@ public class CommentController {
             +"답글이 달리지 않은 댓글의 경우 삭제하며, 답글이 달린 부모 댓글의 경우 삭제 여부만을 마킹한다."
     )
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteComment(@PathVariable Long id) {
+    public ResponseEntity<String> deleteComment(@PathVariable("id") Long id) {
         commentService.deleteComment(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

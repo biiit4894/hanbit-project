@@ -23,7 +23,7 @@ public class LikeController {
             description = "게시글에 좋아요를 누르기 위한 API로, 게시글 id를 query string으로 전달한다."
     )
     @PostMapping("")
-    public ResponseEntity<CreateArticleLikeResDto> createLikeByArticleId(@RequestParam Long articleId) {
+    public ResponseEntity<CreateArticleLikeResDto> createLikeByArticleId(@RequestParam("articleId") Long articleId) {
         return new ResponseEntity<>(likeService.createLikeByArticleId(articleId), HttpStatus.CREATED);
     }
 
@@ -33,7 +33,7 @@ public class LikeController {
             description = "게시글에 누른 좋아요를 취소하기 위한 API로, 게시글 id를 query string으로 전달한다."
     )
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteLikeById(@PathVariable Long id) {
+    public ResponseEntity<String> deleteLikeById(@PathVariable("id") Long id) {
         likeService.deleteLikeById(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
